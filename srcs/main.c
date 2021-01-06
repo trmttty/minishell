@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/06 20:35:30 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/06 21:05:39 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void	loop(void)
 	{
 		ft_putstr_fd("> ", 1);
 		get_next_line(0, &line);
+		if (ft_strlen(line) == 0)
+		{
+			free(line);
+			continue;
+		}
 		args = ft_split(line, ' ');
 		status = execute(args);
 		if (status == 0)
