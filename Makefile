@@ -7,7 +7,8 @@ SRC_RT_DIR 	= ./srcs/
 OBJ_DIR 	= ./objs/
 
 SRC_RT = main.c \
-			get_next_line.c
+			get_next_line.c \
+			echo.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)
