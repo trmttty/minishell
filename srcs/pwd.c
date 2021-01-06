@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 18:42:39 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 02:21:42 by ttarumot         ###   ########.fr       */
+/*   Created: 2021/01/07 03:24:43 by ttarumot          #+#    #+#             */
+/*   Updated: 2021/01/07 03:29:52 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_echo(char **args, char **envp)
+int		ft_pwd(char **args, char **envp)
 {
-	int i;
-	int n_option;
+    char    buf[MAXPATHLEN];
 
-	i = 0;
-	n_option = 0;
-	while (args[i])
-	{
-		if (ft_strcmp(args[i], "-n") == 0)
-		{
-			n_option = 1;
-		}
-		else
-		{
-			if (i != 0)
-				ft_putstr_fd(" ", 1);
-			ft_putstr_fd(args[i], 1);
-		}
-		i++;
-	}
-	if (n_option == 0)
-		ft_putstr_fd("\n", 1);
-	return (1);
+    if (getcwd(buf, MAXPATHLEN))
+    {
+        ft_putendl_fd(buf, 1);
+        return (1);
+    }
+    return (0);
 }

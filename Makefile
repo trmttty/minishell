@@ -8,7 +8,11 @@ OBJ_DIR 	= ./objs/
 
 SRC_RT = main.c \
 			get_next_line.c \
-			echo.c
+			echo.c \
+			cd.c \
+			pwd.c \
+			env.c \
+			exit.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)
