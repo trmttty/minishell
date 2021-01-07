@@ -11,8 +11,11 @@ SRC_RT = main.c \
 			echo.c \
 			cd.c \
 			pwd.c \
+			export.c \
+			unset.c \
 			env.c \
-			exit.c
+			exit.c \
+			env_utils.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)

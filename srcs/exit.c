@@ -6,13 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 02:34:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/07 17:34:59 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     ft_exit(char **args, char **envp)
+int     ft_exit(char **args, t_list **env_lst)
 {
     return (0);
 }

@@ -6,30 +6,57 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 03:31:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/07 21:47:23 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		execute(char **args, char **envp)
-{
-	int		i;
+int		launch(char **args) {
+    pid_t	pid;
+	pid_t	wpid;
+    int		status;
 
-	if (ft_strcmp(args[0], "echo") == 0)
-		return (ft_echo(&args[1], envp));
-	if (ft_strcmp(args[0], "cd") == 0)
-		return (ft_cd(&args[1], envp));
-	if (ft_strcmp(args[0], "pwd") == 0)
-		return (ft_pwd(&args[1], envp));
-	if (ft_strcmp(args[0], "env") == 0)
-		return (ft_env(&args[1], envp));
-	if (ft_strcmp(args[0], "exit") == 0)
-		return (ft_exit(&args[1], envp));
-	return (0);
+    pid = fork();
+    if (pid == 0) {
+        // 子プロセス
+        if (execvp(args[0], args) == -1) {
+            perror("lsh");
+        }
+        exit(EXIT_FAILURE);
+    } else if (pid < 0) {
+        // フォークでエラー
+        perror("lsh");
+    } else {
+        // 親プロセス
+        do {
+            wpid = waitpid(pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
+    
+    return (1);
 }
 
-void	loop(char **envp)
+int		execute(char **args, t_list **env_lst)
+{
+	if (ft_strcmp(args[0], "echo") == 0)
+		return (ft_echo(&args[1], env_lst));
+	if (ft_strcmp(args[0], "cd") == 0)
+		return (ft_cd(&args[1], env_lst));
+	if (ft_strcmp(args[0], "export") == 0)
+		return (ft_export(&args[1], env_lst));
+	if (ft_strcmp(args[0], "unset") == 0)
+		return (ft_unset(&args[1], env_lst));
+	if (ft_strcmp(args[0], "pwd") == 0)
+		return (ft_pwd(&args[1], env_lst));
+	if (ft_strcmp(args[0], "env") == 0)
+		return (ft_env(&args[1], env_lst));
+	if (ft_strcmp(args[0], "exit") == 0)
+		return (ft_exit(&args[1], env_lst));
+	return launch(args);
+}
+
+void	loop(t_list **env_lst)
 {
 	char	*line;
 	char	**args;
@@ -45,7 +72,7 @@ void	loop(char **envp)
 			continue;
 		}
 		args = ft_split(line, ' ');
-		status = execute(args, envp);
+		status = execute(args, env_lst);
 		free(line);
 		ft_tabfree(args);
 		if (status == 0)
@@ -55,8 +82,11 @@ void	loop(char **envp)
 
 int		main(int argc, char **argv, char **envp)
 {
+	t_list	*env_lst;
+
 	(void)argc;
 	(void)argv;
-	loop(envp);
+	env_lst = init_env(envp);
+	loop(&env_lst);
 	return (0);
 }

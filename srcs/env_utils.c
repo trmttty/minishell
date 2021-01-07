@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/07 03:24:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 17:34:47 by ttarumot         ###   ########.fr       */
+/*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
+/*   Updated: 2021/01/07 20:13:00 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_pwd(char **args, t_list **env_lst)
+t_list		*init_env(char **envp)
 {
-    char    buf[MAXPATHLEN];
+	t_list	*env_lst;
 
-    if (getcwd(buf, MAXPATHLEN))
-    {
-        ft_putendl_fd(buf, 1);
-        return (1);
-    }
-    return (0);
+	env_lst = NULL;
+	while (*envp)
+	{
+		ft_lstadd_back(&env_lst, ft_lstnew(ft_strdup(*envp)));
+		envp++;
+	}
+	return (env_lst);
 }

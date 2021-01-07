@@ -6,13 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:42:39 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 02:21:42 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/07 20:01:33 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_echo(char **args, char **envp)
+int		ft_echo(char **args, t_list **env_lst)
 {
 	int i;
 	int n_option;
