@@ -3,6 +3,9 @@
 #include <string.h>
 #include <sys/param.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <fcntl.h>	
+#include <sys/types.h>
 
 typedef struct      s_env
 {
