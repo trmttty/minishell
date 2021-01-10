@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabfree.c                                       :+:      :+:    :+:   */
+/*   ft_tabsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 15:39:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/10 13:02:42 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/10 13:02:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_tabfree(char **tab)
+size_t		ft_tabsize(char **tab)
 {
-	char **tmp;
+	size_t	size;
 
-	if (!tab)
-		return ;
-	tmp = tab;
-	while (*tmp)
-		free(*tmp++);
-	free(tab);
+	size = 0;
+	while (*tab)
+	{
+		size++;
+		tab++;
+	}
+	return (size);
 }
