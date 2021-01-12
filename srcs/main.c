@@ -6,11 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/10 21:38:13 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/13 03:01:46 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "lexer.h"
+#include "token.h"
 
 int		launch(char **args) {
     pid_t	pid;
@@ -164,12 +166,26 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		args = ft_split(line, ' ');
-		status = execute(args, env_lst);
+
+		// lexer
+	    lexer_T* lexer = init_lexer(line);
+	    token_T* token = NULL;
+	    while ((token = lexer_get_next_token(lexer)) != NULL)
+	    {
+	        printf("TOKEN(%d, %s)\n", token->type, token->value);
+	    }		
+		//
+
+
+
+
+
+		// args = ft_split(line, ' ');
+		// status = execute(args, env_lst);
 		free(line);
-		ft_tabfree(args);
-		if (status == 0)
-			break;
+		// ft_tabfree(args);
+		// if (status == 0)
+		// 	break;
 	}
 }
 
