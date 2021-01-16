@@ -17,7 +17,8 @@ SRC_RT = main.c \
 			exit.c \
 			env_utils.c \
 			lexer.c \
-			token.c
+			token.c \
+			compiler.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)

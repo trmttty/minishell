@@ -6,13 +6,14 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/13 03:01:46 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/16 21:50:08 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 #include "token.h"
+#include "compiler.h"
 
 int		launch(char **args) {
     pid_t	pid;
@@ -169,16 +170,29 @@ void	loop(t_list **env_lst)
 
 		// lexer
 	    lexer_T* lexer = init_lexer(line);
-	    token_T* token = NULL;
-	    while ((token = lexer_get_next_token(lexer)) != NULL)
+	    token_T* token_l = NULL;
+		Token head; head.next = NULL;
+		Token *cur = &head;
+	    while ((token_l = lexer_get_next_token(lexer)) != NULL)
 	    {
-	        printf("TOKEN(%d, %s)\n", token->type, token->value);
+			if (token_l->type == TOKEN_ID)
+			{
+				cur = new_token(TK_CMD, cur, ft_strdup(token_l->value));
+      			cur->command = ft_strdup(token_l->value);
+			}
+			else 
+			{
+				cur = new_token(TK_RESERVED, cur, ft_strdup(token_l->value));
+			}
+	        // printf("TOKEN(%d, %s)\n", token->type, token->value);
 	    }		
+		new_token(TK_EOF, cur, ft_strdup(""));
+		token = head.next;
+
+		Node *node = expr();
+
+		gen(node);
 		//
-
-
-
-
 
 		// args = ft_split(line, ' ');
 		// status = execute(args, env_lst);
