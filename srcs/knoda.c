@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/16 23:15:02 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/16 23:20:54 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ int		sample_exe(char **args)
 {
 	t_list		**env_lst;
 
-	// if (ft_strcmp(args[0], "echo") == 0)
-	// 	return (ft_echo(&args[1], env_lst));
-	// else if (ft_strcmp(args[0], "cd") == 0)
-	// 	return (ft_cd(&args[1], env_lst));
-	// else if (ft_strcmp(args[0], "export") == 0)
-	// 	return (ft_export(&args[1], env_lst));
-	// else if (ft_strcmp(args[0], "unset") == 0)
-	// 	return (ft_unset(&args[1], env_lst));
-	// else if (ft_strcmp(args[0], "pwd") == 0)
-	// 	return (ft_pwd(&args[1], env_lst));
-	// else if (ft_strcmp(args[0], "env") == 0)
-	// 	return (ft_env(&args[1], env_lst));
-	// else if (ft_strcmp(args[0], "exit") == 0)
-	// 	return (ft_exit(&args[1], env_lst));
+	if (ft_strcmp(args[0], "echo") == 0)
+		return (ft_echo(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "cd") == 0)
+		return (ft_cd(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "export") == 0)
+		return (ft_export(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "unset") == 0)
+		return (ft_unset(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "pwd") == 0)
+		return (ft_pwd(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "env") == 0)
+		return (ft_env(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "exit") == 0)
+		return (ft_exit(&args[1], env_lst));
 	return launch(args);
 }
 
@@ -52,32 +52,41 @@ int		sample_pipe(t_node *node)
 	int		status;
 	pid_t	pid;
 	pid_t	wpid;
+	pid_t	super_pid;
 
-	if ((pid = fork()) == 0)
+	if ((wpid = fork()) == 0)
 	{
 		pipe(fd);
-		if ((pid == fork()) == 0)
+		if ((pid = fork()) == 0)
 		{
+			// fprintf(stderr, "		child_in pid>%d, wpid>%d\n", pid, wpid);
 			dup2(fd[1], 1);
 			close (fd[0]);
 			close (fd[1]);
 			evaluate(node->lnode);
+			// fprintf(stderr, "		child_out pid>%d, wpid>%d\n", pid, wpid);
 			exit(2);
 		}
+		// fprintf(stderr, "	parent_in pid>%d, wpid>%d\n", pid, wpid);
+		wait(NULL);
 		dup2(fd[0], 0);
 		close(fd[0]);
 		close(fd[1]);
 		evaluate(node->rnode);
+		// fprintf(stderr, "	parent_out pid>%d, wpid>%d\n", pid, wpid);
 		exit(2);
 	}
-	else if (pid < 0)
+	else if (wpid < 0)
 		perror("lsh");
 	else
 	{
-		do
-		{
-			wpid = waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		// fprintf(stderr, "supervisor_in pid>%d, wpid>%d\n", pid, wpid);
+		wait(NULL);
+		// do
+		// {
+		// 	super_pid = waitpid(wpid, &status, WUNTRACED);
+		// } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		// fprintf(stderr, "supervisor_out pid>%d, wpid>%d\n", pid, wpid);
 	}
 	return (1);
 }
@@ -139,7 +148,7 @@ int		evaluate(t_node *node)
 {
 	if (node->command != NULL)
 	{
-		// printf("exe > %s\n", node->command[0]);
+		// fprintf(stderr, "exe > %s\n", node->command[0]);
 		return (sample_exe(node->command));
 	}
 	if (ft_strcmp(node->operation, "|") == 0)
@@ -173,6 +182,6 @@ int		evaluate(t_node *node)
 // 	t_node	*out_redirect_node = new_node(NULL, ft_strdup(">"), echo_node, test_node);
 // 	t_node	*in_redirect_node = new_node(NULL, ft_strdup("<"), wc_node, test_node);
 
-// 	evaluate(pipe_node);
+// 	evaluate(pipe_node2);
 // 	return (0);
 // }
