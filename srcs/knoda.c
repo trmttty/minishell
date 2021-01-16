@@ -6,35 +6,24 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/16 21:55:43 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/16 23:15:02 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "knoda.h"
 
-typedef struct		s_node
-{
-	//関数名、
-	char			**command;
-	//"|", ">", ";",etc.
-	char			*operation;
-	struct s_node	*lnode;
-	struct s_node	*rnode;
-}					t_node;
+// t_node	*new_node(char **cmd, char *op, t_node *left, t_node *right)
+// {
+// 	t_node	*node;
 
-int		evaluate(t_node *node);
-
-t_node	*new_node(char **cmd, char *op, t_node *left, t_node *right)
-{
-	t_node	*node;
-
-	node = (t_node *)ft_calloc(1, sizeof(t_node));
-	node->command = cmd;
-	node->operation = op;
-	node->lnode = left;
-	node->rnode = right;
-	return (node);
-}
+// 	node = (t_node *)ft_calloc(1, sizeof(t_node));
+// 	node->command = cmd;
+// 	node->operation = op;
+// 	node->lnode = left;
+// 	node->rnode = right;
+// 	return (node);
+// }
 
 int		sample_exe(char **args)
 {
@@ -169,21 +158,21 @@ int		evaluate(t_node *node)
 	return (0);
 }
 
-int		test_main()
-{
-	t_node	*echo_node = new_node(ft_split("echo cba", ' '), NULL, NULL, NULL);
-	t_node	*cat_node = new_node(ft_split("cat", ' '), NULL, NULL, NULL);
-	t_node	*ls_node = new_node(ft_split("ls", ' '), NULL, NULL, NULL);
-	t_node	*wc_node = new_node(ft_split("wc", ' '), NULL, NULL, NULL);
-	t_node	*test_node = new_node(ft_split("test.txt", ' '), NULL, NULL, NULL);
+// int		test_main()
+// {
+// 	t_node	*echo_node = new_node(ft_split("echo cba", ' '), NULL, NULL, NULL);
+// 	t_node	*cat_node = new_node(ft_split("cat", ' '), NULL, NULL, NULL);
+// 	t_node	*ls_node = new_node(ft_split("ls", ' '), NULL, NULL, NULL);
+// 	t_node	*wc_node = new_node(ft_split("wc", ' '), NULL, NULL, NULL);
+// 	t_node	*test_node = new_node(ft_split("test.txt", ' '), NULL, NULL, NULL);
 
-	// ls | wc | cat
-	t_node	*pipe_node = new_node(NULL, ft_strdup("|"), echo_node, cat_node);
-	t_node	*pipe_node2 = new_node(NULL, ft_strdup("|"), pipe_node, cat_node);
+// 	// ls | wc | cat
+// 	t_node	*pipe_node = new_node(NULL, ft_strdup("|"), echo_node, cat_node);
+// 	t_node	*pipe_node2 = new_node(NULL, ft_strdup("|"), pipe_node, cat_node);
 
-	t_node	*out_redirect_node = new_node(NULL, ft_strdup(">"), echo_node, test_node);
-	t_node	*in_redirect_node = new_node(NULL, ft_strdup("<"), wc_node, test_node);
+// 	t_node	*out_redirect_node = new_node(NULL, ft_strdup(">"), echo_node, test_node);
+// 	t_node	*in_redirect_node = new_node(NULL, ft_strdup("<"), wc_node, test_node);
 
-	evaluate(pipe_node);
-	return (0);
-}
+// 	evaluate(pipe_node);
+// 	return (0);
+// }

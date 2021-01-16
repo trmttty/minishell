@@ -6,14 +6,15 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/16 21:50:08 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/16 23:09:44 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 #include "token.h"
-#include "compiler.h"
+#include "parser.h"
+#include "knoda.h"
 
 int		launch(char **args) {
     pid_t	pid;
@@ -189,9 +190,11 @@ void	loop(t_list **env_lst)
 		new_token(TK_EOF, cur, ft_strdup(""));
 		token = head.next;
 
-		Node *node = expr();
+		// parser
+		t_node *node = expr();
 
-		gen(node);
+		// gen(node);
+		evaluate(node);
 		//
 
 		// args = ft_split(line, ' ');

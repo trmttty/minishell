@@ -1,3 +1,6 @@
+#ifndef MINI_SHELL_H
+# define MINI_SHELL_H
+
 #include "get_next_line.h"
 #include <stdio.h>
 #include <string.h>
@@ -24,7 +27,11 @@ int     ft_unset(char **args, t_list **env_lst);
 int     ft_env(char **args, t_list **env_lst);
 int     ft_exit(char **args, t_list **env_lst);
 
+int		launch(char **args);
+
 /*
 ** env
 */
 t_list	*init_env(char **envp);
+
+#endif

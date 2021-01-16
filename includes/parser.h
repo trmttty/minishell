@@ -1,3 +1,6 @@
+#ifndef COMPILER_H
+# define COMPILER_H
+
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -66,30 +69,42 @@ typedef enum {
   ND_CMD, // Integer
 } NodeKind;
 
-// AST node type
-typedef struct Node Node;
-struct Node {
-  NodeKind kind; // Node kind
-  Node *lhs;     // Left-hand side
-  Node *rhs;     // Right-hand side
-  char  *cmd;       // Used if kind == ND_NUM
-};
+// // AST node type
+// typedef struct t_node Node;
+// struct t_node {
+//   NodeKind kind; // t_node kind
+//   t_node *lhs;     // Left-hand side
+//   t_node *rhs;     // Right-hand side
+//   char  *cmd;       // Used if kind == ND_NUM
+// };
 
-Node *new_node(NodeKind kind);
+typedef struct		s_node
+{
+    NodeKind kind; // t_node kind
+	//関数名、
+	char			**command;
+	//"|", ">", ";",etc.
+	char			*operation;
+	struct s_node	*lnode;
+	struct s_node	*rnode;
+}					t_node;
 
-Node *new_binary(NodeKind kind, Node *lhs, Node *rhs);
 
-Node *new_cmd(char *cmd);
+t_node *new_node(NodeKind kind);
+
+t_node *new_binary(NodeKind kind, t_node *lhs, t_node *rhs);
+
+t_node *new_cmd(char **cmd);
 
 // expr = mul ("+" mul | "-" mul)*
-Node *expr();
+t_node *expr();
 
 // mul = unary ("*" unary | "/" unary)*
-Node *mul();
+t_node *mul();
 
 // unary = ("+" | "-")? unary
 //       | primary
-// Node *unary() {
+// t_node *unary() {
 //   if (consume('+'))
 //     return unary();
 //   if (consume('-'))
@@ -98,10 +113,12 @@ Node *mul();
 // }
 
 // // primary = "(" expr ")" | num
-Node *primary();
+t_node *primary();
 
 //
 // Code generator
 //
 
-void gen(Node *node);
+void gen(t_node *node);
+
+#endif

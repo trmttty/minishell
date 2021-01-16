@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   compiler.c                                         :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/16 21:17:31 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/16 23:09:33 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "compiler.h"
+#include "minishell.h"
+#include "parser.h"
 
 // Input program
 
@@ -111,44 +112,51 @@ Token *tokenize() {
 //
 
 
-Node *new_node(NodeKind kind) {
-  Node *node = calloc(1, sizeof(Node));
+t_node *new_node(NodeKind kind) {
+  t_node *node = calloc(1, sizeof(t_node));
   node->kind = kind;
   return node;
 }
 
-Node *new_binary(NodeKind kind, Node *lhs, Node *rhs) {
-  Node *node = new_node(kind);
-  node->lhs = lhs;
-  node->rhs = rhs;
+t_node *new_binary(NodeKind kind, t_node *lhs, t_node *rhs) {
+  t_node *node = new_node(kind);
+
+  node->lnode = lhs;
+  node->rnode = rhs;
   return node;
 }
 
-Node *new_cmd(char *cmd) {
-  Node *node = new_node(ND_CMD);
-  node->cmd = cmd;
+t_node *new_cmd(char **cmd) {
+  t_node *node = new_node(ND_CMD);
+  node->command = cmd;
   return node;
 }
 
 // expr = mul ("+" mul | "-" mul)*
-Node *expr() {
-  Node *node = mul();
+t_node *expr() {
+  t_node *node = mul();
 
   for (;;) {
     if (consume(';'))
+    {
       node = new_binary(ND_SEMI, node, mul());
+      node->operation = ";";
+    }
     else
       return node;
   }
 }
 
 // mul = unary ("*" unary | "/" unary)*
-Node *mul() {
-  Node *node = primary();
+t_node *mul() {
+  t_node *node = primary();
 
   for (;;) {
     if (consume('|'))
-      node = new_binary(ND_PIPE, node, primary());
+    {
+        node = new_binary(ND_PIPE, node, primary());
+        node->operation = "|";
+    }
     else
       return node;
   }
@@ -156,7 +164,7 @@ Node *mul() {
 
 // unary = ("+" | "-")? unary
 //       | primary
-// Node *unary() {
+// t_node *unary() {
 //   if (consume('+'))
 //     return unary();
 //   if (consume('-'))
@@ -165,22 +173,22 @@ Node *mul() {
 // }
 
 // // primary = "(" expr ")" | num
-Node *primary() {
-  return new_cmd(expect_command());
+t_node *primary() {
+  return new_cmd(ft_split(expect_command(), ' '));
 }
 
 //
 // Code generator
 //
 
-void gen(Node *node) {
+void gen(t_node *node) {
   if (node->kind == ND_CMD) {
-    printf("  CMD %s\n", node->cmd);
+    printf("  CMD %s\n", node->command[0]);
     return;
   }
 
-  gen(node->lhs);
-  gen(node->rhs);
+  gen(node->lnode);
+  gen(node->rnode);
 
   switch (node->kind) {
   case ND_SEMI:
@@ -199,7 +207,7 @@ void gen(Node *node) {
 //   // Tokenize and parse.
 //   user_input = argv[1];
 //   token = tokenize();
-//   Node *node = expr();
+//   t_node *node = expr();
 
 //   // Traverse the AST to emit assembly.
 //   gen(node);

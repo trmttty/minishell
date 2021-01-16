@@ -18,7 +18,8 @@ SRC_RT = main.c \
 			env_utils.c \
 			lexer.c \
 			token.c \
-			compiler.c
+			parser.c \
+			knoda.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)
