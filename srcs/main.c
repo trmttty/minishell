@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/17 22:02:19 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/17 23:10:02 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int		execute(char **args, t_list **env_lst)
 void	loop(t_list **env_lst)
 {
 	char	*line;
-	char	**args;
+	char	**job;
 	int		status;
 
 	while (1)
@@ -168,41 +168,39 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-
-		// lexer
-	    lexer_T* lexer = init_lexer(line);
-	    token_T* token_l = NULL;
-		Token head; head.next = NULL;
-		Token *cur = &head;
-	    while ((token_l = lexer_get_next_token(lexer)) != NULL)
-	    {
-			if (token_l->type == TOKEN_ID)
-			{
-				cur = new_token(TK_CMD, cur, ft_strdup(token_l->value));
-      			cur->command = ft_strdup(token_l->value);
-			}
-			else 
-			{
-				cur = new_token(TK_RESERVED, cur, ft_strdup(token_l->value));
-			}
-	        // printf("TOKEN(%d, %s)\n", token->type, token->value);
-	    }		
-		new_token(TK_EOF, cur, ft_strdup(""));
-		token = head.next;
-
-		// parser
-		t_node *node = command_line();
-
-		// gen(node);
-		evaluate(node);
-		//
-
-		// args = ft_split(line, ' ');
-		// status = execute(args, env_lst);
+		job = ft_split(line, ';');
 		free(line);
-		// ft_tabfree(args);
-		// if (status == 0)
-		// 	break;
+
+		while (*job)
+		{
+			// lexer
+		    lexer_T* lexer = init_lexer(*job);
+		    token_T* token_l = NULL;
+			Token head; head.next = NULL;
+			Token *cur = &head;
+		    while ((token_l = lexer_get_next_token(lexer)) != NULL)
+		    {
+				if (token_l->type == TOKEN_ID)
+				{
+					cur = new_token(TK_CMD, cur, ft_strdup(token_l->value));
+	      			cur->command = ft_strdup(token_l->value);
+				}
+				else 
+				{
+					cur = new_token(TK_RESERVED, cur, ft_strdup(token_l->value));
+				}
+		    }		
+			new_token(TK_EOF, cur, ft_strdup(""));
+			token = head.next;
+
+			// parser
+			t_node *node = command_line();
+
+			// gen(node);
+			evaluate(node);
+
+			job++;
+		}
 	}
 }
 
