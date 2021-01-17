@@ -66,6 +66,8 @@ Token *new_token(TokenKind kind, Token *cur, char *op);
 typedef enum {
   ND_SEMI, // ;
   ND_PIPE, // |
+  ND_GREAT,// >
+  ND_LESS, // <
   ND_CMD, // Integer
 } NodeKind;
 
@@ -97,10 +99,10 @@ t_node *new_binary(NodeKind kind, t_node *lhs, t_node *rhs);
 t_node *new_cmd(char **cmd);
 
 // expr = mul ("+" mul | "-" mul)*
-t_node *expr();
+t_node *command_line();
 
 // mul = unary ("*" unary | "/" unary)*
-t_node *mul();
+t_node *job();
 
 // unary = ("+" | "-")? unary
 //       | primary
@@ -111,9 +113,10 @@ t_node *mul();
 //     return new_binary(ND_SUB, new_num(0), unary());
 //   return primary();
 // }
+t_node *command();
 
 // // primary = "(" expr ")" | num
-t_node *primary();
+t_node *simple_command();
 
 //
 // Code generator

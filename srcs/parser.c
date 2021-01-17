@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/16 23:09:33 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/17 21:51:07 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,13 @@ t_node *new_cmd(char **cmd) {
 }
 
 // expr = mul ("+" mul | "-" mul)*
-t_node *expr() {
-  t_node *node = mul();
+t_node *command_line() {
+  t_node *node = job();
 
   for (;;) {
     if (consume(';'))
     {
-      node = new_binary(ND_SEMI, node, mul());
+      node = new_binary(ND_SEMI, node, job());
       node->operation = ";";
     }
     else
@@ -148,13 +148,13 @@ t_node *expr() {
 }
 
 // mul = unary ("*" unary | "/" unary)*
-t_node *mul() {
-  t_node *node = primary();
+t_node *job() {
+  t_node *node = command();
 
   for (;;) {
     if (consume('|'))
     {
-        node = new_binary(ND_PIPE, node, primary());
+        node = new_binary(ND_PIPE, node, command());
         node->operation = "|";
     }
     else
@@ -171,9 +171,27 @@ t_node *mul() {
 //     return new_binary(ND_SUB, new_num(0), unary());
 //   return primary();
 // }
+t_node *command() {
+  t_node *node = simple_command();
+
+  for (;;) {
+    if (consume('>'))
+    {
+        node = new_binary(ND_GREAT, node, simple_command());
+        node->operation = ">";
+    }
+    else if (consume('<'))
+    {
+        node = new_binary(ND_LESS, node, simple_command());
+        node->operation = "<";
+    }
+    else
+      return node;
+  }
+}
 
 // // primary = "(" expr ")" | num
-t_node *primary() {
+t_node *simple_command() {
   return new_cmd(ft_split(expect_command(), ' '));
 }
 
@@ -196,6 +214,12 @@ void gen(t_node *node) {
     break;
   case ND_PIPE:
     printf("  PIPE\n");
+    break;
+  case ND_GREAT:
+    printf("  GREAT\n");
+    break;
+  case ND_LESS:
+    printf("  LESS\n");
     break;
   }
 }

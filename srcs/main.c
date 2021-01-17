@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/16 23:09:44 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/17 22:02:19 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void	loop(t_list **env_lst)
 		token = head.next;
 
 		// parser
-		t_node *node = expr();
+		t_node *node = command_line();
 
 		// gen(node);
 		evaluate(node);
