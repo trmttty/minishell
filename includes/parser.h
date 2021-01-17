@@ -10,30 +10,27 @@
 //
 // Parser
 //
-typedef enum {
+typedef enum		u_node_kind{
 	ND_SEMI,        // ;
 	ND_PIPE,        // |
 	ND_GREAT,       // >
 	ND_GREATGREAT,  // >>
 	ND_LESS,        // <
 	ND_CMD,         // command
-} NodeKind;
+}					t_node_kind;
 
 typedef struct		s_node
 {
-	NodeKind		kind; // t_node kind
-	//関数名、
+	t_node_kind		kind;
 	char			**command;
-	//"|", ">", ";",etc.
-	char			*operation;
+	char			*operation; //"|", ">", ";",etc.
 	struct s_node	*lnode;
 	struct s_node	*rnode;
 }					t_node;
 
+t_node *new_node(t_node_kind kind);
 
-t_node *new_node(NodeKind kind);
-
-t_node *new_binary(NodeKind kind, t_node *lhs, t_node *rhs);
+t_node *new_binary(t_node_kind kind, t_node *lhs, t_node *rhs);
 
 t_node *new_cmd(char **cmd);
 

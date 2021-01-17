@@ -46,7 +46,7 @@ void expect(char op) {
 	token = token->next;
 }
 
-// Ensure that the current token is TK_NUM.
+// Ensure that the current token is TK_CMD.
 char *expect_command() {
 	if (token->kind != TK_CMD)
 		error_at(token->command, "expected a command");

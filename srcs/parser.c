@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 01:25:52 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 02:00:30 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@
 
 **/
 
-t_node *new_node(NodeKind kind) {
+t_node *new_node(t_node_kind kind) {
 	t_node *node = calloc(1, sizeof(t_node));
 	node->kind = kind;
 	return node;
 }
 
-t_node *new_binary(NodeKind kind, t_node *lhs, t_node *rhs) {
+t_node *new_binary(t_node_kind kind, t_node *lhs, t_node *rhs) {
 	t_node *node = new_node(kind);
 
 	node->lnode = lhs;
@@ -70,7 +70,6 @@ t_node *command_line() {
 	}
 }
 
-// mul = unary ("*" unary | "/" unary)*
 t_node *job() {
 	t_node *node = command();
 
@@ -115,7 +114,6 @@ t_node *command() {
 	}
 }
 
-// // primary = "(" expr ")" | num
 t_node *simple_command() {
 	return new_cmd(ft_split(expect_command(), ' '));
 }
@@ -123,7 +121,6 @@ t_node *simple_command() {
 //
 // Code generator
 //
-
 void gen(t_node *node) {
 	if (node->kind == ND_CMD) {
 		printf("  CMD %s\n", node->command[0]);
