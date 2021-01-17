@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 00:37:51 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 01:25:52 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,17 @@ t_node *command() {
 	{
 		if (consume('>'))
 		{
+			if (consume('>'))
+			{
+				printf("ininin\n");
+				node = new_binary(ND_GREATGREAT, node, simple_command());
+				node->operation = ">>";
+			}
+			else
+			{
 				node = new_binary(ND_GREAT, node, simple_command());
 				node->operation = ">";
+			}
 		}
 		else if (consume('<'))
 		{
@@ -133,6 +142,9 @@ void gen(t_node *node) {
 		break;
 	case ND_GREAT:
 		printf("  GREAT\n");
+		break;
+	case ND_GREATGREAT:
+		printf("  GREATGREAT\n");
 		break;
 	case ND_LESS:
 		printf("  LESS\n");
