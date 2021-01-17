@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 02:00:30 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 03:21:47 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_node *command() {
 		{
 			if (consume('>'))
 			{
-				printf("ininin\n");
 				node = new_binary(ND_GREATGREAT, node, simple_command());
 				node->operation = ">>";
 			}
@@ -115,7 +114,7 @@ t_node *command() {
 }
 
 t_node *simple_command() {
-	return new_cmd(ft_split(expect_command(), ' '));
+	return new_cmd(expect_command());
 }
 
 //

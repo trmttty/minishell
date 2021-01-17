@@ -40,7 +40,7 @@ token_T* lexer_get_next_token(lexer_T* lexer)
         if (lexer->c == ' ' || lexer->c == 10)
             lexer_skip_whitespace(lexer);
 
-        if (isalnum(lexer->c))
+        if (isalnum(lexer->c) || lexer->c == '-')
             return lexer_collect_id(lexer);
 
         if (lexer->c == '"')
@@ -54,7 +54,6 @@ token_T* lexer_get_next_token(lexer_T* lexer)
             case '<': return lexer_advance_with_token(lexer, init_token(TOKEN_LREDIRECT, lexer_get_current_char_as_string(lexer))); break;
             case '>': return lexer_advance_with_token(lexer, init_token(TOKEN_RREDIRECT, lexer_get_current_char_as_string(lexer))); break;
             case '|': return lexer_advance_with_token(lexer, init_token(TOKEN_PIPE, lexer_get_current_char_as_string(lexer))); break;
-            case '-': return lexer_advance_with_token(lexer, init_token(TOKEN_OPTION, lexer_get_current_char_as_string(lexer))); break;
             case '$': return lexer_advance_with_token(lexer, init_token(TOKEN_ENV, lexer_get_current_char_as_string(lexer))); break;
         }
     }
@@ -88,7 +87,7 @@ token_T* lexer_collect_id(lexer_T* lexer)
     char* value = calloc(1, sizeof(char));
     value[0] = '\0';
 
-    while (isalnum(lexer->c))
+    while (isalnum(lexer->c) || lexer->c == '-')
     {
         char* s = lexer_get_current_char_as_string(lexer);
         value = realloc(value, (strlen(value) + strlen(s) + 1) * sizeof(char));

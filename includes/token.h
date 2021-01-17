@@ -69,7 +69,7 @@ bool consume(char op);
 void expect(char op);
 
 // Ensure that the current token is TK_NUM.
-char *expect_command();
+char **expect_command();
 
 bool at_eof();
 

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 01:19:12 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 03:41:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		launch(char **args) {
 	pid_t	wpid;
     int		status;
 
+	// printf("%s\n", args[0]);
+	// printf("%s\n", args[1]);
     pid = fork();
     if (pid == 0) {
         // 子プロセス
@@ -180,7 +182,7 @@ void	loop(t_list **env_lst)
 			Token *cur = &head;
 		    while ((token_l = lexer_get_next_token(lexer)) != NULL)
 		    {
-				if (token_l->type == TOKEN_ID)
+				if (token_l->type == TOKEN_ID || token_l->type == TOKEN_OPTION)
 				{
 					cur = new_token(TK_CMD, cur, ft_strdup(token_l->value));
 	      			cur->command = ft_strdup(token_l->value);
@@ -196,8 +198,8 @@ void	loop(t_list **env_lst)
 			// parser
 			t_node *node = command_line();
 
-			gen(node);
-			// evaluate(node);
+			// gen(node);
+			evaluate(node);
 
 			job++;
 		}

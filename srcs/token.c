@@ -1,14 +1,15 @@
+#include "minishell.h"
 #include "token.h"
 #include <stdlib.h>
 
 
 token_T* init_token(int type, char* value)
 {
-    token_T* token = calloc(1, sizeof(struct TOKEN_STRUCT));
-    token->type = type;
-    token->value = value;
+	token_T* token = calloc(1, sizeof(struct TOKEN_STRUCT));
+	token->type = type;
+	token->value = value;
 
-    return token;
+	return token;
 }
 
 
@@ -47,12 +48,31 @@ void expect(char op) {
 }
 
 // Ensure that the current token is TK_CMD.
-char *expect_command() {
+char **expect_command()
+{
+	Token   *tmp;
+	char    **cmds;
+	size_t	size;
+	size_t	i;
+
 	if (token->kind != TK_CMD)
 		error_at(token->command, "expected a command");
-	char* cmd = token->command;
-	token = token->next;
-	return cmd;
+	tmp = token;
+	size = 0;
+	while (tmp->kind == TK_CMD)
+	{
+		size++;
+		tmp = tmp->next;
+	}
+	cmds = ft_calloc(size + 1, sizeof(char*));
+	i = 0;
+	while (token->kind == TK_CMD)
+	{
+		cmds[i++] = token->command;
+		token = token->next;
+	}
+	cmds[i] = NULL;
+	return cmds;
 }
 
 bool at_eof() {
