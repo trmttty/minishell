@@ -46,8 +46,7 @@ typedef enum		u_token_kind{
 typedef struct		s_token
 {
 	t_token_kind	kind;
-	char			*command;	// If kind is TK_NUM, its value
-	char			*operator;	// Token string
+	char			*value;		// Token value 
 	struct s_token	*next;		// Next token
 }					t_token;
 

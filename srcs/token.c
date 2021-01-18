@@ -34,7 +34,7 @@ void error_at(char *loc, char *fmt, ...) {
 
 // Consumes the current token if it matches `op`.
 bool consume(char op) {
-	if (token->kind != TK_RESERVED || token->operator[0] != op)
+	if (token->kind != TK_RESERVED || token->value[0] != op)
 		return false;
 	token = token->next;
 	return true;
@@ -42,8 +42,8 @@ bool consume(char op) {
 
 // Ensure that the current token is `op`.
 void expect(char op) {
-	if (token->kind != TK_RESERVED || token->operator[0] != op)
-		error_at(token->operator, "expected '%c'", op);
+	if (token->kind != TK_RESERVED || token->value[0] != op)
+		error_at(token->value, "expected '%c'", op);
 	token = token->next;
 }
 
@@ -56,7 +56,8 @@ char **expect_command()
 	size_t	i;
 
 	if (token->kind != TK_CMD)
-		error_at(token->command, "expected a command");
+		;
+		// error_at(token->command, "expected a command");
 	tmp = token;
 	size = 0;
 	while (tmp->kind == TK_CMD)
@@ -68,7 +69,7 @@ char **expect_command()
 	i = 0;
 	while (token->kind == TK_CMD)
 	{
-		cmds[i++] = token->command;
+		cmds[i++] = token->value;
 		token = token->next;
 	}
 	cmds[i] = NULL;
@@ -83,7 +84,7 @@ bool at_eof() {
 t_token *new_token(t_token_kind kind, t_token *cur, char *op) {
 	t_token *tok = calloc(1, sizeof(t_token));
 	tok->kind = kind;
-	tok->operator = op;
+	tok->value = op;
 	cur->next = tok;
 	return tok;
 }
