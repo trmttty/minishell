@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/17 22:13:13 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 11:09:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int		sample_out_redirect(t_node *node)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(node->rnode->command[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		dup2(fd, STDOUT_FILENO);
 		evaluate(node->lnode);
 		exit(2);
@@ -127,7 +127,7 @@ int		sample_in_redirect(t_node *node)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open (node->rnode->command[0], O_RDONLY);
+		fd = open (node->rnode->commands[0], O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 		evaluate(node->lnode);
 		exit(2);
@@ -146,10 +146,10 @@ int		sample_in_redirect(t_node *node)
 
 int		evaluate(t_node *node)
 {
-	if (node->command != NULL)
+	if (node->commands != NULL)
 	{
 		// fprintf(stderr, "exe > %s\n", node->command[0]);
-		return (sample_exe(node->command));
+		return (sample_exe(node->commands));
 	}
 	if (ft_strcmp(node->operation, "|") == 0)
 	{

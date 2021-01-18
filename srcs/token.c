@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
+/*   Updated: 2021/01/18 12:27:16 by ttarumot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "token.h"
+#include "lexer.h"
 #include <stdlib.h>
 
 
@@ -22,9 +35,9 @@ void error_at(char *loc, char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 
-	int pos = loc - user_input;
-	fprintf(stderr, "%s\n", user_input);
-	fprintf(stderr, "%*s", pos, ""); // print pos spaces.
+	// int pos = loc - user_input;
+	// fprintf(stderr, "%s\n", user_input);
+	// fprintf(stderr, "%*s", pos, ""); // print pos spaces.
 	fprintf(stderr, "^ ");
 	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, "\n");
@@ -33,17 +46,17 @@ void error_at(char *loc, char *fmt, ...) {
 
 // Consumes the current token if it matches `op`.
 bool consume(char op) {
-	if (token->kind != TK_RESERVED || token->value[0] != op)
+	if (g_token->kind != TK_RESERVED || g_token->value[0] != op)
 		return false;
-	token = token->next;
+	g_token = g_token->next;
 	return true;
 }
 
 // Ensure that the current token is `op`.
 void expect(char op) {
-	if (token->kind != TK_RESERVED || token->value[0] != op)
-		error_at(token->value, "expected '%c'", op);
-	token = token->next;
+	if (g_token->kind != TK_RESERVED || g_token->value[0] != op)
+		error_at(g_token->value, "expected '%c'", op);
+	g_token = g_token->next;
 }
 
 // Ensure that the current token is TK_CMD.
@@ -54,10 +67,10 @@ char **expect_command()
 	size_t	size;
 	size_t	i;
 
-	if (token->kind != TK_CMD)
+	if (g_token->kind != TK_CMD)
 		;
 		// error_at(token->command, "expected a command");
-	tmp = token;
+	tmp = g_token;
 	size = 0;
 	while (tmp->kind == TK_CMD)
 	{
@@ -66,54 +79,40 @@ char **expect_command()
 	}
 	cmds = ft_calloc(size + 1, sizeof(char*));
 	i = 0;
-	while (token->kind == TK_CMD)
+	while (g_token->kind == TK_CMD)
 	{
-		cmds[i++] = token->value;
-		token = token->next;
+		cmds[i++] = g_token->value;
+		g_token = g_token->next;
 	}
 	cmds[i] = NULL;
 	return cmds;
 }
 
 bool at_eof() {
-	return token->kind == TK_EOF;
+	return g_token->kind == TK_EOF;
 }
 
 // Create a new token and add it as the next token of `cur`.
-t_token *new_token(t_token_kind kind, t_token *cur, char *op) {
-	t_token *tok = calloc(1, sizeof(t_token));
-	tok->kind = kind;
-	tok->value = op;
-	cur->next = tok;
-	return tok;
+t_token *new_token(t_token_kind kind, t_token *cur, char *value) {
+	t_token *token = calloc(1, sizeof(t_token));
+	token->kind = kind;
+	token->value = value;
+	cur->next = token;
+	return (token);
 }
 
-// Tokenize `user_input` and returns new tokens.
-t_token *tokenize() {
-	char *p = user_input;
-	t_token head; head.next = NULL;
-	t_token *cur = &head;
+t_token		*tokenize(char *job)
+{
+	t_lexer		*lexer;
+	t_token		*token;
+	t_token		token_head;
+	t_token		*cur;
 
-	while (*p) {
-		// Skip whitespace characters.
-		if (isspace(*p)) {
-			p++;
-			continue;
-		}
-
-		// Punctuator
-		if (strchr("|<>;", *p)) {
-			cur = new_token(TK_RESERVED, cur, p++);
-			continue;
-		}
-
-		// Command
-		cur = new_token(TK_CMD, cur, p);
-		
-		while (*p && !strchr("|<>;", *p))
-			p++;
-	}
-
-	new_token(TK_EOF, cur, p);
-	return head.next;
+	lexer = init_lexer(job);
+	token_head.next = NULL;
+	cur = &token_head;
+	while ((token = lexer_get_next_token(lexer)) != NULL)
+		cur = new_token(token->kind, cur, token->value);
+	new_token(TK_EOF, cur, NULL);
+	return(token_head.next);
 }

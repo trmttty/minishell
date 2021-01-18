@@ -10,7 +10,8 @@
 //
 // Parser
 //
-typedef enum		u_node_kind{
+typedef enum		u_node_kind
+{
 	ND_SEMI,        // ;
 	ND_PIPE,        // |
 	ND_GREAT,       // >
@@ -22,7 +23,7 @@ typedef enum		u_node_kind{
 typedef struct		s_node
 {
 	t_node_kind		kind;
-	char			**command;
+	char			**commands;
 	char			*operation; //"|", ">", ";",etc.
 	struct s_node	*lnode;
 	struct s_node	*rnode;

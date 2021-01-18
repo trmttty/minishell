@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 10:56:00 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 12:49:08 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	loop(t_list **env_lst)
 {
 	char	*line;
 	char	**job;
-	int		status;
+	int		index;
 
 	while (1)
 	{
@@ -173,36 +173,18 @@ void	loop(t_list **env_lst)
 		job = ft_split(line, ';');
 		free(line);
 
-		while (*job)
+		index = 0;
+		while (job[index])
 		{
-			// lexer
-		    lexer_T* lexer = init_lexer(*job);
-		    t_token* token_l = NULL;
-			t_token head; head.next = NULL;
-			t_token *cur = &head;
-		    while ((token_l = lexer_get_next_token(lexer)) != NULL)
-		    {
-				if (token_l->kind == TK_CMD)
-				{
-					cur = new_token(TK_CMD, cur, ft_strdup(token_l->value));
-	      			cur->value = ft_strdup(token_l->value);
-				}
-				else 
-				{
-					cur = new_token(TK_RESERVED, cur, ft_strdup(token_l->value));
-				}
-		    }		
-			new_token(TK_EOF, cur, ft_strdup(""));
-			token = head.next;
-
+			// tokenize
+			g_token = tokenize(job[index]);
 			// parser
 			t_node *node = command_line();
-
 			// gen(node);
 			evaluate(node);
-
-			job++;
+			index++;
 		}
+		ft_tabfree(job);
 	}
 }
 

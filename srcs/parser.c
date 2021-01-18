@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 10:00:07 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 12:15:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_node *new_binary(t_node_kind kind, t_node *lhs, t_node *rhs) {
 
 t_node *new_cmd(char **cmd) {
 	t_node *node = new_node(ND_CMD);
-	node->command = cmd;
+	node->commands = cmd;
 	return node;
 }
 
@@ -122,10 +122,10 @@ t_node *simple_command() {
 //
 void gen(t_node *node) {
 	if (node->kind == ND_CMD) {
-		while (*node->command)
+		while (*node->commands)
 		{
-			printf("  CMD %s\n", node->command[0]);
-			(node->command)++;
+			printf("  CMD %s\n", node->commands[0]);
+			(node->commands)++;
 		}
 		return;
 	}
