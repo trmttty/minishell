@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 15:35:16 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 21:59:34 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		launch(char **args) {
             wpid = waitpid(pid, &status, WUNTRACED);
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
-    
+
     return (1);
 }
 
@@ -71,7 +71,7 @@ int		launch(char **args) {
 //             wpid = waitpid(pid, &status, WUNTRACED);
 //         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
 //     }
-    
+
 //     return (1);
 // }
 
@@ -97,7 +97,7 @@ int		launch(char **args) {
 //             wpid = waitpid(pid, &status, WUNTRACED);
 //         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
 //     }
-    
+
 //     return (1);
 // }
 
@@ -123,7 +123,7 @@ int		launch(char **args) {
 //             wpid = waitpid(pid, &status, WUNTRACED);
 //         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
 //     }
-    
+
 //     return (1);
 // }
 
@@ -179,7 +179,8 @@ void	loop(t_list **env_lst)
 			// parser
 			t_node *node = command_line();
 			// gen(node);
-			evaluate(node);
+			int		flag[3] = {0, 0, 0};
+			evaluate(node, flag);
 			index++;
 		}
 		ft_tabfree(job);
