@@ -34,5 +34,6 @@ int		launch(char **args);
 ** env
 */
 t_list	*init_env(char **envp);
+char	*get_env(char *key);
 
 #endif
