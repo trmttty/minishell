@@ -3,13 +3,12 @@
 #include <stdlib.h>
 
 
-token_T* init_token(int type, char* value)
+t_token* init_token(t_token_kind type, char* value)
 {
-	token_T* token = calloc(1, sizeof(struct TOKEN_STRUCT));
-	token->type = type;
+	t_token* token = calloc(1, sizeof(t_token));
+	token->kind = type;
 	token->value = value;
-
-	return token;
+	return (token);
 }
 
 

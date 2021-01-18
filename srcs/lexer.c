@@ -1,3 +1,4 @@
+#include "minishell.h"
 #include "lexer.h"
 #include "token.h"
 #include <stdlib.h>
@@ -33,7 +34,7 @@ void lexer_skip_whitespace(lexer_T* lexer)
     }
 }
 
-token_T* lexer_get_next_token(lexer_T* lexer)
+t_token* lexer_get_next_token(lexer_T* lexer)
 {
     while (lexer->c != '\0' && lexer->i < strlen(lexer->contents))
     {
@@ -41,27 +42,18 @@ token_T* lexer_get_next_token(lexer_T* lexer)
             lexer_skip_whitespace(lexer);
 
         if (isalnum(lexer->c) || lexer->c == '-')
-            return lexer_collect_id(lexer);
+            return (lexer_collect_id(lexer));
 
         if (lexer->c == '"')
-            return lexer_collect_string(lexer);
+            return (lexer_collect_string(lexer));
 
-        switch (lexer->c)
-        {
-            case ';': return lexer_advance_with_token(lexer, init_token(TOKEN_SEMI, lexer_get_current_char_as_string(lexer))); break;
-            case '(': return lexer_advance_with_token(lexer, init_token(TOKEN_LPAREN, lexer_get_current_char_as_string(lexer))); break;
-            case ')': return lexer_advance_with_token(lexer, init_token(TOKEN_RPAREN, lexer_get_current_char_as_string(lexer))); break;
-            case '<': return lexer_advance_with_token(lexer, init_token(TOKEN_LREDIRECT, lexer_get_current_char_as_string(lexer))); break;
-            case '>': return lexer_advance_with_token(lexer, init_token(TOKEN_RREDIRECT, lexer_get_current_char_as_string(lexer))); break;
-            case '|': return lexer_advance_with_token(lexer, init_token(TOKEN_PIPE, lexer_get_current_char_as_string(lexer))); break;
-            case '$': return lexer_advance_with_token(lexer, init_token(TOKEN_ENV, lexer_get_current_char_as_string(lexer))); break;
-        }
+        if (ft_strchr(";()<>|$", lexer->c))
+            return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char_as_string(lexer))));
     }
-
-    return NULL;
+    return (NULL);
 }
 
-token_T* lexer_collect_string(lexer_T* lexer)
+t_token* lexer_collect_string(lexer_T* lexer)
 {
     lexer_advance(lexer);
 
@@ -79,10 +71,10 @@ token_T* lexer_collect_string(lexer_T* lexer)
 
     lexer_advance(lexer);
 
-    return init_token(TOKEN_ID, value);
+    return init_token(TK_CMD, value);
 }
 
-token_T* lexer_collect_id(lexer_T* lexer)
+t_token* lexer_collect_id(lexer_T* lexer)
 {
     char* value = calloc(1, sizeof(char));
     value[0] = '\0';
@@ -96,10 +88,10 @@ token_T* lexer_collect_id(lexer_T* lexer)
         lexer_advance(lexer);
     }
 
-    return init_token(TOKEN_ID, value);
+    return init_token(TK_CMD, value);
 }
 
-token_T* lexer_advance_with_token(lexer_T* lexer, token_T* token)
+t_token* lexer_advance_with_token(lexer_T* lexer, t_token* token)
 {
     lexer_advance(lexer);
 

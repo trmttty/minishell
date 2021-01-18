@@ -16,13 +16,13 @@ void lexer_advance(lexer_T* lexer);
 
 void lexer_skip_whitespace(lexer_T* lexer);
 
-token_T* lexer_get_next_token(lexer_T* lexer);
+t_token* lexer_get_next_token(lexer_T* lexer);
 
-token_T* lexer_collect_string(lexer_T* lexer);
+t_token* lexer_collect_string(lexer_T* lexer);
 
-token_T* lexer_collect_id(lexer_T* lexer);
+t_token* lexer_collect_id(lexer_T* lexer);
 
-token_T* lexer_advance_with_token(lexer_T* lexer, token_T* token);
+t_token* lexer_advance_with_token(lexer_T* lexer, t_token* token);
 
 char* lexer_get_current_char_as_string(lexer_T* lexer);
 #endif

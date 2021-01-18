@@ -1,26 +1,27 @@
 #ifndef TOKEN_H
 #define TOKEN_H
-typedef struct TOKEN_STRUCT
-{
-		enum
-		{
-				TOKEN_ID,
-				TOKEN_STRING,
-				TOKEN_SEMI,
-				TOKEN_LPAREN,
-				TOKEN_RPAREN,
-				TOKEN_LREDIRECT,
-				TOKEN_RREDIRECT,
-				TOKEN_PIPE,
-				TOKEN_OPTION,
-				TOKEN_ENV,
-				TOKEN_EOF
-		} type;
 
-		char* value;
-} token_T;
+// typedef struct TOKEN_STRUCT
+// {
+// 		enum
+// 		{
+// 				TOKEN_ID,
+// 				TOKEN_STRING,
+// 				TOKEN_SEMI,
+// 				TOKEN_LPAREN,
+// 				TOKEN_RPAREN,
+// 				TOKEN_LREDIRECT,
+// 				TOKEN_RREDIRECT,
+// 				TOKEN_PIPE,
+// 				TOKEN_OPTION,
+// 				TOKEN_ENV,
+// 				TOKEN_EOF
+// 		} type;
 
-token_T* init_token(int type, char* value);
+// 		char* value;
+// } token_T;
+
+// token_T* init_token(int type, char* value);
 
 
 
@@ -50,12 +51,13 @@ typedef struct		s_token
 	struct s_token	*next;		// Next token
 }					t_token;
 
-
 // Input program
-char *user_input;
+char		*user_input;
 
 // Current token
-t_token	*token;
+t_token		*token;
+
+t_token*	init_token(t_token_kind type, char* value);
 
 void error(char *fmt, ...);
 
