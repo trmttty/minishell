@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 21:05:54 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 22:28:39 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 18:54:13 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ int		ft_unset(char **args, t_list **env_lst)
 	}
 	while (*args)
 	{
-		tmp = *env_lst;
+		// tmp = *env_lst;
+		tmp = g_env_lst;
 		env = ft_split((char*)tmp->content, '=');
 		if (ft_strcmp(*args, env[0]) == 0)
 		{
-			*env_lst = tmp->next;
+			// *env_lst = tmp->next;
+			g_env_lst = tmp->next;
 			ft_lstdelone(tmp, free);
 		}
 
