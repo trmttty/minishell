@@ -2,22 +2,22 @@
 #define TOKEN_H
 typedef struct TOKEN_STRUCT
 {
-    enum
-    {
-        TOKEN_ID,
-        TOKEN_STRING,
-        TOKEN_SEMI,
-        TOKEN_LPAREN,
-        TOKEN_RPAREN,
-        TOKEN_LREDIRECT,
-        TOKEN_RREDIRECT,
-        TOKEN_PIPE,
-        TOKEN_OPTION,
-        TOKEN_ENV,
-        TOKEN_EOF
-    } type;
+		enum
+		{
+				TOKEN_ID,
+				TOKEN_STRING,
+				TOKEN_SEMI,
+				TOKEN_LPAREN,
+				TOKEN_RPAREN,
+				TOKEN_LREDIRECT,
+				TOKEN_RREDIRECT,
+				TOKEN_PIPE,
+				TOKEN_OPTION,
+				TOKEN_ENV,
+				TOKEN_EOF
+		} type;
 
-    char* value;
+		char* value;
 } token_T;
 
 token_T* init_token(int type, char* value);
@@ -36,26 +36,27 @@ token_T* init_token(int type, char* value);
 // Tokenizer
 //
 
-typedef enum {
-  TK_RESERVED, // Keywords or punctuators
-  TK_CMD,      // Integer literals
-  TK_EOF,      // End-of-file markers
-} TokenKind;
+typedef enum		u_token_kind{
+	TK_RESERVED, // Keywords or punctuators
+	TK_CMD,      // Integer literals
+	TK_EOF,      // End-of-file markers
+}					t_token_kind;
 
 // Token type
-typedef struct Token Token;
-struct Token {
-  TokenKind kind; // Token kind
-  Token     *next;    // Next token
-  char      *command;        // If kind is TK_NUM, its value
-  char      *operator;      // Token string
-};
+typedef struct		s_token
+{
+	t_token_kind	kind;
+	char			*command;	// If kind is TK_NUM, its value
+	char			*operator;	// Token string
+	struct s_token	*next;		// Next token
+}					t_token;
+
 
 // Input program
 char *user_input;
 
 // Current token
-Token *token;
+t_token	*token;
 
 void error(char *fmt, ...);
 
@@ -74,6 +75,6 @@ char **expect_command();
 bool at_eof();
 
 // Create a new token and add it as the next token of `cur`.
-Token *new_token(TokenKind kind, Token *cur, char *op);
+t_token *new_token(t_token_kind kind, t_token *cur, char *op);
 
 #endif

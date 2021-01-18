@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 09:59:22 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 10:22:57 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,8 @@ void	loop(t_list **env_lst)
 			// lexer
 		    lexer_T* lexer = init_lexer(*job);
 		    token_T* token_l = NULL;
-			Token head; head.next = NULL;
-			Token *cur = &head;
+			t_token head; head.next = NULL;
+			t_token *cur = &head;
 		    while ((token_l = lexer_get_next_token(lexer)) != NULL)
 		    {
 				if (token_l->type == TOKEN_ID || token_l->type == TOKEN_OPTION)

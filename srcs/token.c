@@ -50,7 +50,7 @@ void expect(char op) {
 // Ensure that the current token is TK_CMD.
 char **expect_command()
 {
-	Token   *tmp;
+	t_token	*tmp;
 	char    **cmds;
 	size_t	size;
 	size_t	i;
@@ -80,8 +80,8 @@ bool at_eof() {
 }
 
 // Create a new token and add it as the next token of `cur`.
-Token *new_token(TokenKind kind, Token *cur, char *op) {
-	Token *tok = calloc(1, sizeof(Token));
+t_token *new_token(t_token_kind kind, t_token *cur, char *op) {
+	t_token *tok = calloc(1, sizeof(t_token));
 	tok->kind = kind;
 	tok->operator = op;
 	cur->next = tok;
@@ -89,10 +89,10 @@ Token *new_token(TokenKind kind, Token *cur, char *op) {
 }
 
 // Tokenize `user_input` and returns new tokens.
-Token *tokenize() {
+t_token *tokenize() {
 	char *p = user_input;
-	Token head; head.next = NULL;
-	Token *cur = &head;
+	t_token head; head.next = NULL;
+	t_token *cur = &head;
 
 	while (*p) {
 		// Skip whitespace characters.
