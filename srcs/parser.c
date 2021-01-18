@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 03:21:47 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/18 10:00:07 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,11 @@ t_node *simple_command() {
 //
 void gen(t_node *node) {
 	if (node->kind == ND_CMD) {
-		printf("  CMD %s\n", node->command[0]);
+		while (*node->command)
+		{
+			printf("  CMD %s\n", node->command[0]);
+			(node->command)++;
+		}
 		return;
 	}
 

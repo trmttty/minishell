@@ -79,7 +79,7 @@ token_T* lexer_collect_string(lexer_T* lexer)
 
     lexer_advance(lexer);
 
-    return init_token(TOKEN_STRING, value);
+    return init_token(TOKEN_ID, value);
 }
 
 token_T* lexer_collect_id(lexer_T* lexer)
