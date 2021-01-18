@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 15:08:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/19 03:03:21 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_token*    lexer_get_next_token(t_lexer* lexer)
 	{
 		if (lexer->c == ' ' || lexer->c == '\n')
 			lexer_skip_whitespace(lexer);
-		if (lexer->c == '"')
-			return (lexer_collect_string(lexer));
+		if (lexer->c == '"' || lexer->c == '\'')
+			return (lexer_collect_string(lexer, lexer->c));
 		if (ft_strchr(";()<>|", lexer->c))
 			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char_as_string(lexer))));
 		return (lexer_collect_id(lexer));
@@ -62,7 +62,7 @@ t_token*    lexer_get_next_token(t_lexer* lexer)
 	return (NULL);
 }
 
-t_token*    lexer_collect_string(t_lexer* lexer)
+t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 {
 	char    *value;
 	char    *s;
@@ -71,7 +71,7 @@ t_token*    lexer_collect_string(t_lexer* lexer)
 	lexer_advance(lexer);
 	value = calloc(1, sizeof(char));
 	value[0] = '\0';
-	while (lexer->c != '"')
+	while (lexer->c != quote)
 	{
 		s = lexer_get_current_char_as_string(lexer);
 		size = ft_strlen(value) + ft_strlen(s) + 1;
