@@ -19,6 +19,7 @@ SRC_RT = main.c \
 			lexer.c \
 			token.c \
 			parser.c \
+			signal.c \
 			knoda.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))

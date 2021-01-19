@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   knoda.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 22:00:01 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/20 00:09:09 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KNODA_H
 # define KNODA_H
-
 #include "minishell.h"
 #include "parser.h"
 
