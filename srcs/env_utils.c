@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 21:35:54 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/19 15:53:01 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_list		*init_env(char **envp)
 	return (env_lst);
 }
 
-char		*get_env(char *key)
+char		*get_env(char *name)
 {
 	t_list	*tmp;
 	char	**env;
@@ -36,8 +36,7 @@ char		*get_env(char *key)
 	while (tmp)
 	{
 		env = ft_split((char*)tmp->content, '=');
-		if (ft_strcmp(key, env[0]) == 0)
-		{
+		if (ft_strcmp(name, env[0]) == 0) {
 			value = ft_strdup(env[1]);
 			break;
 		}

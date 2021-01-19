@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 21:59:34 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/19 18:29:31 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,47 @@
 #include "parser.h"
 #include "knoda.h"
 
+char	*get_absolute_path(char *relative)
+{
+	char		**paths;
+	char		**tmp;
+	char		*dir;
+	char		*target;
+	struct stat	sb;
+	
+
+	paths = ft_split(get_env("PATH"), ':');
+	tmp = paths;
+	while (*paths)
+	{
+		dir = ft_strjoin(*paths, "/");
+		target = ft_strjoin(dir, relative);
+		free(dir);
+		if (stat(target, &sb) == 0)
+			break;
+		free(target);
+		paths++;
+	}
+	ft_tabfree(tmp);
+	return (target);
+}
+
 int		launch(char **args) {
     pid_t	pid;
 	pid_t	wpid;
     int		status;
+	char	*tmp;
 
     pid = fork();
     if (pid == 0) {
+		if (**args != '/')
+		{
+			tmp = args[0];
+			args[0] = get_absolute_path(args[0]);
+			free(tmp);
+		}
         // 子プロセス
-        if (execvp(args[0], args) == -1) {
+        if (execve(args[0], args, (char**)0) == -1) {
             perror("lsh");
         }
         exit(EXIT_FAILURE);
