@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:01:14 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 00:12:23 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/20 09:41:38 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@
 
 void	parent_sigint(int sig);
 void	child_sigint(int sig);
+void	parent_sigquit(int sig);
+void	child_sigquit(int sig);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 02:17:55 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/20 10:32:13 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ int		launch(char **args) {
     int		status;
 	char	*tmp;
 
+    signal(SIGINT, child_sigint);
     pid = fork();
-    signal(SIGINT, child_sigint);
-    signal(SIGINT, child_sigint);
     if (pid == 0) {
-    	signal(SIGINT, child_sigint);
 		if (**args != '/')
 		{
 			tmp = args[0];
@@ -72,6 +70,8 @@ int		launch(char **args) {
             wpid = waitpid(pid, &status, WUNTRACED);
 			if (status == 2)
 				ft_putstr_fd("\n", 1);
+			if (status == 3)
+				ft_putstr_fd("^\\Quit: 3\n", 1);
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 
@@ -88,6 +88,7 @@ void	loop(t_list **env_lst)
 	while (1)
 	{
     	signal(SIGINT, parent_sigint);
+    	signal(SIGQUIT, parent_sigquit);
 
 		ft_putstr_fd("> ", 1);
 		if ((ret = get_next_line(0, &line)) == 0)
