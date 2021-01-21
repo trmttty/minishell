@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 12:53:02 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/21 17:33:43 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_absolute_path(char *relative)
 	char		*dir;
 	char		*absolute;
 	struct stat	sb;
-	
+
 	paths = ft_split(get_env("PATH"), ':');
 	tmp = paths;
 	while (*paths)
@@ -127,6 +127,7 @@ int		main(int argc, char **argv, char **envp)
 	(void)argv;
 	g_env_lst = init_env(envp);
 	env_lst = g_env_lst;
+	ft_export(ft_split("?=1", ' '), g_env_lst);
 	loop(&env_lst);
 	return (0);
 }

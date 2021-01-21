@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 22:01:49 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/21 18:00:09 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,18 @@ int		sample_in_redirect(t_node *node, int *flag)
 int		evaluate(t_node *node, int *flag)
 {
 	if (node->commands != NULL)
-		return (sample_exe(node->commands));
+	{
+		if (sample_exe(node->commands) == 1)
+		{
+			// fprintf(stderr, "exe success\n");
+			return (ft_export(ft_split("?=0", ' '), &g_env_lst));
+		}
+		else
+		{
+			// fprintf(stderr, "exe failure\n");
+			return (ft_export(ft_split("?=1", ' '), &g_env_lst));
+		}
+	}
 	if (ft_strcmp(node->operation, "|") == 0)
 		return (sample_pipe(node, flag));
 	if (ft_strcmp(node->operation, ";") == 0)
