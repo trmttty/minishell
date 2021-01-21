@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:59:59 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 18:52:21 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/21 18:43:53 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int		ft_env(char **args, t_list **env_lst)
     tmp = g_env_lst;
     while (tmp)
     {
-        ft_putendl_fd((char*)(tmp->content), 1);
+        if (ft_strncmp(tmp->content, "?=", 2) != 0)
+            ft_putendl_fd((char*)(tmp->content), 1);
         tmp = tmp->next;
     }
     return (1);
