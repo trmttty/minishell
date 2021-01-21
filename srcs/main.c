@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 10:32:13 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/21 12:53:02 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	loop(t_list **env_lst)
 	{
     	signal(SIGINT, parent_sigint);
     	signal(SIGQUIT, parent_sigquit);
-
 		ft_putstr_fd("> ", 1);
 		if ((ret = get_next_line(0, &line)) == 0)
 		{
