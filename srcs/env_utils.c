@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 12:49:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/21 16:05:38 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char		*replace_env(char *str)
 		else
 		{
 			tail++;
-			while (ft_isalnum(str[tail]))
+			while (ft_isalnum(str[tail]) || str[tail] == '_')
 				tail++;
 			tmp = ft_substr(str, head, tail - head);
 			sub = get_env(&tmp[1]);
