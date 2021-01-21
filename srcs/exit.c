@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 16:19:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/21 16:21:10 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 int     ft_exit(char **args, t_list **env_lst)
 {
-    exit(0);
+
+	ft_putendl_fd("exit", 1);
+	exit(0);
 }
