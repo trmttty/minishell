@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 16:01:30 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/21 18:59:14 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ int		ft_export(char **args, t_list **env_lst)
 			}
 			else
 			{
+				if (ft_isdigit(**args))
+				{
+					fprintf(stderr, "lsh: export: `%s': not a valid identifier\n", *args);
+					return (0);
+				}
 				env = ft_strdup(*args);
 				ft_lstadd_back(&g_env_lst, ft_lstnew(env));
 			}
