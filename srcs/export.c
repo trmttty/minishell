@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/23 00:24:53 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/23 01:16:46 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_list	*find_env(t_list **env_lst, char *env)
 	tmp = g_env_lst;
 	while (tmp)
 	{
-		if (envcmp((char*)tmp->content, env) == 0)
+		if (envcmp(tmp->content, env) == 0)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -74,7 +74,10 @@ int		ft_declare(t_list **env_lst)
 			envcmp(list->content, "?=") != 0)
 		{
 			env = ft_split(list->content, '=');
-			printf("declare -x %s=\"%s\"\n", env[0], env[1]);
+			if (env[1] != NULL)
+				printf("declare -x %s=\"%s\"\n", env[0], env[1]);
+			else
+				printf("declare -x %s\n", env[0]);
 			ft_tabfree(env);
 		}		
 		list = list->next;
@@ -98,10 +101,9 @@ int		ft_export(char **args, t_list **env_lst)
 			}
 			else
 			{
-				if (ft_isdigit(**args))
+				if (!(ft_isalpha(**args) || **args == '_' || **args == '?'))
 				{
-					fprintf(stderr, "lsh: export: `%s': not a valid identifier\n", *args);
-					return (0);
+					return (return_with_failure("export", *args, "not a valid identifier", 0));
 				}
 				env = ft_strdup(*args);
 				ft_lstadd_back(&g_env_lst, ft_lstnew(env));
