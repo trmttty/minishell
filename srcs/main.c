@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 17:33:43 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/22 11:14:11 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ void	loop(t_list **env_lst)
 	{
     	signal(SIGINT, parent_sigint);
     	signal(SIGQUIT, parent_sigquit);
-		ft_putstr_fd("> ", 1);
+		ft_putstr_fd("> ", 2);
 		if ((ret = get_next_line(0, &line)) == 0)
 		{
-			ft_putstr_fd("exit\n", 1);
+			ft_putstr_fd("exit\n", 2);
 			exit(0);
 		}
 		if (ft_strlen(line) == 0)
@@ -127,7 +127,7 @@ int		main(int argc, char **argv, char **envp)
 	(void)argv;
 	g_env_lst = init_env(envp);
 	env_lst = g_env_lst;
-	ft_export(ft_split("?=1", ' '), g_env_lst);
+	ft_export(ft_split("?=1", ' '), &g_env_lst);
 	loop(&env_lst);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:42:39 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 20:01:33 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/22 12:41:23 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int		ft_echo(char **args, t_list **env_lst)
 
 	i = 0;
 	n_option = 0;
-	while (args[i])
+	while (*args)
 	{
-		if (ft_strcmp(args[i], "-n") == 0)
+		if (ft_strcmp(*args, "-n") == 0)
 		{
 			n_option = 1;
 		}
@@ -29,9 +29,10 @@ int		ft_echo(char **args, t_list **env_lst)
 		{
 			if (i != 0)
 				ft_putstr_fd(" ", 1);
-			ft_putstr_fd(args[i], 1);
+			ft_putstr_fd(*args, 1);
+			i++;
 		}
-		i++;
+		args++;
 	}
 	if (n_option == 0)
 		ft_putstr_fd("\n", 1);
