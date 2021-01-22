@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 18:59:14 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/23 00:24:53 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,52 @@ t_list	*find_env(t_list **env_lst, char *env)
 	return (NULL);
 }
 
+void	sort_env_lst(t_list *env_lst)
+{
+	t_list	*list;
+	void	*content;
+	int		swapped;
+
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		list = g_env_lst;
+		while (list->next)
+		{
+			if (envcmp(list->content, list->next->content) > 0)
+			{
+				content = list->content;
+				list->content = list->next->content;
+				list->next->content = content;
+				swapped = 1;
+			}
+			list = list->next;
+		}
+	}
+}
+
+int		ft_declare(t_list **env_lst)
+{
+	t_list	*list;
+	char	**env;
+
+	sort_env_lst(g_env_lst);
+	list = g_env_lst;
+	while (list)
+	{
+		if (envcmp(list->content, "_=") != 0 &&
+			envcmp(list->content, "?=") != 0)
+		{
+			env = ft_split(list->content, '=');
+			printf("declare -x %s=\"%s\"\n", env[0], env[1]);
+			ft_tabfree(env);
+		}		
+		list = list->next;
+	}
+	return (1);
+}
+
 int		ft_export(char **args, t_list **env_lst)
 {
 	t_list	*lst;
@@ -63,5 +109,7 @@ int		ft_export(char **args, t_list **env_lst)
 			args++;
 		}
 	}
+	else
+		return (ft_declare(env_lst));
 	return (1);
 }
