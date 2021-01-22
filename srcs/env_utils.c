@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 18:29:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/22 22:08:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,21 @@ char		*get_env(char *name)
 	if (value != NULL)
 		return (value);
 	return (ft_strdup(""));
+}
+
+void		set_env(char *name, char *value)
+{
+	char	*tmp;
+	char	*env;
+	char	**arg;
+
+	tmp = ft_strjoin(name, "=");
+	env = ft_strjoin(tmp, value);
+	free(tmp);
+	arg = ft_split(env, ' ');
+	ft_export(arg ,&g_env_lst);
+	free(env);
+	ft_tabfree(arg);
 }
 
 char		*replace_env(char *str)

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/22 11:14:11 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/22 15:43:33 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		launch(char **args) {
 		}
         // 子プロセス
         if (execve(args[0], args, (char**)0) == -1) {
+			// printf("errno1: %d\n", errno);
             perror("lsh");
         }
         exit(EXIT_FAILURE);
@@ -68,6 +69,8 @@ int		launch(char **args) {
         // 親プロセス
         do {
             wpid = waitpid(pid, &status, WUNTRACED);
+			// printf("errno2: %d\n", errno);
+			// printf("status: %d\n", status);
 			if (status == 2)
 				ft_putstr_fd("\n", 1);
 			if (status == 3)

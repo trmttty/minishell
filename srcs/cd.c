@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:10:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 17:42:19 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/22 22:09:16 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 
 int		ft_cd(char **args, t_list **env_lst)
 {
-	if (chdir(*args) < 0)
+	char	*path;
+    char    buf[MAXPATHLEN];
+
+	if (*args)
+		path = *args;
+	else
+		path = get_env("HOME");
+	if (chdir(path) < 0)
 	{
-		ft_putendl_fd(strerror(errno), 2);
-		return (0);
+		return (return_with_failure("cd", *args, strerror(errno), 0));
 	}
+    if (getcwd(buf, MAXPATHLEN))
+        set_env("PWD", buf);
 	return (1);
 }

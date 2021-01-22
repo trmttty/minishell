@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   knoda.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/21 18:00:09 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/22 16:17:38 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,10 @@ int		evaluate(t_node *node, int *flag)
 		}
 	}
 	if (ft_strcmp(node->operation, "|") == 0)
+	{
+		ft_export(ft_split("?=0", ' '), &g_env_lst);
 		return (sample_pipe(node, flag));
+	}
 	if (ft_strcmp(node->operation, ";") == 0)
 		return (sample_colon(node, flag));
 	if (ft_strcmp(node->operation, ">") == 0)
