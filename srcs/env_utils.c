@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/22 22:08:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/23 02:49:13 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,14 @@ char		*replace_env(char *str)
 	head = 0;
 	tail = 0;
 	size = 0;
-	while (str[head])
+	while (str[tail])
 	{
-		if (str[head] != '$')
+		if (str[tail] == '\\')
+		{
+			head += 1;
+			tail += 2;
+		}
+		if (str[tail] != '$')
 		{
 			while (str[tail] && str[tail] != '$')
 				tail++;
