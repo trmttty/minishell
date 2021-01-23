@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/23 01:16:46 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/24 00:49:31 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int		envcmp(const char *env1, const char *env2)
 		env1++;
 		env2++;
 	}
+	if (*env2 == '+')
+		env2++;
 	return (*env1 - *env2);
 }
 
@@ -85,19 +87,44 @@ int		ft_declare(t_list **env_lst)
 	return (1);
 }
 
+int		validate_arg(char *arg)
+{
+	size_t	i;
+
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (i == 0 && arg[0] >= '0' && arg[0] <= '9')
+			return (0);
+		if (!(ft_isalnum(arg[i]) || arg[i] == '_' || arg[i] == '?' || arg[i] == '+'))
+			return (0);
+		if (arg[i] == '+' && arg[i + 1] != '=')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int		ft_export(char **args, t_list **env_lst)
 {
 	t_list	*lst;
 	char	*env;
+	char	*plus;
 
 	if (*args)
 	{
 		while (*args)
 		{
+			if (!validate_arg(*args))
+				return (return_with_failure("export", *args, "not a valid identifier", 0));
 			if ((lst = find_env(&g_env_lst, *args)) != NULL)
 			{
+				if ((plus = ft_strchr(*args, '+')) != NULL)
+					env = ft_strjoin(lst->content, &plus[2]);
+				else
+					env = ft_strdup(*args);
 				free(lst->content);
-				lst->content = ft_strdup(*args);
+				lst->content = env;
 			}
 			else
 			{
