@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/23 02:49:13 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/23 11:59:41 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,27 @@ char		*replace_env(char *str)
 		else
 		{
 			tail++;
-			while (ft_isalnum(str[tail]) || str[tail] == '_' || str[tail] == '?')
+			if (str[tail] >= '0' && str[tail] <= '9')
+			{
 				tail++;
-			tmp = ft_substr(str, head, tail - head);
-			sub = get_env(&tmp[1]);
-			free(tmp);
+				head = tail;
+				continue;
+			}
+			else
+			{
+				while (ft_isalnum(str[tail]) || str[tail] == '_')
+					tail++;
+				if (str[tail] == '?')
+					tail++;
+				if (tail - head == 1) 
+					sub = ft_substr(str, head, tail - head);
+				else
+				{
+					tmp = ft_substr(str, head, tail - head);
+					sub = get_env(&tmp[1]);
+					free(tmp);
+				}
+			}
 		}
 		size += ft_strlen(sub);
 		ret = realloc(ret, (size + 1) * sizeof(char));
