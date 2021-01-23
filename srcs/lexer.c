@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/19 03:03:21 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/23 10:25:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,30 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 	value[0] = '\0';
 	while (!(ft_strchr(";()<>|", lexer->c) || lexer->c == ' '))
 	{
-		s = lexer_get_current_char_as_string(lexer);
-		size = ft_strlen(value) + ft_strlen(s) + 1;
-		value = realloc(value, size * sizeof(char));
-		ft_strlcat(value, s, size);
-		lexer_advance(lexer);
+		if (lexer->c == '\\')
+		{
+			s = lexer_get_current_char_as_string(lexer);
+			size = ft_strlen(value) + ft_strlen(s) + 1;
+			value = realloc(value, size * sizeof(char));
+			ft_strlcat(value, s, size);
+			lexer_advance(lexer);
+			free(s);
+			s = lexer_get_current_char_as_string(lexer);
+			size = ft_strlen(value) + ft_strlen(s) + 1;
+			value = realloc(value, size * sizeof(char));
+			ft_strlcat(value, s, size);
+			lexer_advance(lexer);
+			free(s);
+		}
+		else
+		{
+			s = lexer_get_current_char_as_string(lexer);
+			size = ft_strlen(value) + ft_strlen(s) + 1;
+			value = realloc(value, size * sizeof(char));
+			ft_strlcat(value, s, size);
+			lexer_advance(lexer);
+			free(s);
+		}
 	}
 	return (init_token(TK_CMD, value));
 }
