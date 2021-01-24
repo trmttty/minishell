@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:42:39 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/22 21:04:02 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/24 13:37:13 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		ft_echo(char **args, t_list **env_lst)
 		{
 			n_option = 1;
 		}
-		else if (ft_strlen(*args))
+		else
 		{
 			if (i != 0)
 				ft_putstr_fd(" ", 1);

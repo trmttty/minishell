@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/24 13:29:57 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/24 15:44:05 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,7 @@ void	loop(t_list **env_lst)
 		index = 0;
 		while (job[index])
 		{
-			// tokenize
 			g_token = tokenize(job[index]);
-			// parser
 			t_node *node = command_line();
 			// gen(node);
 			int		flag[3] = {0, 0, 0};
