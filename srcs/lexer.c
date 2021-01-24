@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/23 10:25:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/24 11:28:06 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,12 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 {
 	char*   value;
 	char*   s;
+	int		quote;
 	size_t  size;
 	
 	value = ft_calloc(1, sizeof(char));
 	value[0] = '\0';
+	quote = -1;
 	while (!(ft_strchr(";()<>|", lexer->c) || lexer->c == ' '))
 	{
 		if (lexer->c == '\\')
@@ -106,6 +108,14 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 			value = realloc(value, size * sizeof(char));
 			ft_strlcat(value, s, size);
 			lexer_advance(lexer);
+			free(s);
+		}
+		else if (lexer->c == '"' || lexer->c == '\'')
+		{
+			t_token *t;
+			t = lexer_collect_string(lexer, lexer->c);
+			s = value;
+			value = ft_strjoin(value, t->value);
 			free(s);
 		}
 		else

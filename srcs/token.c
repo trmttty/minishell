@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/23 10:31:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/24 11:34:51 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ t_token		*tokenize(char *job)
 	cur = &token_head;
 	while ((token = lexer_get_next_token(lexer)) != NULL)
 	{
+		printf("token: [%s]\n", token->value);
 		token->value = replace_env(token->value);
 		cur = new_token(token->kind, cur, token->value);
 	}
