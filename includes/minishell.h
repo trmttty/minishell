@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/23 00:55:33 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/24 12:52:36 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	loop(t_list **env_lst);
 t_list	*init_env(char **envp);
 char	*get_env(char *key);
 char	*replace_env(char *str);
+char	*remove_quote(char *str);
 void	set_env(char *name, char *value);
 int		envcmp(const char *env1, const char *env2);
 
