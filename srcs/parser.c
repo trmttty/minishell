@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/18 12:15:42 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 11:22:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_node *command_line() {
 
 	while (1)
 	{
-		if (consume(';'))
+		if (consume(";"))
 		{
 			node = new_binary(ND_SEMI, node, job());
 			node->operation = ";";
@@ -75,7 +75,7 @@ t_node *job() {
 
 	while (1)
 	{
-		if (consume('|'))
+		if (consume("|"))
 		{
 				node = new_binary(ND_PIPE, node, command());
 				node->operation = "|";
@@ -90,20 +90,17 @@ t_node *command() {
 
 	while (1)
 	{
-		if (consume('>'))
+		if (consume(">>"))
 		{
-			if (consume('>'))
-			{
-				node = new_binary(ND_GREATGREAT, node, simple_command());
-				node->operation = ">>";
-			}
-			else
-			{
-				node = new_binary(ND_GREAT, node, simple_command());
-				node->operation = ">";
-			}
+			node = new_binary(ND_GREATGREAT, node, simple_command());
+			node->operation = ">>";
 		}
-		else if (consume('<'))
+		else if (consume(">"))
+		{
+			node = new_binary(ND_GREAT, node, simple_command());
+			node->operation = ">";
+		}
+		else if (consume("<"))
 		{
 				node = new_binary(ND_LESS, node, simple_command());
 				node->operation = "<";

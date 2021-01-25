@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/24 15:44:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 21:31:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,26 @@ int		launch(char **args) {
     return (1);
 }
 
+int		syntax_check(t_token *token)
+{
+	if (!ft_strcmp(token->value, ";") || !ft_strcmp(token->value, "|"))
+		return (return_with_failure(NULL, NULL, "syntax error", 0));
+	while (token->next)
+	{
+		// printf("%s\n", token->value);
+		if (!ft_strcmp(token->value, ";") && token->next->kind != TK_EOF && !ft_strcmp(token->next->value, ";"))
+			return (return_with_failure(NULL, NULL, "syntax error", 0));
+		if (!ft_strcmp(token->value, "|") && token->next->kind != TK_EOF && !ft_strcmp(token->next->value, "|"))
+			return (return_with_failure(NULL, NULL, "syntax error", 0));
+		if ((!ft_strcmp(token->value, ">") && token->next->kind != TK_CMD))
+			return (return_with_failure(NULL, NULL, "syntax error", 0));
+		if ((!ft_strcmp(token->value, "<") && token->next->kind != TK_CMD))
+			return (return_with_failure(NULL, NULL, "syntax error", 0));
+		token = token->next;
+	}
+	return (1);
+}
+
 void	loop(t_list **env_lst)
 {
 	char	*line;
@@ -96,13 +116,21 @@ void	loop(t_list **env_lst)
 		if ((ret = get_next_line(0, &line)) == 0)
 		{
 			ft_putstr_fd("exit\n", 2);
-			exit(0);
+			exit(ft_atoi(get_env("?")));
 		}
 		if (ft_strlen(line) == 0)
 		{
 			free(line);
 			continue;
 		}
+
+		if (!syntax_check(validate_token(line)))
+		{
+			set_env("?", "258");
+			free(line);
+			continue;
+		}
+
 		job = ft_split(line, ';');
 		free(line);
 

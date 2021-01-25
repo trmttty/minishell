@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:27 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 00:09:29 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 21:16:07 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
 
 // Consumes the current token if it matches `op`.
-bool consume(char op);
+bool consume(char *op);
 
 // Ensure that the current token is `op`.
 void expect(char op);
@@ -63,5 +63,6 @@ bool at_eof();
 t_token *new_token(t_token_kind kind, t_token *cur, char *op);
 
 t_token		*tokenize(char *job);
+t_token		*validate_token(char *job);
 
 #endif

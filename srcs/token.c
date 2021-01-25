@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/24 15:44:21 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 21:15:48 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void error_at(char *loc, char *fmt, ...) {
 }
 
 // Consumes the current token if it matches `op`.
-bool consume(char op) {
-	if (g_token->kind != TK_RESERVED || g_token->value[0] != op)
+bool consume(char *op) {
+	if (g_token->kind != TK_RESERVED || ft_strcmp(g_token->value, op))
 		return false;
 	g_token = g_token->next;
 	return true;
@@ -99,6 +99,36 @@ t_token *new_token(t_token_kind kind, t_token *cur, char *value) {
 	token->value = value;
 	cur->next = token;
 	return (token);
+}
+
+t_token		*validate_token(char *job)
+{
+	t_lexer		*lexer;
+	t_token		*token;
+	t_token		token_head;
+	t_token		*cur;
+
+	lexer = init_lexer(job);
+	token_head.next = NULL;
+	cur = &token_head;
+	while ((token = lexer_get_next_token(lexer)) != NULL)
+	{
+		// // printf("token:	[%s]\n", token->value);
+		// size_t len1 = ft_strlen(token->value);
+		// token->value = replace_env(token->value);
+		// // printf("env:	[%s]\n", token->value);
+		// token->value = remove_quote(token->value);
+		// size_t len2 = ft_strlen(token->value);
+		// // printf("quote:	[%s]\n", token->value);
+		// if (len1 && !len2)
+		// {
+		// 	// cur->next = token;
+		// 	continue;
+		// }
+		cur = new_token(token->kind, cur, token->value);
+	}
+	new_token(TK_EOF, cur, NULL);
+	return(token_head.next);
 }
 
 t_token		*tokenize(char *job)
