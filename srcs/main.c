@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 21:31:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 22:00:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,21 @@ int		launch(char **args) {
 				ft_putstr_fd("^\\Quit: 3\n", 1);
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
+	if (status == 256 && args[1])
+		return (1);
+	if (status == 256)
+		return (127);
+   	return (status >> 8);
+}
 
-    return (1);
+int		set_exit_status(int status)
+{
+	if (status == 0)
+		return (ft_export(ft_split("?=0", ' '), &g_env_lst));
+	else if (status == 127)
+		return (ft_export(ft_split("?=127", ' '), &g_env_lst));
+	else
+		return (ft_export(ft_split("?=1", ' '), &g_env_lst));
 }
 
 int		syntax_check(t_token *token)
@@ -141,7 +154,8 @@ void	loop(t_list **env_lst)
 			t_node *node = command_line();
 			// gen(node);
 			int		flag[3] = {0, 0, 0};
-			evaluate(node, flag);
+			// evaluate(node, flag);
+			set_exit_status(evaluate(node, flag));
 			index++;
 		}
 		ft_tabfree(job);

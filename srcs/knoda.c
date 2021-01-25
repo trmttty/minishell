@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/24 15:45:11 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 22:03:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,20 @@ int		sample_exe(char **args)
 {
 	t_list		**env_lst;
 
-	if (args[0] != NULL)
-	{
-		if (ft_strcmp(args[0], "echo") == 0)
-			return (ft_echo(&args[1], env_lst));
-		else if (ft_strcmp(args[0], "cd") == 0)
-			return (ft_cd(&args[1], env_lst));
-		else if (ft_strcmp(args[0], "export") == 0)
-			return (ft_export(&args[1], env_lst));
-		else if (ft_strcmp(args[0], "unset") == 0)
-			return (ft_unset(&args[1], env_lst));
-		else if (ft_strcmp(args[0], "pwd") == 0)
-			return (ft_pwd(&args[1], env_lst));
-		else if (ft_strcmp(args[0], "env") == 0)
-			return (ft_env(&args[1], env_lst));
-		else if (ft_strcmp(args[0], "exit") == 0)
-			return (ft_exit(&args[1], env_lst));
-	}
+	if (ft_strcmp(args[0], "echo") == 0)
+		return (ft_echo(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "cd") == 0)
+		return (ft_cd(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "export") == 0)
+		return (ft_export(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "unset") == 0)
+		return (ft_unset(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "pwd") == 0)
+		return (ft_pwd(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "env") == 0)
+		return (ft_env(&args[1], env_lst));
+	else if (ft_strcmp(args[0], "exit") == 0)
+		return (ft_exit(&args[1], env_lst));
 	return launch(args);
 }
 
@@ -67,51 +64,50 @@ int		sample_pipe(t_node *node, int *flag)
 			dup2(fd[1], 1);
 			close (fd[0]);
 			close (fd[1]);
-			evaluate(node->lnode, flag);
-			exit(2);
+			exit(evaluate(node->lnode, flag));
 		}
 		wait(NULL);
 		dup2(fd[0], 0);
 		close(fd[0]);
 		close(fd[1]);
-		evaluate(node->rnode, flag);
-		exit(2);
+		exit(evaluate(node->rnode, flag));
 	}
 	else if (wpid < 0)
 		perror("lsh");
 	else
 	{
-		wait(NULL);
+		wait(&status);
+		// fprintf(stderr, "pipe > %d\n", status);
 	}
-	return (1);
+	return (status >> 8);
 }
 
 int		sample_colon(t_node *node, int *flag)
 {
 	pid_t	pid;
 	pid_t	wpid;
+	int		status;
 
 	if ((wpid = fork()) == 0)
 	{
 		if ((pid = fork()) == 0)
 		{
-			evaluate(node->lnode, flag);
-			exit(2);
+			exit(evaluate(node->lnode, flag));
 		}
 		wait(NULL);
-		evaluate(node->rnode, flag);
-		exit(2);
+		exit(evaluate(node->rnode, flag));
 	}
 	else if (wpid < 0)
 		perror("lsh");
 	else
-		wait(NULL);
-	return (1);
+		wait(&status);
+	return (status);
 }
 
 int		sample_out_redirect(t_node *node, int *flag)
 {
 	pid_t	pid;
+	int		status;
 	int		fd;
 
 	pid = fork();
@@ -123,21 +119,19 @@ int		sample_out_redirect(t_node *node, int *flag)
 			dup2(fd, STDOUT_FILENO);
 			flag[0] = 1;
 		}
-		evaluate(node->lnode, flag);
-		exit(2);
+		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
 		perror("lsh");
 	else
-	{
-		wait(NULL);
-	}
-	return (1);
+		wait(&status);
+	return (status >> 8);
 }
 
 int		sample_outout_redirect(t_node *node, int *flag)
 {
 	pid_t	pid;
+	int		status;
 	int		fd;
 
 	pid = fork();
@@ -149,21 +143,19 @@ int		sample_outout_redirect(t_node *node, int *flag)
 			dup2(fd, STDOUT_FILENO);
 			flag[2] = 1;
 		}
-		evaluate(node->lnode, flag);
-		exit(2);
+		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
 		perror("lsh");
 	else
-	{
-		wait(NULL);
-	}
-	return (1);
+		wait(&status);
+	return (status >> 8);
 }
 
 int		sample_in_redirect(t_node *node, int *flag)
 {
 	pid_t	pid;
+	int		status;
 	int		fd;
 
 	pid = fork();
@@ -175,38 +167,34 @@ int		sample_in_redirect(t_node *node, int *flag)
 			dup2(fd, STDIN_FILENO);
 			flag[1] = 1;
 		}
-		evaluate(node->lnode, flag);
-		exit(2);
+		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
 		perror("lsh");
 	else
-	{
-		wait(NULL);
-	}
-	return (1);
+		wait(&status);
+	return (status >> 8);
 }
 
+// int		set_exit_status(int status)
+// {
+// 	if (status == 0)
+// 		return (ft_export(ft_split("?=0", ' '), &g_env_lst));
+// 	else if (status == 256)
+// 		return (ft_export(ft_split("?=127", ' '), &g_env_lst));
+// 	else
+// 		return (ft_export(ft_split("?=1", ' '), &g_env_lst));
+// }
 
 int		evaluate(t_node *node, int *flag)
 {
 	if (node->commands != NULL)
 	{
-		if (sample_exe(node->commands) == 1)
-		{
-			// fprintf(stderr, "exe success\n");
-			return (ft_export(ft_split("?=0", ' '), &g_env_lst));
-		}
-		else
-		{
-			return (ft_export(ft_split("?=1", ' '), &g_env_lst));
-		}
+		// return (set_exit_status(sample_exe(node->commands)));
+		return (sample_exe(node->commands));
 	}
 	if (ft_strcmp(node->operation, "|") == 0)
-	{
-		ft_export(ft_split("?=0", ' '), &g_env_lst);
 		return (sample_pipe(node, flag));
-	}
 	if (ft_strcmp(node->operation, ";") == 0)
 		return (sample_colon(node, flag));
 	if (ft_strcmp(node->operation, ">") == 0)
@@ -217,7 +205,6 @@ int		evaluate(t_node *node, int *flag)
 		return (sample_in_redirect(node, flag));
 	return (0);
 }
-
 // int		test_main()
 // {
 // 	t_node	*echo1_node = n_node(ft_split("echo 1", ' '), NULL, NULL, NULL);

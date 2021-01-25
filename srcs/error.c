@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:14:01 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/22 15:37:06 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 22:07:06 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int	    return_with_failure(char *commnad, char *arg, char *message, int code)
 	return(code);
 }
 
-void	set_exit_status(int code)
-{
-	char **args;
+// void	set_exit_status(int code)
+// {
+// 	char **args;
 
-	if ((args = ft_calloc(2, sizeof(char*))) == NULL)
-		exit(1);
-	// args
-	// ft_export(ft_split("?=255", ' '), &g_env_lst);
-}
+// 	if ((args = ft_calloc(2, sizeof(char*))) == NULL)
+// 		exit(1);
+// 	// args
+// 	// ft_export(ft_split("?=255", ' '), &g_env_lst);
+// }
 
 void	handle_error(char *message)
 {

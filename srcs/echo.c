@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:42:39 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/24 13:37:13 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 22:20:52 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ int		ft_echo(char **args, t_list **env_lst)
 	}
 	if (n_option == 0)
 		ft_putstr_fd("\n", 1);
-	return (1);
+	return (0);
 }

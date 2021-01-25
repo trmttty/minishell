@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/24 12:52:36 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/25 22:05:58 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ int		envcmp(const char *env1, const char *env2);
 */
 void    exit_with_failure(char *commnad, char *arg, char *message, int code);
 int	    return_with_failure(char *commnad, char *arg, char *message, int code);
-void	set_exit_status(int code);
+int		set_exit_status(int code);
 void	handle_error(char *message);
 #endif
