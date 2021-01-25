@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 22:03:42 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/26 00:43:29 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,23 @@ int		sample_exe(char **args)
 {
 	t_list		**env_lst;
 
-	if (ft_strcmp(args[0], "echo") == 0)
-		return (ft_echo(&args[1], env_lst));
-	else if (ft_strcmp(args[0], "cd") == 0)
-		return (ft_cd(&args[1], env_lst));
-	else if (ft_strcmp(args[0], "export") == 0)
-		return (ft_export(&args[1], env_lst));
-	else if (ft_strcmp(args[0], "unset") == 0)
-		return (ft_unset(&args[1], env_lst));
-	else if (ft_strcmp(args[0], "pwd") == 0)
-		return (ft_pwd(&args[1], env_lst));
-	else if (ft_strcmp(args[0], "env") == 0)
-		return (ft_env(&args[1], env_lst));
-	else if (ft_strcmp(args[0], "exit") == 0)
-		return (ft_exit(&args[1], env_lst));
+	if (args[0] != NULL)
+	{
+		if (ft_strcmp(args[0], "echo") == 0)
+			return (ft_echo(&args[1], env_lst));
+		else if (ft_strcmp(args[0], "cd") == 0)
+			return (ft_cd(&args[1], env_lst));
+		else if (ft_strcmp(args[0], "export") == 0)
+			return (ft_export(&args[1], env_lst));
+		else if (ft_strcmp(args[0], "unset") == 0)
+			return (ft_unset(&args[1], env_lst));
+		else if (ft_strcmp(args[0], "pwd") == 0)
+			return (ft_pwd(&args[1], env_lst));
+		else if (ft_strcmp(args[0], "env") == 0)
+			return (ft_env(&args[1], env_lst));
+		else if (ft_strcmp(args[0], "exit") == 0)
+			return (ft_exit(&args[1], env_lst));
+	}
 	return launch(args);
 }
 
