@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 22:00:49 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/26 18:34:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		launch(char **args) {
 	char	*tmp;
 
     signal(SIGINT, child_sigint);
+	// printf("----execve: %s\n", *args);
     pid = fork();
     if (pid == 0) {
 		if (**args != '/')
@@ -57,6 +58,7 @@ int		launch(char **args) {
 			free(tmp);
 		}
         // 子プロセス
+		// printf("----execve: %s\n", *args);
         if (execve(args[0], args, (char**)0) == -1) {
 			// printf("errno1: %d\n", errno);
             perror("lsh");
@@ -67,15 +69,16 @@ int		launch(char **args) {
         perror("lsh");
     } else {
         // 親プロセス
-        do {
+        // do {
+			// printf("----start: %s\n", *args);
             wpid = waitpid(pid, &status, WUNTRACED);
-			// printf("errno2: %d\n", errno);
+			// printf("----end: %s\n", *args);
 			// printf("status: %d\n", status);
 			if (status == 2)
 				ft_putstr_fd("\n", 1);
 			if (status == 3)
 				ft_putstr_fd("^\\Quit: 3\n", 1);
-        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+        // } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 	if (status == 256 && args[1])
 		return (1);

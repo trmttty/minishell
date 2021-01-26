@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/26 00:43:29 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/26 18:43:52 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,15 @@ int		sample_pipe(t_node *node, int *flag)
 			close (fd[1]);
 			exit(evaluate(node->lnode, flag));
 		}
-		wait(NULL);
+		// printf("----pipe start: %s\n", node->operation);
+		// wait(NULL);
+        // wpid = waitpid(pid, &status, WUNTRACED);
+		// printf("----pipe end: %s\n", node->operation);
 		dup2(fd[0], 0);
 		close(fd[0]);
 		close(fd[1]);
 		exit(evaluate(node->rnode, flag));
+		// evaluate(node->rnode, flag);
 	}
 	else if (wpid < 0)
 		perror("lsh");
