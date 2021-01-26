@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/26 18:34:49 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/26 22:10:43 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,14 @@ void	loop(t_list **env_lst)
 	}
 }
 
+int		test_sort(char *str)
+{
+	fprintf(stderr, "before >> %s\n", str);
+	str = sort_cmd(str);
+	fprintf(stderr, "after >> %s\n", str);
+	return (0);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	t_list	*env_lst;
@@ -174,6 +182,8 @@ int		main(int argc, char **argv, char **envp)
 	g_env_lst = init_env(envp);
 	env_lst = g_env_lst;
 	ft_export(ft_split("?=0", ' '), &g_env_lst);
-	loop(&env_lst);
+	// disable loop() and turn on test_sort
+	test_sort(ft_strdup(">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test"));
+	// loop(&env_lst);
 	return (0);
 }

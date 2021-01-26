@@ -21,7 +21,8 @@ SRC_RT = main.c \
 			parser.c \
 			signal.c \
 			error.c \
-			knoda.c
+			knoda.c \
+			sort_cmd.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)
