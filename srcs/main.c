@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/26 18:34:49 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 10:19:40 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,9 @@ int		syntax_check(t_token *token)
 void	loop(t_list **env_lst)
 {
 	char	*line;
-	char	**job;
-	int		index;
 	int		ret;
+	t_token	*token;
+	t_node	*node;
 
 	while (1)
 	{
@@ -139,29 +139,24 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-
-		if (!syntax_check(validate_token(line)))
+		token = validate_token(line);
+		if (!syntax_check(token))
 		{
 			set_env("?", "258");
 			free(line);
 			continue;
 		}
-
-		job = ft_split(line, ';');
-		free(line);
-
-		index = 0;
-		while (job[index])
+		g_token = token;
+		while ((tokenize(token)) != NULL)
 		{
-			g_token = tokenize(job[index]);
-			t_node *node = command_line();
+			node = command_line();
 			// gen(node);
 			int		flag[3] = {0, 0, 0};
 			// evaluate(node, flag);
 			set_exit_status(evaluate(node, flag));
-			index++;
+			g_token = g_token->next;
+			token = g_token;
 		}
-		ft_tabfree(job);
 	}
 }
 

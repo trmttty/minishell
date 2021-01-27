@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 21:15:48 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 10:21:10 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,41 @@ t_token		*validate_token(char *job)
 	return(token_head.next);
 }
 
-t_token		*tokenize(char *job)
+t_token		*tokenize(t_token *token)
+{
+	t_token		*next;
+	size_t		len1;
+	size_t		len2;
+
+	if (token == NULL)
+		return (NULL);
+	if (token->kind == TK_EOF)
+		return (NULL);
+	while (token->kind != TK_EOF && ft_strcmp(token->value, ";") != 0)
+	{
+		len1 = ft_strlen(token->value);
+		char *l = token->value;
+		token->value = replace_env(token->value);
+		token->value = remove_quote(token->value);
+		len2 = ft_strlen(token->value);
+		if (len1 && !len2)
+		{
+			next = token->next;
+			token->kind = token->next->kind;
+			free(token->value);
+			token->value = token->next->value;
+			token->next = token->next->next;
+			free(next);
+			continue;
+		}
+		token = token->next;
+	}
+	if (token->kind != TK_EOF)
+		token->kind = TK_EOF;
+	return(token);
+}
+
+t_token		*tokenize1(char *job)
 {
 	t_lexer		*lexer;
 	t_token		*token;

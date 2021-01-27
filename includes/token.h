@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:27 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 21:16:07 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 00:59:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ bool at_eof();
 // Create a new token and add it as the next token of `cur`.
 t_token *new_token(t_token_kind kind, t_token *cur, char *op);
 
-t_token		*tokenize(char *job);
+t_token		*tokenize(t_token *token);
+// t_token		*tokenize(char *job);
 t_token		*validate_token(char *job);
 
 #endif
