@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   knoda.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/26 18:43:52 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 19:52:12 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int		sample_pipe(t_node *node, int *flag)
 
 	flag[0] = 0;
 	flag[1] = 0;
-	flag[2] = 0;
 	if ((wpid = fork()) == 0)
 	{
 		pipe(fd);
@@ -145,10 +144,10 @@ int		sample_outout_redirect(t_node *node, int *flag)
 	if (pid == 0)
 	{
 		fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
-		if (flag[2] == 0)
+		if (flag[0] == 0)
 		{
 			dup2(fd, STDOUT_FILENO);
-			flag[2] = 1;
+			flag[0] = 1;
 		}
 		exit(evaluate(node->lnode, flag));
 	}
@@ -246,8 +245,8 @@ int		evaluate(t_node *node, int *flag)
 // 	t_node	*echo_out_node1 = n_node(NULL, ft_strdup(">"), echo_abc_node, out1_node);
 // 	t_node	*echo_out_node2 = n_node(NULL, ft_strdup(">"), echo_out_node1, out2_node);
 
-// 	int		flag[3] = {0, 0, 0};
-// 	// 0 >, 1 <, 2 >>
+// 	int		flag[2] = {0, 0};
+// 	// 0 (>, >>), 1 (<)
 // 	evaluate(echo_out_node2, flag);
 // 	return (0);
 // }

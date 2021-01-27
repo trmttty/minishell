@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/26 22:10:43 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/27 19:51:22 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-
+		line = sort_cmd(line);
+		fprintf(stderr, "line = %s\n", line);
 		job = ft_split(line, ';');
 		free(line);
 
@@ -156,7 +157,7 @@ void	loop(t_list **env_lst)
 			g_token = tokenize(job[index]);
 			t_node *node = command_line();
 			// gen(node);
-			int		flag[3] = {0, 0, 0};
+			int		flag[2] = {0, 0};
 			// evaluate(node, flag);
 			set_exit_status(evaluate(node, flag));
 			index++;
@@ -183,7 +184,7 @@ int		main(int argc, char **argv, char **envp)
 	env_lst = g_env_lst;
 	ft_export(ft_split("?=0", ' '), &g_env_lst);
 	// disable loop() and turn on test_sort
-	test_sort(ft_strdup(">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test"));
-	// loop(&env_lst);
+	// test_sort(ft_strdup(">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test"));
+	loop(&env_lst);
 	return (0);
 }
