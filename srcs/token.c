@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 21:15:48 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 23:14:27 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,50 +113,42 @@ t_token		*validate_token(char *job)
 	cur = &token_head;
 	while ((token = lexer_get_next_token(lexer)) != NULL)
 	{
-		// // printf("token:	[%s]\n", token->value);
-		// size_t len1 = ft_strlen(token->value);
-		// token->value = replace_env(token->value);
-		// // printf("env:	[%s]\n", token->value);
-		// token->value = remove_quote(token->value);
-		// size_t len2 = ft_strlen(token->value);
-		// // printf("quote:	[%s]\n", token->value);
-		// if (len1 && !len2)
-		// {
-		// 	// cur->next = token;
-		// 	continue;
-		// }
 		cur = new_token(token->kind, cur, token->value);
 	}
 	new_token(TK_EOF, cur, NULL);
 	return(token_head.next);
 }
 
-t_token		*tokenize(char *job)
+t_token		*tokenize(t_token *token)
 {
-	t_lexer		*lexer;
-	t_token		*token;
-	t_token		token_head;
-	t_token		*cur;
+	t_token		*next;
+	size_t		len1;
+	size_t		len2;
 
-	lexer = init_lexer(job);
-	token_head.next = NULL;
-	cur = &token_head;
-	while ((token = lexer_get_next_token(lexer)) != NULL)
+	if (token == NULL)
+		return (NULL);
+	if (token->kind == TK_EOF)
+		return (NULL);
+	while (token->kind != TK_EOF && ft_strcmp(token->value, ";") != 0)
 	{
-		// printf("token:	[%s]\n", token->value);
-		size_t len1 = ft_strlen(token->value);
+		len1 = ft_strlen(token->value);
+		char *l = token->value;
 		token->value = replace_env(token->value);
-		// printf("env:	[%s]\n", token->value);
 		token->value = remove_quote(token->value);
-		size_t len2 = ft_strlen(token->value);
-		// printf("quote:	[%s]\n", token->value);
+		len2 = ft_strlen(token->value);
 		if (len1 && !len2)
 		{
-			// cur->next = token;
+			next = token->next;
+			token->kind = token->next->kind;
+			free(token->value);
+			token->value = token->next->value;
+			token->next = token->next->next;
+			free(next);
 			continue;
 		}
-		cur = new_token(token->kind, cur, token->value);
+		token = token->next;
 	}
-	new_token(TK_EOF, cur, NULL);
-	return(token_head.next);
+	if (token->kind != TK_EOF)
+		token->kind = TK_EOF;
+	return(token);
 }
