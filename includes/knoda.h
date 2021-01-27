@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   knoda.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 00:09:09 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/26 20:54:21 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ int		evaluate(t_node *node, int *flag);
 // int		sample_out_redirect(t_node *node);
 // int		sample_in_redirect(t_node *node);
 // int		evaluate(t_node *node);
+
+char	*sort_cmd(char *str);
 
 #endif

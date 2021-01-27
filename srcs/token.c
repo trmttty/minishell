@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 10:21:10 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/28 00:11:27 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_token *new_token(t_token_kind kind, t_token *cur, char *value) {
 	return (token);
 }
 
-t_token		*validate_token(char *job)
+t_token		*generate_token(char *job)
 {
 	t_lexer		*lexer;
 	t_token		*token;
@@ -113,25 +113,13 @@ t_token		*validate_token(char *job)
 	cur = &token_head;
 	while ((token = lexer_get_next_token(lexer)) != NULL)
 	{
-		// // printf("token:	[%s]\n", token->value);
-		// size_t len1 = ft_strlen(token->value);
-		// token->value = replace_env(token->value);
-		// // printf("env:	[%s]\n", token->value);
-		// token->value = remove_quote(token->value);
-		// size_t len2 = ft_strlen(token->value);
-		// // printf("quote:	[%s]\n", token->value);
-		// if (len1 && !len2)
-		// {
-		// 	// cur->next = token;
-		// 	continue;
-		// }
 		cur = new_token(token->kind, cur, token->value);
 	}
 	new_token(TK_EOF, cur, NULL);
 	return(token_head.next);
 }
 
-t_token		*tokenize(t_token *token)
+t_token		*parse_token(t_token *token)
 {
 	t_token		*next;
 	size_t		len1;
@@ -163,34 +151,4 @@ t_token		*tokenize(t_token *token)
 	if (token->kind != TK_EOF)
 		token->kind = TK_EOF;
 	return(token);
-}
-
-t_token		*tokenize1(char *job)
-{
-	t_lexer		*lexer;
-	t_token		*token;
-	t_token		token_head;
-	t_token		*cur;
-
-	lexer = init_lexer(job);
-	token_head.next = NULL;
-	cur = &token_head;
-	while ((token = lexer_get_next_token(lexer)) != NULL)
-	{
-		// printf("token:	[%s]\n", token->value);
-		size_t len1 = ft_strlen(token->value);
-		token->value = replace_env(token->value);
-		// printf("env:	[%s]\n", token->value);
-		token->value = remove_quote(token->value);
-		size_t len2 = ft_strlen(token->value);
-		// printf("quote:	[%s]\n", token->value);
-		if (len1 && !len2)
-		{
-			// cur->next = token;
-			continue;
-		}
-		cur = new_token(token->kind, cur, token->value);
-	}
-	new_token(TK_EOF, cur, NULL);
-	return(token_head.next);
 }

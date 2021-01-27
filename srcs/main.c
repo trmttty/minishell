@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 22:59:48 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/28 00:11:05 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,17 @@ int		syntax_check(t_token *token)
 	return (1);
 }
 
+void	catch_child_sig(int sig)
+{
+	pid_t	child_pid = 0;
+
+	do
+	{
+		int	child_ret;
+		child_pid = waitpid(-1 , &child_ret, WNOHANG);
+	} while (child_pid > 0);
+}
+
 void	loop(t_list **env_lst)
 {
 	char	*line;
@@ -139,7 +150,8 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		token = validate_token(line);
+		line = sort_cmd(line);
+		token = generate_token(line);
 		free(line);
 		if (!syntax_check(token))
 		{
@@ -147,7 +159,7 @@ void	loop(t_list **env_lst)
 			continue;
 		}
 		g_token = token;
-		while ((tokenize(token)) != NULL)
+		while ((parse_token(token)) != NULL)
 		{
 			node = command_line();
 			// gen(node);

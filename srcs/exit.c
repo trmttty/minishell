@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 22:25:26 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 23:44:09 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int     ft_exit(char **args, t_list **env_lst)
 	long			rv;
 
 	rv = ft_atoi(get_env("?"));
+	// fprintf(stderr, "atoi = %ld\n", rv);
 	if (*args)
 	{
 		if (!is_num_str(*args))
@@ -42,5 +43,6 @@ int     ft_exit(char **args, t_list **env_lst)
 		if (rv < 0)
 			rv += 256;
 	}
+	// fprintf(stderr, "exit = %ld\n", rv);
 	exit(rv);
 }
