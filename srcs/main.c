@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 19:51:22 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/27 21:50:43 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,17 @@ int		syntax_check(t_token *token)
 	return (1);
 }
 
+void	catch_child_sig(int sig)
+{
+	pid_t	child_pid = 0;
+
+	do
+	{
+		int	child_ret;
+		child_pid = waitpid(-1 , &child_ret, WNOHANG);
+	} while (child_pid > 0);
+}
+
 void	loop(t_list **env_lst)
 {
 	char	*line;
@@ -126,6 +137,7 @@ void	loop(t_list **env_lst)
 
 	while (1)
 	{
+		// signal(SIGCHLD, catch_child_sig);
     	signal(SIGINT, parent_sigint);
     	signal(SIGQUIT, parent_sigquit);
 		ft_putstr_fd("> ", 2);
@@ -147,7 +159,6 @@ void	loop(t_list **env_lst)
 			continue;
 		}
 		line = sort_cmd(line);
-		fprintf(stderr, "line = %s\n", line);
 		job = ft_split(line, ';');
 		free(line);
 
@@ -166,13 +177,7 @@ void	loop(t_list **env_lst)
 	}
 }
 
-int		test_sort(char *str)
-{
-	fprintf(stderr, "before >> %s\n", str);
-	str = sort_cmd(str);
-	fprintf(stderr, "after >> %s\n", str);
-	return (0);
-}
+
 
 int		main(int argc, char **argv, char **envp)
 {
@@ -183,8 +188,6 @@ int		main(int argc, char **argv, char **envp)
 	g_env_lst = init_env(envp);
 	env_lst = g_env_lst;
 	ft_export(ft_split("?=0", ' '), &g_env_lst);
-	// disable loop() and turn on test_sort
-	// test_sort(ft_strdup(">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test"));
 	loop(&env_lst);
 	return (0);
 }
