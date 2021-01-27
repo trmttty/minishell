@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 10:05:08 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 22:04:22 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/27 23:43:11 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static long	set_number(const char *str, int sign)
 			return (-1);
 		if (nb > 922337203685477580 && sign == 1)
 			return (-1);
-		if (nb == 922337203685477580 && *str >= '8' && sign == -1)
+		if (nb == 922337203685477580 && *str >= '9' && sign == -1)
 			return (1);
 		if (nb > 922337203685477580 && sign == -1)
 			return (1);
