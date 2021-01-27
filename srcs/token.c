@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 23:14:27 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 23:20:01 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_token *new_token(t_token_kind kind, t_token *cur, char *value) {
 	return (token);
 }
 
-t_token		*validate_token(char *job)
+t_token		*generate_token(char *job)
 {
 	t_lexer		*lexer;
 	t_token		*token;
@@ -119,7 +119,7 @@ t_token		*validate_token(char *job)
 	return(token_head.next);
 }
 
-t_token		*tokenize(t_token *token)
+t_token		*parse_token(t_token *token)
 {
 	t_token		*next;
 	size_t		len1;

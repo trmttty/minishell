@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 21:50:43 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/27 23:19:40 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,12 @@ void	catch_child_sig(int sig)
 void	loop(t_list **env_lst)
 {
 	char	*line;
-	char	**job;
-	int		index;
 	int		ret;
+	t_token	*token;
+	t_node	*node;
 
 	while (1)
 	{
-		// signal(SIGCHLD, catch_child_sig);
     	signal(SIGINT, parent_sigint);
     	signal(SIGQUIT, parent_sigquit);
 		ft_putstr_fd("> ", 2);
@@ -151,33 +150,26 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-
-		if (!syntax_check(validate_token(line)))
+		token = generate_token(line);
+		free(line);
+		if (!syntax_check(token))
 		{
 			set_env("?", "258");
-			free(line);
 			continue;
 		}
-		line = sort_cmd(line);
-		job = ft_split(line, ';');
-		free(line);
-
-		index = 0;
-		while (job[index])
+		g_token = token;
+		while ((parse_token(token)) != NULL)
 		{
-			g_token = tokenize(job[index]);
-			t_node *node = command_line();
+			node = command_line();
 			// gen(node);
-			int		flag[2] = {0, 0};
+			int		flag[3] = {0, 0, 0};
 			// evaluate(node, flag);
 			set_exit_status(evaluate(node, flag));
-			index++;
+			g_token = g_token->next;
+			token = g_token;
 		}
-		ft_tabfree(job);
 	}
 }
-
-
 
 int		main(int argc, char **argv, char **envp)
 {
