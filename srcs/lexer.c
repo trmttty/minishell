@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 12:50:43 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/29 02:08:38 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_lexer*    init_lexer(char* contents)
 {
 	t_lexer* lexer;
 	
-	lexer = ft_calloc(1, sizeof(t_lexer));
+	if ((lexer = ft_calloc(1, sizeof(t_lexer))) == NULL)
+		ft_perror("minishell");
 	lexer->contents = contents;
 	lexer->i = 0;
 	lexer->c = contents[lexer->i];

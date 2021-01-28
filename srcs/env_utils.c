@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/24 13:28:54 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/29 02:01:02 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,42 +25,61 @@ t_list		*init_env(char **envp)
 	return (env_lst);
 }
 
+int		envcmp(const char *env1, const char *env2)
+{
+	while (*env1 && *env1 != '=' && *env1 == *env2)
+	{
+		env1++;
+		env2++;
+	}
+	if (*env2 == '+')
+		env2++;
+	return (*env1 - *env2);
+}
+
 char		*get_env(char *name)
 {
 	t_list	*tmp;
-	char	**env;
 	char	*value;
+	char	*env;
 	
+	if ((env = ft_strjoin(name, "=")) == NULL)
+		ft_perror("minishell");
 	tmp = g_env_lst;
-	value = NULL;
 	while (tmp)
 	{
-		env = ft_split((char*)tmp->content, '=');
-		if (ft_strcmp(name, env[0]) == 0) {
-			value = ft_strdup(env[1]);
-			break;
+		if (envcmp(tmp->content, env) == 0)
+		{
+			if ((value = ft_strdup(ft_strchr(tmp->content, '=') + 1)) == NULL)
+				ft_perror("minishell");
+			free(env);
+			return (value);
 		}
 		tmp = tmp->next;
 	}
-	ft_tabfree(env);
-	if (value != NULL)
-		return (value);
-	return (ft_strdup(""));
+	free(env);
+	if ((value = ft_strdup("")) == NULL)
+		ft_perror("minishell");
+	return (value);
 }
 
-void		set_env(char *name, char *value)
+int			set_env(char *name, char *value)
 {
 	char	*tmp;
 	char	*env;
 	char	**arg;
 
-	tmp = ft_strjoin(name, "=");
-	env = ft_strjoin(tmp, value);
+	if ((tmp = ft_strjoin(name, "=")) == NULL)
+		ft_perror("minishell");
+	if ((env = ft_strjoin(tmp, value)) == NULL)
+		ft_perror("minishell");
 	free(tmp);
-	arg = ft_split(env, ' ');
+	if ((arg = ft_split(env, ' ')) == NULL)
+		ft_perror("minishell");
 	ft_export(arg ,&g_env_lst);
 	free(env);
 	ft_tabfree(arg);
+	return (0);
 }
 
 char		*replace_env(char *str)
@@ -72,7 +91,8 @@ char		*replace_env(char *str)
 	char	*tmp;
 	char	*sub;
 
-	ret = ft_strdup("");
+	if ((ret = ft_strdup("")) == NULL)
+		ft_perror("minishell");
 	head = 0;
 	tail = 0;
 	size = 0;

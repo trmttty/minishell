@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   knoda.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 21:48:53 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/29 01:32:36 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		sample_pipe(t_node *node, int *flag)
 
 	flag[0] = 0;
 	flag[1] = 0;
+    signal(SIGINT, SIG_IGN);
 	if ((wpid = fork()) == 0)
 	{
 		pipe(fd);
@@ -57,7 +58,7 @@ int		sample_pipe(t_node *node, int *flag)
 			exit(evaluate(node->lnode, flag));
 		}
 		else if (wpid < 0)
-			perror("lsh");
+			perror("minishell");
 		else
 		{
 			dup2(fd[0], 0);
@@ -67,39 +68,10 @@ int		sample_pipe(t_node *node, int *flag)
 		}
 	}
 	else if (wpid < 0)
-		perror("lsh");
+		ft_perror("minishell");
 	else
-	{
 		wait(&status);
-	}
 	return (status >> 8);
-}
-
-int		sample_colon(t_node *node, int *flag)
-{
-	pid_t	pid;
-	pid_t	wpid;
-	int		status;
-
-	if ((wpid = fork()) == 0)
-	{
-		if ((pid = fork()) == 0)
-		{
-			exit(evaluate(node->lnode, flag));
-		}
-		else if (wpid < 0)
-			perror("lsh");
-		else
-		{
-			wait(NULL);
-			exit(evaluate(node->rnode, flag));
-		}
-	}
-	else if (wpid < 0)
-		perror("lsh");
-	else
-		wait(&status);
-	return (status);
 }
 
 int		sample_out_redirect(t_node *node, int *flag)
@@ -111,7 +83,8 @@ int		sample_out_redirect(t_node *node, int *flag)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		if ((fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_TRUNC, 0666)) < 0)
+			ft_perror("minishell");
 		if (flag[0] == 0)
 		{
 			dup2(fd, STDOUT_FILENO);
@@ -120,7 +93,7 @@ int		sample_out_redirect(t_node *node, int *flag)
 		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
-		perror("lsh");
+		perror("minishell");
 	else
 		wait(&status);
 	return (status >> 8);
@@ -135,7 +108,8 @@ int		sample_outout_redirect(t_node *node, int *flag)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
+		if ((fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_APPEND, 0666)) < 0)
+			ft_perror("minishell");
 		if (flag[0] == 0)
 		{
 			dup2(fd, STDOUT_FILENO);
@@ -144,7 +118,7 @@ int		sample_outout_redirect(t_node *node, int *flag)
 		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
-		perror("lsh");
+		perror("minishell");
 	else
 		wait(&status);
 	return (status >> 8);
@@ -159,7 +133,8 @@ int		sample_in_redirect(t_node *node, int *flag)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open (node->rnode->commands[0], O_RDONLY);
+		if ((fd = open (node->rnode->commands[0], O_RDONLY)) < 0)
+			ft_perror("minishell");
 		if (flag[1] == 0)
 		{
 			dup2(fd, STDIN_FILENO);
@@ -168,7 +143,7 @@ int		sample_in_redirect(t_node *node, int *flag)
 		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
-		perror("lsh");
+		perror("minishell");
 	else
 		wait(&status);
 	return (status >> 8);
@@ -177,13 +152,9 @@ int		sample_in_redirect(t_node *node, int *flag)
 int		evaluate(t_node *node, int *flag)
 {
 	if (node->commands != NULL)
-	{
 		return (sample_exe(node->commands));
-	}
 	if (ft_strcmp(node->operation, "|") == 0)
 		return (sample_pipe(node, flag));
-	if (ft_strcmp(node->operation, ";") == 0)
-		return (sample_colon(node, flag));
 	if (ft_strcmp(node->operation, ">") == 0)
 		return (sample_out_redirect(node, flag));
 	if (ft_strcmp(node->operation, ">>") == 0)

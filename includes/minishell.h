@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/28 11:50:35 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/29 02:00:33 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ t_list	*init_env(char **envp);
 char	*get_env(char *key);
 char	*replace_env(char *str);
 char	*remove_quote(char *str);
-void	set_env(char *name, char *value);
+int		set_env(char *name, char *value);
 int		envcmp(const char *env1, const char *env2);
 
 /*
 ** error
 */
-void    exit_with_failure(char *commnad, char *arg, char *message, int code);
-int	    return_with_failure(char *commnad, char *arg, char *message, int code);
+void    exit_failure(char *commnad, char *arg, char *message, int code);
+int	    return_failure(char *commnad, char *arg, char *message, int code);
 int		set_exit_status(int code);
-void	handle_error(char *message);
+void	ft_perror(char *message);
 #endif

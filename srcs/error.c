@@ -6,13 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:14:01 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 22:07:06 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/29 01:18:41 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    exit_with_failure(char *commnad, char *arg, char *message, int code)
+void    exit_failure(char *commnad, char *arg, char *message, int code)
 {
 	ft_putendl_fd("minishell: ", 2);
 	if (commnad)
@@ -33,7 +33,7 @@ void    exit_with_failure(char *commnad, char *arg, char *message, int code)
 	exit(code);
 }
 
-int	    return_with_failure(char *commnad, char *arg, char *message, int code)
+int	    return_failure(char *commnad, char *arg, char *message, int code)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (commnad)
@@ -54,17 +54,11 @@ int	    return_with_failure(char *commnad, char *arg, char *message, int code)
 	return(code);
 }
 
-// void	set_exit_status(int code)
-// {
-// 	char **args;
-
-// 	if ((args = ft_calloc(2, sizeof(char*))) == NULL)
-// 		exit(1);
-// 	// args
-// 	// ft_export(ft_split("?=255", ' '), &g_env_lst);
-// }
-
-void	handle_error(char *message)
+void	ft_perror(char *message)
 {
-	exit(1);
+	if (message)
+		ft_putstr_fd(message, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	exit(EXIT_FAILURE);
 }
