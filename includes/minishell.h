@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 22:05:58 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/28 11:50:35 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct      s_env
 }                   t_env;
 
 t_list	*g_env_lst;
+extern	char **environ;
 /*
 ** builtin
 */

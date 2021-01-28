@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/28 00:11:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/28 12:03:09 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ char	*get_absolute_path(char *relative)
 	return (absolute);
 }
 
+char	**create_env_vec(t_list *env_lst)
+{
+	char	**env_vec;
+	t_env	*tmp;
+	int		size;
+	int		i;
+
+	size = ft_lstsize(env_lst);
+	env_vec = ft_calloc(size + 1, sizeof(char*));
+	i = 0;
+	while (i < size)
+	{
+		env_vec[i] = env_lst->content;
+		i++;
+		env_lst = env_lst->next;
+	}
+	env_vec[i] = NULL;
+	return (env_vec);
+}
+
 int		launch(char **args) {
     pid_t	pid;
 	pid_t	wpid;
@@ -59,7 +79,7 @@ int		launch(char **args) {
 		}
         // 子プロセス
 		// printf("----execve: %s\n", *args);
-        if (execve(args[0], args, (char**)0) == -1) {
+        if (execve(args[0], args, create_env_vec(g_env_lst)) == -1) {
 			// printf("errno1: %d\n", errno);
             perror("lsh");
         }
