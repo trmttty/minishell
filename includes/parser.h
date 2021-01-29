@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:19 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 00:09:22 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/29 21:27:55 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_node *simple_command();
 //
 // Code generator
 //
-void gen(t_node *node);
+void	gen(t_node *node);
+void	free_node(t_node *node);
 
 #endif

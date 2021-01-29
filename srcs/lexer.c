@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 02:08:38 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/29 23:53:11 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,17 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 	size_t  size;
 
 	lexer_advance(lexer);
-	value = calloc(1, sizeof(char));
+	if ((value = calloc(1, sizeof(char))) == NULL)
+		ft_perror("minishell");
 	value[0] = '\0';
 	while (lexer->c != quote)
 	{
 		s = lexer_get_current_char_as_string(lexer);
 		size = ft_strlen(value) + ft_strlen(s) + 1;
-		value = realloc(value, size * sizeof(char));
+		if ((value = realloc(value, size * sizeof(char))) == NULL)
+			ft_perror("minishell");
 		ft_strlcat(value, s, size);
+		free(s);
 		lexer_advance(lexer);
 	}
 	lexer_advance(lexer);
@@ -92,7 +95,8 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 	int		quote;
 	size_t  size;
 	
-	value = ft_calloc(1, sizeof(char));
+	if ((value = ft_calloc(1, sizeof(char))) == NULL)
+		ft_perror("minishell");
 	value[0] = '\0';
 	quote = -1;
 	while (!(ft_strchr(";()<>|", lexer->c) || lexer->c == ' '))
@@ -101,13 +105,15 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 		{
 			s = lexer_get_current_char_as_string(lexer);
 			size = ft_strlen(value) + ft_strlen(s) + 1;
-			value = realloc(value, size * sizeof(char));
+			if ((value = realloc(value, size * sizeof(char))) == NULL)
+				ft_perror("minishell");
 			ft_strlcat(value, s, size);
 			lexer_advance(lexer);
 			free(s);
 			s = lexer_get_current_char_as_string(lexer);
 			size = ft_strlen(value) + ft_strlen(s) + 1;
-			value = realloc(value, size * sizeof(char));
+			if ((value = realloc(value, size * sizeof(char))) == NULL)
+				ft_perror("minishell");
 			ft_strlcat(value, s, size);
 			lexer_advance(lexer);
 			free(s);
@@ -115,22 +121,32 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 		else if (lexer->c == '"' || lexer->c == '\'')
 		{
 			q = lexer_get_current_char_as_string(lexer);
-			value = ft_strjoin(value, q);
+			s = value;
+			if ((value = ft_strjoin(value, q)) == NULL)
+				ft_perror("minishell");
+			free(s);
 			t_token *t;
 			t = lexer_collect_string(lexer, lexer->c);
 			s = value;
-			value = ft_strjoin(value, t->value);
+			if ((value = ft_strjoin(value, t->value)) == NULL)
+				ft_perror("minishell");
 			free(s);
+			s = value;
 			value = ft_strjoin(value, q);
+			free(s);
+			free(q);
+			free(t->value);
+			free(t);
 		}
 		else
 		{
 			s = lexer_get_current_char_as_string(lexer);
 			size = ft_strlen(value) + ft_strlen(s) + 1;
-			value = realloc(value, size * sizeof(char));
+			if ((value = realloc(value, size * sizeof(char))) == NULL)
+				ft_perror("minishell");
 			ft_strlcat(value, s, size);
-			lexer_advance(lexer);
 			free(s);
+			lexer_advance(lexer);
 		}
 	}
 	return (init_token(TK_CMD, value));

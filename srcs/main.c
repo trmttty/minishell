@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 02:09:23 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 00:45:23 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,9 @@ void	loop(t_list **env_lst)
 			set_exit_status(evaluate(node, flag));
 			g_token = g_token->next;
 			token = g_token;
+			free_node(node);
 		}
+		// free_node(node);
 		free_token(head);
 	}
 }
