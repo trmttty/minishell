@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 03:24:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 01:53:26 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 01:10:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_pwd(char **args, t_list **env_lst)
 {
-	char    *path;
+	char	*path;
 
 	path = get_env("PWD");
 	ft_putendl_fd(path, 1);

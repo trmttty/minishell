@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 01:18:58 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 01:04:31 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		is_num_str(char *str)
 	return (1);
 }
 
-int     ft_exit(char **args, t_list **env_lst)
+int		ft_exit(char **args, t_list **env_lst)
 {
 	long			rv;
 

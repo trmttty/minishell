@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:10:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 00:39:15 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 01:00:44 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		ft_cd(char **args, t_list **env_lst)
 {
 	char	*path;
-    char	buf[MAXPATHLEN];
+	char	buf[MAXPATHLEN];
 	char	*old_pwd;
 	char	*new_pwd;
 

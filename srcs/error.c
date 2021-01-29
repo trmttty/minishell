@@ -6,13 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:14:01 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 01:18:41 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 01:03:09 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    exit_failure(char *commnad, char *arg, char *message, int code)
+void	exit_failure(char *commnad, char *arg, char *message, int code)
 {
 	ft_putendl_fd("minishell: ", 2);
 	if (commnad)
@@ -33,7 +33,7 @@ void    exit_failure(char *commnad, char *arg, char *message, int code)
 	exit(code);
 }
 
-int	    return_failure(char *commnad, char *arg, char *message, int code)
+int		return_failure(char *commnad, char *arg, char *message, int code)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (commnad)
@@ -51,7 +51,7 @@ int	    return_failure(char *commnad, char *arg, char *message, int code)
 		ft_putstr_fd(message, 2);
 	}
 	ft_putstr_fd("\n", 2);
-	return(code);
+	return (code);
 }
 
 void	ft_perror(char *message)
