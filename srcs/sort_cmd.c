@@ -15,6 +15,26 @@ char	*sort_cmd(char *str)
 			i++;
 			argc = i;
 		}
+		if (ft_strchr("\'", str[i]))
+		{
+			i++;
+			while (str[i] && !ft_strchr("\'", str[i]))
+				i++;
+			if (str[i])
+				i++;
+			else
+				break;
+		}
+		if (ft_strchr("\"", str[i]))
+		{
+			i++;
+			while (str[i] && !ft_strchr("\"", str[i]))
+				i++;
+			if (str[i])
+				i++;
+			else
+				break;
+		}
 		if (ft_strchr("<>", str[i]))
 		{
 			i++;
@@ -25,11 +45,12 @@ char	*sort_cmd(char *str)
 			{
 				if (ft_strchr("\"\'", str[i]))
 				{
-					//ダブルクオーテーションが来るまでスキップ
-					while (!ft_strchr("\"\'", str[i]))
-						i++;
+					break;
 				}
-				i++;
+				else
+				{
+					i++;
+				}
 			}
 		}
 		else
