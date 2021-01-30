@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 09:40:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2020/07/27 22:18:53 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 20:31:00 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

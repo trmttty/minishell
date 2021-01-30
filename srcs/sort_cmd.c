@@ -1,25 +1,16 @@
 #include "minishell.h"
 #include <ctype.h>
 
-//aim
-//		> lol echo test lol
-//		echo test lol > lol
-
-//		>lol echo > test>lol>test>>lol>test mdr >lol test >test
-//		echo mdr test>lol> test>lol>test>>lol>test >lol >test
-
 char	*sort_cmd(char *str)
 {
 	int		i;
 	int		argc;
-	char	**parts;
 
 	i = 0;
 	argc = 0;
-	parts = (char **)ft_calloc(ft_strlen(str), sizeof(char *));
 	while (str[i])
 	{
-		if (ft_strchr(";|", str[i]))
+		while (ft_strchr(";|", str[i]))
 		{
 			i++;
 			argc = i;
@@ -50,27 +41,32 @@ char	*sort_cmd(char *str)
 			while (str[i + len] && !ft_strchr("<> ;|", str[i + len]))
 				len++;
 			char	*cmd;
-			char	*tmp;
+			char	*cut;
 			cmd = ft_substr(str, i, len);
 			str[i] = 0;
 			//コマンド切り取り
-			tmp = ft_strjoin(str, &str[i + len]);
+			cut = ft_strjoin(str, &str[i + len]);
 			free(str);
 			//コマンドにキューする
 			if (argc == 0)
 			{
-				str = ft_strjoin(cmd, tmp);
+				str = ft_strjoin(cmd, cut);
 			}
 			else
 			{
-				char	*tmp2 = ft_substr(tmp, argc, ft_strlen(tmp) - argc);
-				tmp[argc] = 0;
-				str = ft_strjoin(tmp, cmd);
-				tmp = ft_strjoin(str, tmp2);
-				str = tmp;
+				char	*tmp2 = ft_substr(cut, argc, ft_strlen(cut) - argc);
+				cut[argc] = 0;
+				str = ft_strjoin(cut, cmd);
+				free(cut);
+				cut = ft_strjoin(str, tmp2);
+				free(str);
+				str = ft_strdup(cut);
+				free(tmp2);
 			}
 			argc += len;
 			i += len;
+			free(cmd);
+			free(cut);
 		}
 	}
 	return (str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 23:24:18 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 20:16:01 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,19 @@ void	loop(t_list **env_lst)
 	}
 }
 
+int		test_main()
+{
+	char	*str;
+
+	str = sort_cmd(strdup("test > abc | echo"));
+	free(str);
+	while (1);
+	return (0);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
+	// test_main();
 	t_list	*env_lst;
 
 	(void)argc;
