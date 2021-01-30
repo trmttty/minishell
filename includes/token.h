@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:27 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 00:12:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 10:14:20 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ t_token *new_token(t_token_kind kind, t_token *cur, char *op);
 t_token		*parse_token(t_token *token);
 t_token		*generate_token(char *job);
 void		free_token(t_token *token);
+void		free_token1(t_token *token);
 
 #endif

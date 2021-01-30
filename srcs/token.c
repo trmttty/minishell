@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 00:40:28 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 10:12:35 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,19 @@ void	free_token(t_token *token)
 	{
 		if (token->kind == TK_RESERVED || token->kind == TK_EOF)
 			free(token->value);
+		tmp = token;
+		token = token->next;
+		free(tmp);
+	}
+}
+
+void	free_token1(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token)
+	{
+		free(token->value);
 		tmp = token;
 		token = token->next;
 		free(tmp);

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 00:45:23 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 22:04:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,20 @@ int		syntax_check(t_token *token)
 		return (return_failure(NULL, NULL, "syntax error", 0));
 	while (token->next)
 	{
-		// printf("%s\n", token->value);
-		if (!ft_strcmp(token->value, ";") && token->next->kind != TK_EOF && !ft_strcmp(token->next->value, ";"))
+		if ((!ft_strcmp(token->value, ";") || !ft_strcmp(token->value, "|"))
+			&& token->next->kind != TK_EOF
+			&& ((!ft_strcmp(token->next->value, ";") || !ft_strcmp(token->next->value, "|"))))
 			return (return_failure(NULL, NULL, "syntax error", 0));
-		if (!ft_strcmp(token->value, "|") && token->next->kind != TK_EOF && !ft_strcmp(token->next->value, "|"))
+		if ((!ft_strcmp(token->value, ">") || !ft_strcmp(token->value, ">>"))
+			&& token->next->kind == TK_RESERVED)
 			return (return_failure(NULL, NULL, "syntax error", 0));
-		if ((!ft_strcmp(token->value, ">") && token->next->kind != TK_CMD))
+		if ((!ft_strcmp(token->value, ">") && token->next->kind == TK_EOF))
 			return (return_failure(NULL, NULL, "syntax error", 0));
-		if ((!ft_strcmp(token->value, "<") && token->next->kind != TK_CMD))
+		if ((!ft_strcmp(token->value, ">>") && token->next->kind == TK_EOF))
+			return (return_failure(NULL, NULL, "syntax error", 0));
+		if ((!ft_strcmp(token->value, "<") && token->next->kind == TK_EOF))
+			return (return_failure(NULL, NULL, "syntax error", 0));
+		if ((!ft_strcmp(token->value, "|") && token->next->kind == TK_EOF))
 			return (return_failure(NULL, NULL, "syntax error", 0));
 		token = token->next;
 	}
@@ -138,6 +144,15 @@ int		syntax_check(t_token *token)
 // 		child_pid = waitpid(-1 , &child_ret, WNOHANG);
 // 	} while (child_pid > 0);
 // }
+
+void	print_token(t_token *token)
+{
+	while (token)
+	{
+		fprintf(stderr, "token: [%d] [%s]\n", token->kind, token->value);
+		token = token->next;
+	}
+}
 
 void	loop(t_list **env_lst)
 {
@@ -169,10 +184,14 @@ void	loop(t_list **env_lst)
 		tmp = line;
 		// line = sort_cmd(line);
 		token = generate_token(line);
+
+		// print_token(token);
+		
 		free(tmp);
 		if (!syntax_check(token))
 		{
 			set_env("?", "258");
+			free_token1(token);
 			continue;
 		}
 		head = token;

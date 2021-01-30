@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 23:53:11 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 10:03:27 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 	size_t  size;
 
 	lexer_advance(lexer);
-	if ((value = calloc(1, sizeof(char))) == NULL)
+	if ((value = ft_calloc(1, sizeof(char))) == NULL)
 		ft_perror("minishell");
 	value[0] = '\0';
-	while (lexer->c != quote)
+	while (lexer->c != quote && lexer->c != '\0')
 	{
 		s = lexer_get_current_char_as_string(lexer);
 		size = ft_strlen(value) + ft_strlen(s) + 1;
