@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 21:22:44 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/30 21:47:38 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,44 +42,44 @@ char	*get_absolute_path(char *relative)
 }
 
 int		launch(char **args) {
-    pid_t	pid;
+	pid_t	pid;
 	pid_t	wpid;
-    int		status;
+	int		status;
 	char	*tmp;
 
-    signal(SIGINT, child_sigint);
+	signal(SIGINT, child_sigint);
 	// printf("----execve: %s\n", *args);
-    pid = fork();
-    if (pid == 0) {
+	pid = fork();
+	if (pid == 0) {
 		if (**args != '/')
 		{
 			tmp = args[0];
 			args[0] = get_absolute_path(args[0]);
 			free(tmp);
 		}
-        // 子プロセス
+		// 子プロセス
 		// printf("----execve: %s\n", *args);
-        if (execve(args[0], args, (char**)0) == -1) {
+		if (execve(args[0], args, (char**)0) == -1) {
 			// printf("errno1: %d\n", errno);
-            perror("lsh");
-        }
-        exit(EXIT_FAILURE);
-    } else if (pid < 0) {
-        // フォークでエラー
-        perror("lsh");
-    } else {
-        // 親プロセス
-        // do {
+			perror("lsh");
+		}
+		exit(EXIT_FAILURE);
+	} else if (pid < 0) {
+		// フォークでエラー
+		perror("lsh");
+	} else {
+		// 親プロセス
+		// do {
 			// printf("----start: %s\n", *args);
-            wpid = waitpid(pid, &status, WUNTRACED);
+			wpid = waitpid(pid, &status, WUNTRACED);
 			// printf("----end: %s\n", *args);
 			// printf("status: %d\n", status);
 			if (status == 2)
 				ft_putstr_fd("\n", 1);
 			if (status == 3)
 				ft_putstr_fd("^\\Quit: 3\n", 1);
-        // } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-    }
+		// } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
 	if (status == 256 && args[1])
 		return (1);
 	if (status == 256)
@@ -137,8 +137,8 @@ void	loop(t_list **env_lst)
 
 	while (1)
 	{
-    	signal(SIGINT, parent_sigint);
-    	signal(SIGQUIT, parent_sigquit);
+		signal(SIGINT, parent_sigint);
+		signal(SIGQUIT, parent_sigquit);
 		ft_putstr_fd("> ", 2);
 		if ((ret = get_next_line(0, &line)) == 0)
 		{
@@ -150,9 +150,9 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		// fprintf(stderr, "before >> %s\n", line);
+		fprintf(stderr, "before >> %s\n", line);
 		line = sort_cmd(line);
-		// fprintf(stderr, "after >> %s\n", line);
+		fprintf(stderr, "after >> %s\n", line);
 		token = generate_token(line);
 		free(line);
 		if (!syntax_check(token))

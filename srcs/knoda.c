@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 21:48:53 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/30 21:48:12 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ int		sample_pipe(t_node *node, int *flag)
 	else if (wpid < 0)
 		perror("lsh");
 	else
-	{
 		wait(&status);
-	}
 	return (status >> 8);
 }
 
