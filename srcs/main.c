@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 22:04:42 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/30 22:22:15 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,12 @@ void	loop(t_list **env_lst)
 			continue;
 		}
 		tmp = line;
-		// line = sort_cmd(line);
+		line = sort_cmd(line);
 		token = generate_token(line);
 
 		// print_token(token);
 		
-		free(tmp);
+		free(line);
 		if (!syntax_check(token))
 		{
 			set_env("?", "258");
