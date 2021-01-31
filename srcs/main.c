@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 20:32:55 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 20:55:42 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "token.h"
 #include "parser.h"
 #include "signal.h"
-#include "knoda.h"
+#include "evaluate.h"
 
 char	*get_absolute_path(char *relative)
 {
@@ -84,7 +84,7 @@ int		launch(char **args) {
 		return (1);
 	if (status == 256)
 		return (127);
-   	return (status >> 8);
+	return (status >> 8);
 }
 
 int		set_exit_status(int status)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 23:44:09 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:52:07 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ int		is_num_str(char *str)
 	return (1);
 }
 
-int     ft_exit(char **args, t_list **env_lst)
+int		ft_exit(char **args, t_list **env_lst)
 {
-	// ft_putendl_fd("exit", 1);
 	long			rv;
 
 	rv = ft_atoi(get_env("?"));
-	// fprintf(stderr, "atoi = %ld\n", rv);
 	if (*args)
 	{
 		if (!is_num_str(*args))
@@ -43,6 +41,5 @@ int     ft_exit(char **args, t_list **env_lst)
 		if (rv < 0)
 			rv += 256;
 	}
-	// fprintf(stderr, "exit = %ld\n", rv);
 	exit(rv);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:14:01 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 22:07:06 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:51:46 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    exit_with_failure(char *commnad, char *arg, char *message, int code)
+void	exit_with_failure(char *commnad, char *arg, char *message, int code)
 {
 	ft_putendl_fd("minishell: ", 2);
 	if (commnad)
@@ -33,7 +33,7 @@ void    exit_with_failure(char *commnad, char *arg, char *message, int code)
 	exit(code);
 }
 
-int	    return_with_failure(char *commnad, char *arg, char *message, int code)
+int		return_with_failure(char *commnad, char *arg, char *message, int code)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (commnad)

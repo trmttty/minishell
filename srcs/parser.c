@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/26 11:52:18 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:54:17 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@
 
 **/
 
-t_node *new_node(t_node_kind kind) {
+t_node	*new_node(t_node_kind kind) {
 	t_node *node = calloc(1, sizeof(t_node));
 	node->kind = kind;
 	return node;
 }
 
-t_node *new_binary(t_node_kind kind, t_node *lhs, t_node *rhs) {
+t_node	*new_binary(t_node_kind kind, t_node *lhs, t_node *rhs) {
 	t_node *node = new_node(kind);
 
 	node->lnode = lhs;
@@ -49,7 +49,7 @@ t_node *new_binary(t_node_kind kind, t_node *lhs, t_node *rhs) {
 	return node;
 }
 
-t_node *new_cmd(char **cmd) {
+t_node	*new_cmd(char **cmd) {
 	t_node *node = new_node(ND_CMD);
 	node->commands = cmd;
 	return node;
@@ -70,7 +70,7 @@ t_node *command_line() {
 	}
 }
 
-t_node *job() {
+t_node	*job() {
 	t_node *node = command();
 
 	while (1)
@@ -85,7 +85,7 @@ t_node *job() {
 	}
 }
 
-t_node *command() {
+t_node	*command() {
 	t_node *node = simple_command();
 
 	while (1)
@@ -110,14 +110,14 @@ t_node *command() {
 	}
 }
 
-t_node *simple_command() {
+t_node	*simple_command() {
 	return new_cmd(expect_command());
 }
 
 //
 // Code generator
 //
-void gen(t_node *node) {
+void	gen(t_node *node) {
 	printf("%s %d\n", node->operation, node->kind);
 	if (node->kind == ND_CMD) {
 		while (*node->commands)

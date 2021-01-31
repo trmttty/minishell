@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 23:20:01 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:54:43 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "lexer.h"
 #include <stdlib.h>
 
-
 t_token* init_token(t_token_kind type, char* value)
 {
 	t_token* token = calloc(1, sizeof(t_token));
@@ -23,8 +22,6 @@ t_token* init_token(t_token_kind type, char* value)
 	token->value = value;
 	return (token);
 }
-
-
 
 // Input program
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/25 12:50:43 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:53:25 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 #include <ctype.h>
 #include <stdio.h>
 
-t_lexer*    init_lexer(char* contents)
+t_lexer*	init_lexer(char* contents)
 {
 	t_lexer* lexer;
-	
+
 	lexer = ft_calloc(1, sizeof(t_lexer));
 	lexer->contents = contents;
 	lexer->i = 0;
@@ -29,7 +29,7 @@ t_lexer*    init_lexer(char* contents)
 	return (lexer);
 }
 
-void        lexer_advance(t_lexer* lexer)
+void		lexer_advance(t_lexer* lexer)
 {
 	if (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 	{
@@ -39,7 +39,7 @@ void        lexer_advance(t_lexer* lexer)
 }
 
 // whitespace?????
-void        lexer_skip_whitespace(t_lexer* lexer)
+void		lexer_skip_whitespace(t_lexer* lexer)
 {
 	while (lexer->c == ' ' || lexer->c == '\n')
 	{
@@ -47,7 +47,7 @@ void        lexer_skip_whitespace(t_lexer* lexer)
 	}
 }
 
-t_token*    lexer_get_next_token(t_lexer* lexer)
+t_token*	lexer_get_next_token(t_lexer* lexer)
 {
 	while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 	{
@@ -62,10 +62,10 @@ t_token*    lexer_get_next_token(t_lexer* lexer)
 	return (NULL);
 }
 
-t_token*    lexer_collect_string(t_lexer* lexer, char quote)
+t_token*	lexer_collect_string(t_lexer* lexer, char quote)
 {
-	char    *value;
-	char    *s;
+	char	*value;
+	char	*s;
 	size_t  size;
 
 	lexer_advance(lexer);
@@ -83,14 +83,14 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 	return (init_token(TK_CMD, value));
 }
 
-t_token*    lexer_collect_id(t_lexer* lexer)
+t_token*	lexer_collect_id(t_lexer* lexer)
 {
-	char*   value;
-	char*   s;
-	char*   q;
+	char*	value;
+	char*	s;
+	char*	q;
 	int		quote;
-	size_t  size;
-	
+	size_t	size;
+
 	value = ft_calloc(1, sizeof(char));
 	value[0] = '\0';
 	quote = -1;
@@ -135,7 +135,7 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 	return (init_token(TK_CMD, value));
 }
 
-t_token*    lexer_advance_with_token(t_lexer* lexer, t_token* token)
+t_token*	lexer_advance_with_token(t_lexer* lexer, t_token* token)
 {
 	char	*new_token;
 
@@ -153,7 +153,7 @@ t_token*    lexer_advance_with_token(t_lexer* lexer, t_token* token)
 char* lexer_get_current_char_as_string(t_lexer* lexer)
 {
 	char*	str;
-	
+
 	str = ft_calloc(2, sizeof(char));
 	str[0] = lexer->c;
 	str[1] = '\0';
