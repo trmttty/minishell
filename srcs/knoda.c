@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 21:48:12 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 20:44:35 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		sample_exe(char **args)
 		else if (ft_strcmp(args[0], "exit") == 0)
 			return (ft_exit(&args[1], env_lst));
 	}
-	return launch(args);
+	return (launch(args));
 }
 
 int		sample_pipe(t_node *node, int *flag)
@@ -52,8 +52,8 @@ int		sample_pipe(t_node *node, int *flag)
 		if ((pid = fork()) == 0)
 		{
 			dup2(fd[1], 1);
-			close (fd[0]);
-			close (fd[1]);
+			close(fd[0]);
+			close(fd[1]);
 			exit(evaluate(node->lnode, flag));
 		}
 		else if (wpid < 0)
@@ -133,7 +133,8 @@ int		sample_outout_redirect(t_node *node, int *flag)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
+		fd = open(node->rnode->commands[0], \
+		O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (flag[0] == 0)
 		{
 			dup2(fd, STDOUT_FILENO);
@@ -157,7 +158,7 @@ int		sample_in_redirect(t_node *node, int *flag)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open (node->rnode->commands[0], O_RDONLY);
+		fd = open(node->rnode->commands[0], O_RDONLY);
 		if (flag[1] == 0)
 		{
 			dup2(fd, STDIN_FILENO);

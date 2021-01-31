@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 21:47:38 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 20:32:55 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		fprintf(stderr, "before >> %s\n", line);
+		// fprintf(stderr, "before >> %s\n", line);
 		line = sort_cmd(line);
-		fprintf(stderr, "after >> %s\n", line);
+		// fprintf(stderr, "after >> %s\n", line);
 		token = generate_token(line);
 		free(line);
 		if (!syntax_check(token))
