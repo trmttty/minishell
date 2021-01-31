@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 20:54:43 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 23:15:16 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,19 @@
 #include "lexer.h"
 #include <stdlib.h>
 
+
 t_token* init_token(t_token_kind type, char* value)
 {
-	t_token* token = calloc(1, sizeof(t_token));
+	t_token* token;
+
+	if ((token = calloc(1, sizeof(t_token))) == NULL)
+		ft_perror("minishell");
 	token->kind = type;
 	token->value = value;
 	return (token);
 }
+
+
 
 // Input program
 
@@ -74,7 +80,8 @@ char **expect_command()
 		size++;
 		tmp = tmp->next;
 	}
-	cmds = ft_calloc(size + 1, sizeof(char*));
+	if ((cmds = ft_calloc(size + 1, sizeof(char*))) == NULL)
+		ft_perror(NULL);
 	i = 0;
 	while (g_token->kind == TK_CMD)
 	{
@@ -82,7 +89,7 @@ char **expect_command()
 		g_token = g_token->next;
 	}
 	cmds[i] = NULL;
-	return cmds;
+	return (cmds);
 }
 
 bool at_eof() {
@@ -90,10 +97,14 @@ bool at_eof() {
 }
 
 // Create a new token and add it as the next token of `cur`.
-t_token *new_token(t_token_kind kind, t_token *cur, char *value) {
-	t_token *token = calloc(1, sizeof(t_token));
+t_token		*new_token(t_token_kind kind, t_token *cur, char *value) {
+	t_token *token;
+	
+	if ((token = ft_calloc(1, sizeof(t_token))) == NULL)
+		ft_perror("minishell");
 	token->kind = kind;
-	token->value = value;
+	if (value != NULL)
+		token->value = ft_strdup(value);
 	cur->next = token;
 	return (token);
 }
@@ -110,9 +121,13 @@ t_token		*generate_token(char *job)
 	cur = &token_head;
 	while ((token = lexer_get_next_token(lexer)) != NULL)
 	{
+		// fprintf(stderr, "lexer: [%d] [%s]\n", token->kind, token->value);
 		cur = new_token(token->kind, cur, token->value);
+		free(token->value);
+		free(token);
 	}
 	new_token(TK_EOF, cur, NULL);
+	free(lexer);
 	return(token_head.next);
 }
 
@@ -131,7 +146,11 @@ t_token		*parse_token(t_token *token)
 		len1 = ft_strlen(token->value);
 		char *l = token->value;
 		token->value = replace_env(token->value);
+		free(l);
+		l = token->value;
 		token->value = remove_quote(token->value);
+		free(l);
+
 		len2 = ft_strlen(token->value);
 		if (len1 && !len2)
 		{
@@ -148,4 +167,31 @@ t_token		*parse_token(t_token *token)
 	if (token->kind != TK_EOF)
 		token->kind = TK_EOF;
 	return(token);
+}
+
+void	free_token(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token)
+	{
+		if (token->kind == TK_RESERVED || token->kind == TK_EOF)
+			free(token->value);
+		tmp = token;
+		token = token->next;
+		free(tmp);
+	}
+}
+
+void	free_token1(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token)
+	{
+		free(token->value);
+		tmp = token;
+		token = token->next;
+		free(tmp);
+	}
 }

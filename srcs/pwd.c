@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 03:24:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 20:54:24 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 23:07:39 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ int		ft_pwd(char **args, t_list **env_lst)
 
 	path = get_env("PWD");
 	ft_putendl_fd(path, 1);
+	free(path);
 	return (0);
 }
