@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 20:55:42 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 22:10:49 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser.h"
 #include "signal.h"
 #include "evaluate.h"
+#include "sort_cmd.h"
 
 char	*get_absolute_path(char *relative)
 {
