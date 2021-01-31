@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 00:44:15 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 23:26:13 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include "token.h"
 #include "parser.h"
 #include "signal.h"
-#include "knoda.h"
+#include "evaluate.h"
+#include "sort_cmd.h"
 
 char	*get_absolute_path(char *relative)
 {

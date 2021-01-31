@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/29 23:21:10 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 23:25:41 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,15 @@
 	<command line>	::= 	<job> ';' <command line>
 						|	<job> ';'
 						|	<job>
-
 	<job>			::=		<command> '|' <job>
 						|	<command>
-
 	<command>		::=		<simple command> '<'  <filename>
 						|	<simple command> '>'  <filename>
 						|	<simple command> '>>' <filename>
 						|	<simple command>
-
 	<simple command>::=		<pathname> <token list>
-
 	<token list>	::=		<token> <token list>
 						|	(EMPTY)
-
 **/
 
 t_node *new_node(t_node_kind kind) {

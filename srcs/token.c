@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 15:44:10 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 23:25:57 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_token		*generate_token(char *job)
 	cur = &token_head;
 	while ((token = lexer_get_next_token(lexer)) != NULL)
 	{
-		fprintf(stderr, "lexer: [%d] [%s]\n", token->kind, token->value);
+		// fprintf(stderr, "lexer: [%d] [%s]\n", token->kind, token->value);
 		cur = new_token(token->kind, cur, token->value);
 		free(token->value);
 		free(token);
