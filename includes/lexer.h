@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 00:09:16 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 16:25:23 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 
 typedef struct		s_lexer
 {
+	char			pc;
 	char			c;
+	char			nc;
+	char			quote;
 	unsigned int	i;
 	char*			contents;
 }					t_lexer;

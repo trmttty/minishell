@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 10:03:27 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/31 18:48:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_lexer*    init_lexer(char* contents)
 	lexer->contents = contents;
 	lexer->i = 0;
 	lexer->c = contents[lexer->i];
+	lexer->nc = contents[lexer->i + 1];
 	return (lexer);
 }
 
@@ -34,8 +35,10 @@ void        lexer_advance(t_lexer* lexer)
 {
 	if (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 	{
+		lexer->pc = lexer->contents[lexer->i];
 		lexer->i += 1;
 		lexer->c = lexer->contents[lexer->i];
+		lexer->nc = lexer->contents[lexer->i + 1];
 	}
 }
 
@@ -54,7 +57,21 @@ t_token*    lexer_get_next_token(t_lexer* lexer)
 	{
 		if (lexer->c == ' ' || lexer->c == '\n')
 			lexer_skip_whitespace(lexer);
-		if (lexer->c == '"' || lexer->c == '\'')
+		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
+		{
+			if (lexer->nc == lexer->c)
+			{
+				if (lexer->contents[lexer->i + 2] == ' ')
+					return (lexer_collect_string(lexer, lexer->c));
+			}
+		}
+		if ((lexer->c == '"' || lexer->c == '\'') && lexer->c == lexer->nc)
+		{
+			lexer_advance(lexer);
+			lexer_advance(lexer);
+			continue;
+		}
+		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
 			return (lexer_collect_string(lexer, lexer->c));
 		if (ft_strchr(";()<>|", lexer->c))
 			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char_as_string(lexer))));
