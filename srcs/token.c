@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:25:57 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:20:46 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,25 +109,24 @@ t_token		*new_token(t_token_kind kind, t_token *cur, char *value) {
 	return (token);
 }
 
-t_token		*generate_token(char *job)
+t_token		*generate_token(t_lexer *lexer)
 {
-	t_lexer		*lexer;
 	t_token		*token;
 	t_token		token_head;
 	t_token		*cur;
 
-	lexer = init_lexer(job);
 	token_head.next = NULL;
 	cur = &token_head;
 	while ((token = lexer_get_next_token(lexer)) != NULL)
 	{
-		// fprintf(stderr, "lexer: [%d] [%s]\n", token->kind, token->value);
-		cur = new_token(token->kind, cur, token->value);
+		if (token->kind != TK_SKIP)
+			cur = new_token(token->kind, cur, token->value);
 		free(token->value);
 		free(token);
 	}
-	new_token(TK_EOF, cur, NULL);
-	free(lexer);
+	if (token_head.next)
+		new_token(TK_EOF, cur, NULL);
+	// free(lexer);
 	return(token_head.next);
 }
 
@@ -142,28 +141,7 @@ t_token		*parse_token(t_token *token)
 	if (token->kind == TK_EOF)
 		return (NULL);
 	while (token->kind != TK_EOF && ft_strcmp(token->value, ";") != 0)
-	{
-		len1 = ft_strlen(token->value);
-		char *l = token->value;
-		token->value = replace_env(token->value);
-		free(l);
-		l = token->value;
-		token->value = remove_quote(token->value);
-		free(l);
-
-		len2 = ft_strlen(token->value);
-		if (len1 && !len2)
-		{
-			next = token->next;
-			token->kind = token->next->kind;
-			free(token->value);
-			token->value = token->next->value;
-			token->next = token->next->next;
-			free(next);
-			continue;
-		}
 		token = token->next;
-	}
 	if (token->kind != TK_EOF)
 		token->kind = TK_EOF;
 	return(token);

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:27 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:23:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:11:39 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 typedef enum		u_token_kind{
 	TK_RESERVED, // Keywords or punctuators
 	TK_CMD,      // Integer literals
+	TK_SKIP,      // End-of-file markers
+	TK_SEMI,      // End-of-file markers
 	TK_EOF,      // End-of-file markers
 }					t_token_kind;
 
@@ -63,7 +65,6 @@ bool at_eof();
 t_token *new_token(t_token_kind kind, t_token *cur, char *op);
 
 t_token		*parse_token(t_token *token);
-t_token		*generate_token(char *job);
 void		free_token(t_token *token);
 void		free_token1(t_token *token);
 
