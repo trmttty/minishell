@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:04:45 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/01 21:25:21 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 t_lexer*    init_lexer(char* contents)
 {
 	t_lexer* lexer;
-	
+
 	if ((lexer = ft_calloc(1, sizeof(t_lexer))) == NULL)
 		ft_perror("minishell");
 	lexer->contents = contents;
@@ -94,7 +94,7 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 	{
 		s = lexer_get_current_char_as_string(lexer);
 		size = ft_strlen(value) + ft_strlen(s) + 1;
-		if ((value = realloc(value, size * sizeof(char))) == NULL)
+		if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
 			ft_perror("minishell");
 		ft_strlcat(value, s, size);
 		free(s);
@@ -111,7 +111,7 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 	char*   q;
 	int		quote;
 	size_t  size;
-	
+
 	if ((value = ft_calloc(1, sizeof(char))) == NULL)
 		ft_perror("minishell");
 	value[0] = '\0';
@@ -122,14 +122,14 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 		{
 			s = lexer_get_current_char_as_string(lexer);
 			size = ft_strlen(value) + ft_strlen(s) + 1;
-			if ((value = realloc(value, size * sizeof(char))) == NULL)
+			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
 				ft_perror("minishell");
 			ft_strlcat(value, s, size);
 			lexer_advance(lexer);
 			free(s);
 			s = lexer_get_current_char_as_string(lexer);
 			size = ft_strlen(value) + ft_strlen(s) + 1;
-			if ((value = realloc(value, size * sizeof(char))) == NULL)
+			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
 				ft_perror("minishell");
 			ft_strlcat(value, s, size);
 			lexer_advance(lexer);
@@ -159,7 +159,7 @@ t_token*    lexer_collect_id(t_lexer* lexer)
 		{
 			s = lexer_get_current_char_as_string(lexer);
 			size = ft_strlen(value) + ft_strlen(s) + 1;
-			if ((value = realloc(value, size * sizeof(char))) == NULL)
+			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
 				ft_perror("minishell");
 			ft_strlcat(value, s, size);
 			free(s);
@@ -187,7 +187,7 @@ t_token*    lexer_advance_with_token(t_lexer* lexer, t_token* token)
 char* lexer_get_current_char_as_string(t_lexer* lexer)
 {
 	char*	str;
-	
+
 	str = ft_calloc(2, sizeof(char));
 	str[0] = lexer->c;
 	str[1] = '\0';
