@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 18:09:42 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 18:14:01 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,6 @@ int		check_syntax(char *line)
 	size_t	len;
 	int		ret;
 
-	printf("%c\n", line[ft_strlen(line) - 1]);
 	if (in_bracket(line, ft_strlen(line) - 1))
 		return (return_failure(NULL, NULL, "syntax error", 0));
 	lexer = init_lexer(line);
