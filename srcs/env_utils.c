@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:26:53 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 18:20:58 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char		*get_env(char *name)
 	t_list	*tmp;
 	char	*value;
 	char	*env;
-	
+
 	if ((env = ft_strjoin(name, "=")) == NULL)
 		ft_perror("minishell");
 	tmp = g_env_lst;
@@ -124,7 +124,7 @@ char		*replace_env(char *str)
 					tail++;
 				if (str[tail] == '?')
 					tail++;
-				if (tail - head == 1) 
+				if (tail - head == 1)
 					sub = ft_substr(str, head, tail - head);
 				else
 				{
@@ -135,7 +135,7 @@ char		*replace_env(char *str)
 			}
 		}
 		size += ft_strlen(sub);
-		ret = realloc(ret, (size + 1) * sizeof(char));
+		ret = ft_realloc(ret, (size + 1) * sizeof(char));
 		ft_strlcat(ret, sub, size + 1);
 		free(sub);
 		head = tail;
@@ -178,7 +178,7 @@ char		*remove_quote(char *str)
 			sub = ft_substr(str, head, tail - head);
 		}
 		size += ft_strlen(sub);
-		ret = realloc(ret, (size + 1) * sizeof(char));
+		ret = ft_realloc(ret, (size + 1) * sizeof(char));
 		ft_strlcat(ret, sub, size + 1);
 		free(sub);
 		head = tail;

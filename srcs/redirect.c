@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/01/31 22:00:39 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/02 18:33:58 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,13 @@ int		ft_redirect_outout(t_node *node, int *flag)
 
 int		ft_redirect_in(t_node *node, int *flag)
 {
-	pid_t	pid;
-	int		status;
 	int		fd;
 
-	pid = fork();
-	if (pid == 0)
+	fd = open(node->rnode->commands[0], O_RDONLY);
+	if (flag[1] == 0)
 	{
-		fd = open(node->rnode->commands[0], O_RDONLY);
-		if (flag[1] == 0)
-		{
-			dup2(fd, STDIN_FILENO);
-			flag[1] = 1;
-		}
-		exit(evaluate(node->lnode, flag));
+		dup2(fd, STDIN_FILENO);
+		flag[1] = 1;
 	}
-	else if (pid < 0)
-		perror("lsh");
-	else
-		wait(&status);
-	return (status >> 8);
+	return (evaluate(node->lnode, flag));
 }

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:22:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 18:19:48 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <sys/param.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include <fcntl.h>	
+#include <fcntl.h>
 #include <sys/types.h>
 
 typedef struct      s_env
@@ -61,4 +61,10 @@ void    exit_failure(char *commnad, char *arg, char *message, int code);
 int	    return_failure(char *commnad, char *arg, char *message, int code);
 int		set_exit_status(int code);
 void	ft_perror(char *message);
+
+/*
+** realloc
+*/
+void	*ft_realloc(void *ptr, size_t size);
+
 #endif

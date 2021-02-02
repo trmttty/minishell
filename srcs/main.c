@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 18:14:01 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 18:46:11 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,24 +112,24 @@ int		set_exit_status(int status)
 int		syntax_check(t_token *token)
 {
 	if (!ft_strcmp(token->value, ";") || !ft_strcmp(token->value, "|"))
-		return (return_failure(NULL, NULL, "syntax error", 0));
+		return (0);
 	while (token->next)
 	{
 		if ((!ft_strcmp(token->value, ";") || !ft_strcmp(token->value, "|"))
 			&& token->next->kind != TK_EOF
 			&& ((!ft_strcmp(token->next->value, ";") || !ft_strcmp(token->next->value, "|"))))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, ">") || !ft_strcmp(token->value, ">>") || !ft_strcmp(token->value, "<"))
 			&& token->next->kind == TK_RESERVED)
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, ">") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, ">>") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, "<") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, "|") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		token = token->next;
 	}
 	return (1);
@@ -188,7 +188,7 @@ int		check_syntax(char *line)
 	}
 	free(lexer);
 	if (ret)
-		return (0);
+		return (1);
 	return (return_failure(NULL, NULL, "syntax error", 0));
 }
 
@@ -248,7 +248,6 @@ void	loop(t_list **env_lst)
 			head = g_token;
 			// gen(node);
 			// print_token(head);
-			
 			node = command_line();
 			flag[0] = 0;
 			flag[1] = 0;

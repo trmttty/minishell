@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:24:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 18:26:14 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		ft_exit(char **args, t_list **env_lst)
 		if (!is_num_str(*args))
 			exit(255);
 		if (args[1])
-			exit(EXIT_FAILURE);
+			return (return_failure("exit", NULL, "too many arguments", 1));
 		rv = ft_atoi(*args);
 		rv %= 256;
 		if (rv < 0)
