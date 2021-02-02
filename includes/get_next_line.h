@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 09:40:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/30 20:31:00 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 23:26:40 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 2048
 # define FD_MAX 100
 
 int		get_next_line(int fd, char **line);

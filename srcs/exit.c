@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/01 21:46:47 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/02 20:44:52 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ int		ft_exit(char **args, t_list **env_lst)
 		if (!is_num_str(*args))
 			exit(255);
 		if (args[1])
-		{
-			fprintf(stderr, "lsh: exit: too many arguments\n");
-			return (EXIT_FAILURE);
-		}
+			return (return_failure("exit", NULL, "too many arguments", 1));
 		rv = ft_atoi(*args);
 		rv %= 256;
 		if (rv < 0)

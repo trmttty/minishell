@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/01 21:25:21 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/02 20:45:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,33 +51,134 @@ void        lexer_skip_whitespace(t_lexer* lexer)
 	}
 }
 
+int		is_escaped(char *s, int pos)
+{
+	int n;
+
+	n = 0;
+	while (pos >= 0 && s[pos] == '\\')
+	{
+		n++;
+		pos--;
+	}
+	return (n % 2);
+}
+
+int		in_bracket(char *s, int pos)
+{
+	int	bracket1;
+	int	bracket2;
+	int	i;
+
+	bracket1 = 0;
+	bracket2 = 0;
+	i = 0;
+	while (i <= pos)
+	{
+		if (s[i] == 34 && (i == 0 || !is_escaped(s, i - 1))
+			&& bracket2 % 2 == 0)
+			bracket1++;
+		if (s[i] == 39 && (i == 0 || bracket2 % 2 != 0 || !is_escaped(s, i - 1))
+			&& bracket1 % 2 == 0)
+			bracket2++;
+		i++;
+	}
+	if (bracket1 % 2 != 0 || bracket2 % 2 != 0)
+		return (1);
+	return (0);
+}
+
 t_token*    lexer_get_next_token(t_lexer* lexer)
 {
 	while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 	{
 		if (lexer->c == ' ' || lexer->c == '\n')
 			lexer_skip_whitespace(lexer);
-		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
-		{
-			if (lexer->nc == lexer->c)
-			{
-				if (lexer->contents[lexer->i + 2] == ' ')
-					return (lexer_collect_string(lexer, lexer->c));
-			}
-		}
-		if ((lexer->c == '"' || lexer->c == '\'') && lexer->c == lexer->nc)
+		if (lexer->c == ';')
 		{
 			lexer_advance(lexer);
-			lexer_advance(lexer);
-			continue;
+			return (NULL);
 		}
 		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
 			return (lexer_collect_string(lexer, lexer->c));
-		if (ft_strchr(";()<>|", lexer->c))
+		if (ft_strchr("<>|", lexer->c))
 			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char_as_string(lexer))));
-		return (lexer_collect_id(lexer));
+		return (lexer_collect_string(lexer, 0));
 	}
 	return (NULL);
+}
+
+void		replace_environ(t_lexer* lexer, char quote, char **value)
+{
+	size_t	size;
+	size_t	tail;
+	size_t	len;
+	char	*tmp;
+	char	*sub;
+
+	size = ft_strlen(*value);
+		tail = 1;
+		while (ft_isalnum(lexer->contents[lexer->i + tail]) || lexer->contents[lexer->i + tail] == '_')
+			tail++;
+		if (lexer->contents[lexer->i + tail] == '?')
+			tail++;
+		if (tail == 1) 
+			sub = ft_substr(&lexer->contents[lexer->i], 0, tail);
+		else
+		{
+			tmp = ft_substr(&lexer->contents[lexer->i], 0, tail);
+			sub = get_env(&tmp[1]);
+			free(tmp);
+		}
+		if ((len = ft_strlen(sub)) > 0)
+		{
+			size += len;
+			*value = ft_realloc(*value, (size + 1) * sizeof(char));
+			ft_strlcat(*value, sub, size + 1);
+		}
+		free(sub);
+		while (tail--)
+			lexer_advance(lexer);
+		return ;
+}
+
+char		*trim_value(char *value)
+{
+	size_t		i;
+	size_t		j;
+	size_t		size;
+	char		*tmp;
+	char		*ret;
+
+	tmp = value;
+	value = ft_strtrim(value, " ");
+	free(tmp);
+	i = 0;
+	size = 0;
+	while (value[i])
+	{
+		if (value[i] != ' ')
+			size++;
+		if (value[i] != ' ' && value[i + 1] == ' ')
+			size++;
+		i++;
+	}
+	ret = ft_calloc(size + 1, sizeof(char));
+	i = 0;
+	j = 0;
+	while (value[i])
+	{
+		if (value[i] != ' ')
+		{
+			ret[j++] = value[i];
+		}
+		if (value[i] != ' ' && value[i + 1] == ' ')
+			ret[j++] = ' ';
+		i++;
+	}
+	ret[j] = '\0';
+	free(value);
+	return (ret);
 }
 
 t_token*    lexer_collect_string(t_lexer* lexer, char quote)
@@ -86,12 +187,82 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 	char    *s;
 	size_t  size;
 
-	lexer_advance(lexer);
 	if ((value = ft_calloc(1, sizeof(char))) == NULL)
 		ft_perror("minishell");
 	value[0] = '\0';
-	while (lexer->c != quote && lexer->c != '\0')
+	while (lexer->c != '\0')
 	{
+		// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
+		if (lexer->c == '\\')
+		{
+			lexer_advance(lexer);
+			s = lexer_get_current_char_as_string(lexer);
+			size = ft_strlen(value) + ft_strlen(s) + 1;
+			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
+				ft_perror("minishell");
+			ft_strlcat(value, s, size);
+			free(s);
+			if (!in_bracket(lexer->contents, lexer->i) && ft_strchr(";|<>", lexer->nc))
+			{
+				break;
+			}
+			lexer_advance(lexer);
+			continue;
+		}
+		if (!in_bracket(lexer->contents, lexer->i) && ft_strchr(";|<>", lexer->c))
+		{
+			break;
+		}
+		if (in_bracket(lexer->contents, lexer->i) && lexer->c == quote)
+		{
+			lexer_advance(lexer);
+			continue;
+		}	
+		if (!in_bracket(lexer->contents, lexer->i) && lexer->c == quote && !(lexer->nc == ' ' || lexer->nc == '\0'))
+		{
+			lexer_advance(lexer);
+			continue;
+		}
+
+		if (lexer->i && !in_bracket(lexer->contents, lexer->i - 1) && in_bracket(lexer->contents, lexer->i) && lexer->c != quote && (lexer->c == '"' || lexer->c == '\''))
+		{
+			quote = lexer->c;
+			continue;
+		}
+		if (!in_bracket(lexer->contents, lexer->i) && lexer->c == quote)
+		{
+			break;
+		}
+		if (!in_bracket(lexer->contents, lexer->i) && lexer->c == ' ')
+		{
+			break;
+		}
+		if (lexer->c == '$' && quote != '\'')
+		{
+			while (lexer->c == '$' && quote != '\'')
+			{
+				replace_environ(lexer, quote, &value);
+			}
+				// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
+				// fprintf(stderr, "quote: [%c]\n", quote);
+			if (!in_bracket(lexer->contents, lexer->i))
+			{
+				if (ft_strlen(value) == 0 && (lexer->c == quote || lexer->c == ' ' || lexer->c == '\0'))
+				{
+					lexer_advance(lexer);
+					return (init_token(TK_SKIP, value));
+				}
+				else if (lexer->c != '"')
+				{
+					value = trim_value(value);
+				}
+				continue;
+			}
+			else
+			{
+				continue;
+			}
+		}
 		s = lexer_get_current_char_as_string(lexer);
 		size = ft_strlen(value) + ft_strlen(s) + 1;
 		if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
@@ -100,72 +271,8 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 		free(s);
 		lexer_advance(lexer);
 	}
-	lexer_advance(lexer);
-	return (init_token(TK_CMD, value));
-}
-
-t_token*    lexer_collect_id(t_lexer* lexer)
-{
-	char*   value;
-	char*   s;
-	char*   q;
-	int		quote;
-	size_t  size;
-
-	if ((value = ft_calloc(1, sizeof(char))) == NULL)
-		ft_perror("minishell");
-	value[0] = '\0';
-	quote = -1;
-	while (!(ft_strchr(";()<>|", lexer->c) || lexer->c == ' '))
-	{
-		if (lexer->c == '\\')
-		{
-			s = lexer_get_current_char_as_string(lexer);
-			size = ft_strlen(value) + ft_strlen(s) + 1;
-			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
-				ft_perror("minishell");
-			ft_strlcat(value, s, size);
-			lexer_advance(lexer);
-			free(s);
-			s = lexer_get_current_char_as_string(lexer);
-			size = ft_strlen(value) + ft_strlen(s) + 1;
-			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
-				ft_perror("minishell");
-			ft_strlcat(value, s, size);
-			lexer_advance(lexer);
-			free(s);
-		}
-		else if (lexer->c == '"' || lexer->c == '\'')
-		{
-			q = lexer_get_current_char_as_string(lexer);
-			s = value;
-			if ((value = ft_strjoin(value, q)) == NULL)
-				ft_perror("minishell");
-			free(s);
-			t_token *t;
-			t = lexer_collect_string(lexer, lexer->c);
-			s = value;
-			if ((value = ft_strjoin(value, t->value)) == NULL)
-				ft_perror("minishell");
-			free(s);
-			s = value;
-			value = ft_strjoin(value, q);
-			free(s);
-			free(q);
-			free(t->value);
-			free(t);
-		}
-		else
-		{
-			s = lexer_get_current_char_as_string(lexer);
-			size = ft_strlen(value) + ft_strlen(s) + 1;
-			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
-				ft_perror("minishell");
-			ft_strlcat(value, s, size);
-			free(s);
-			lexer_advance(lexer);
-		}
-	}
+	if (!ft_strchr(";|<>", lexer->c))
+		lexer_advance(lexer);
 	return (init_token(TK_CMD, value));
 }
 

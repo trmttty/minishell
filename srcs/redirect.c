@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/01 21:44:13 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/02 20:46:43 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

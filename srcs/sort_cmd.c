@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 20:12:09 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/01/31 22:12:25 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/01/31 23:25:35 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

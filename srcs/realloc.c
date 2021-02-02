@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 21:15:41 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/01 21:21:39 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/02 20:46:22 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void	*ft_realloc(void *ptr, size_t size)
 	if (!cpy)
 		return (NULL);
 	ft_memcpy(cpy, ptr, size);
+    free(ptr);
 	return (cpy);
 }

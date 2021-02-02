@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/01 21:28:25 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/02 21:32:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	*replace_env(char *str);
 char	*remove_quote(char *str);
 int		set_env(char *name, char *value);
 int		envcmp(const char *env1, const char *env2);
+void	sort_env_lst(t_list *env_lst);
 
 /*
 ** error

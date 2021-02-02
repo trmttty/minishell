@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/01 21:49:24 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/02 20:45:55 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,46 +112,95 @@ int		set_exit_status(int status)
 int		syntax_check(t_token *token)
 {
 	if (!ft_strcmp(token->value, ";") || !ft_strcmp(token->value, "|"))
-		return (return_failure(NULL, NULL, "syntax error", 0));
+		return (0);
 	while (token->next)
 	{
 		if ((!ft_strcmp(token->value, ";") || !ft_strcmp(token->value, "|"))
 			&& token->next->kind != TK_EOF
 			&& ((!ft_strcmp(token->next->value, ";") || !ft_strcmp(token->next->value, "|"))))
-			return (return_failure(NULL, NULL, "syntax error", 0));
-		if ((!ft_strcmp(token->value, ">") || !ft_strcmp(token->value, ">>"))
+			return (0);
+		if ((!ft_strcmp(token->value, ">") || !ft_strcmp(token->value, ">>") || !ft_strcmp(token->value, "<"))
 			&& token->next->kind == TK_RESERVED)
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, ">") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, ">>") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, "<") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		if ((!ft_strcmp(token->value, "|") && token->next->kind == TK_EOF))
-			return (return_failure(NULL, NULL, "syntax error", 0));
+			return (0);
 		token = token->next;
 	}
 	return (1);
 }
 
-// void	catch_child_sig(int sig)
-// {
-// 	pid_t	child_pid = 0;
+t_token*    lexer_get_next_checker(t_lexer* lexer)
+{
+	while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
+	{
+		if (lexer->c == ' ' || lexer->c == '\n')
+			lexer_skip_whitespace(lexer);
+		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
+			return (lexer_collect_string(lexer, lexer->c));
+		if (ft_strchr(";<>|", lexer->c))
+			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char_as_string(lexer))));
+		return (lexer_collect_string(lexer, 0));
+	}
+	return (NULL);
+}
 
-// 	do
-// 	{
-// 		int	child_ret;
-// 		child_pid = waitpid(-1 , &child_ret, WNOHANG);
-// 	} while (child_pid > 0);
-// }
+t_token		*generate_checker(t_lexer *lexer)
+{
+	t_token		*token;
+	t_token		token_head;
+	t_token		*cur;
+
+	token_head.next = NULL;
+	cur = &token_head;
+	while ((token = lexer_get_next_checker(lexer)) != NULL)
+	{
+		cur = new_token(token->kind, cur, token->value);
+		free(token->value);
+		free(token);
+	}
+	if (token_head.next)
+		new_token(TK_EOF, cur, NULL);
+	return(token_head.next);
+}
+
+
+int		check_syntax(char *line)
+{
+	t_token *token;
+	t_lexer	*lexer;
+	size_t	len;
+	int		ret;
+
+	if (in_bracket(line, ft_strlen(line) - 1))
+		return (return_failure(NULL, NULL, "syntax error", 0));
+	lexer = init_lexer(line);
+	ret = 0;
+	if ((token = generate_checker(lexer)) != NULL)
+	{
+		ret = syntax_check(token);
+		free_token1(token);
+	}
+	free(lexer);
+	if (ret)
+		return (1);
+	return (return_failure(NULL, NULL, "syntax error", 0));
+}
 
 void	print_token(t_token *token)
 {
-	while (token)
+	t_token *tmp;
+
+	tmp = token;
+	while (tmp)
 	{
-		fprintf(stderr, "token: [%d] [%s]\n", token->kind, token->value);
-		token = token->next;
+		fprintf(stderr, "token: [%d] [%s]\n", tmp->kind, tmp->value);
+		tmp = tmp->next;
 	}
 }
 
@@ -164,6 +213,7 @@ void	loop(t_list **env_lst)
 	t_token	*token;
 	t_token	*head;
 	t_node	*node;
+	t_lexer *lexer;
 
 	while (1)
 	{
@@ -182,34 +232,32 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		tmp = line;
-		line = sort_cmd(line);
-		token = generate_token(line);
-
-		// print_token(token);
-
-		free(line);
-		if (!syntax_check(token))
+		if (!check_syntax(line))
 		{
 			set_env("?", "258");
-			free_token1(token);
+			free(line);
 			continue;
 		}
-		head = token;
-		g_token = token;
-		while ((parse_token(token)) != NULL)
+		line = sort_cmd(line);
+		lexer = init_lexer(line);
+		// while ((g_token = generate_token(lexer)) != NULL)
+		while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 		{
-			node = command_line();
+			if ((g_token = generate_token(lexer)) == NULL)
+				continue;
+			head = g_token;
 			// gen(node);
+			// print_token(head);
+			node = command_line();
 			flag[0] = 0;
 			flag[1] = 0;
 			flag[2] = 0;
 			set_exit_status(evaluate(node, flag));
-			g_token = g_token->next;
-			token = g_token;
 			free_node(node);
+			free_token(head);
 		}
-		free_token(head);
+		free(line);
+		free(lexer);
 	}
 }
 
