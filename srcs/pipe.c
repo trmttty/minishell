@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:19:56 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/01/31 22:00:25 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/03 00:56:17 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int		ft_pipe(t_node *node, int *flag)
 	int		status;
 	pid_t	wpid;
 
+	set_env("_", "");
 	flag[0] = 0;
 	flag[1] = 0;
 	if ((wpid = fork()) == 0)

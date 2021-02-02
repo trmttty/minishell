@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 20:45:55 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 02:20:58 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,19 @@ int		launch(char **args) {
     int		status;
 	char	*tmp;
 	char	**env_vec;
+	int		size;
 
     signal(SIGINT, child_sigint);
+	if (**args != '/')
+	{
+		tmp = args[0];
+		args[0] = get_absolute_path(args[0]);
+		free(tmp);
+	}
+	size = ft_tabsize(args);
+	set_env("_", args[size - 1]);
+	printf("launch %s\n", args[size - 1]);	
     if ((pid = fork()) == 0) {
-		if (**args != '/')
-		{
-			tmp = args[0];
-			args[0] = get_absolute_path(args[0]);
-			free(tmp);
-		}
         execve(args[0], args, create_env_vec(g_env_lst));
 		ft_perror("minishell");
     } else if (pid < 0) {
@@ -261,15 +265,33 @@ void	loop(t_list **env_lst)
 	}
 }
 
+void	set_environment(char *arg)
+{
+	char	buf[MAXPATHLEN];
+	char	*tmp;
+	char	*num;
+	char	*path;
+
+	if (getcwd(buf, MAXPATHLEN))
+		set_env("PWD", buf);
+	tmp = get_env("SHLVL");
+	num = ft_itoa(ft_atoi(tmp) + 1);
+	set_env("SHLVL", num);
+	free(tmp);
+	free(num);
+	set_env("_", arg);
+	free(path);
+	set_env("?", "0");
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	t_list	*env_lst;
 
 	(void)argc;
-	(void)argv;
 	g_env_lst = init_env(envp);
 	env_lst = g_env_lst;
-	set_env("?", "0");
+	set_environment(argv[0]);
 	loop(&env_lst);
 	return (0);
 }
