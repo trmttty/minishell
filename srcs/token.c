@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 02:20:46 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 03:36:39 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ t_token		*generate_token(t_lexer *lexer)
 	}
 	if (token_head.next)
 		new_token(TK_EOF, cur, NULL);
-	// free(lexer);
 	return(token_head.next);
 }
 

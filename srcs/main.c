@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 03:32:00 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 12:22:13 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int		syntax_check(t_token *token)
 			&& token->next->kind != TK_EOF
 			&& ((!ft_strcmp(token->next->value, ";") || !ft_strcmp(token->next->value, "|"))))
 			return (return_failure(NULL, NULL, "syntax error", 0));
-		if ((!ft_strcmp(token->value, ">") || !ft_strcmp(token->value, ">>"))
+		if ((!ft_strcmp(token->value, ">") || !ft_strcmp(token->value, ">>") || !ft_strcmp(token->value, "<"))
 			&& token->next->kind == TK_RESERVED)
 			return (return_failure(NULL, NULL, "syntax error", 0));
 		if ((!ft_strcmp(token->value, ">") && token->next->kind == TK_EOF))
@@ -160,8 +160,7 @@ t_token		*generate_checker(t_lexer *lexer)
 	cur = &token_head;
 	while ((token = lexer_get_next_checker(lexer)) != NULL)
 	{
-		if (token->kind != TK_SKIP)
-			cur = new_token(token->kind, cur, token->value);
+		cur = new_token(token->kind, cur, token->value);
 		free(token->value);
 		free(token);
 	}
@@ -178,19 +177,25 @@ int		check_syntax(char *line)
 	int		ret;
 
 	lexer = init_lexer(line);
-	token = generate_checker(lexer);
-	ret = syntax_check(token);
-	free_token1(token);
+	ret = 0;
+	if ((token = generate_checker(lexer)) != NULL)
+	{
+		ret = syntax_check(token);
+		free_token1(token);
+	}
 	free(lexer);
 	return (ret == 1); 
 }
 
 void	print_token(t_token *token)
 {
-	while (token)
+	t_token *tmp;
+
+	tmp = token;
+	while (tmp)
 	{
-		fprintf(stderr, "token: [%d] [%s]\n", token->kind, token->value);
-		token = token->next;
+		fprintf(stderr, "token: [%d] [%s]\n", tmp->kind, tmp->value);
+		tmp = tmp->next;
 	}
 }
 
@@ -222,8 +227,6 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		// print_token(token);
-		
 		if (!check_syntax(line))
 		{
 			set_env("?", "258");
@@ -232,11 +235,16 @@ void	loop(t_list **env_lst)
 		}
 		line = sort_cmd(line);
 		lexer = init_lexer(line);
-		while ((g_token = generate_token(lexer)) != NULL)
+		// while ((g_token = generate_token(lexer)) != NULL)
+		while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 		{
+			if ((g_token = generate_token(lexer)) == NULL)
+				continue;
 			head = g_token;
-			node = command_line();
 			// gen(node);
+			// print_token(head);
+			
+			node = command_line();
 			flag[0] = 0;
 			flag[1] = 0;
 			flag[2] = 0;
