@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 12:17:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/02 16:14:53 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,6 @@ void		replace_environ(t_lexer* lexer, char quote, char **value)
 		{
 			tmp = ft_substr(&lexer->contents[lexer->i], 0, tail);
 			sub = get_env(&tmp[1]);
-			// printf("---------before %s\n", sub);
-			sub = ft_strtrim(sub, " ");
-			// printf("---------after %s\n", sub);
 			free(tmp);
 		}
 		if ((len = ft_strlen(sub)) > 0)
@@ -144,6 +141,45 @@ void		replace_environ(t_lexer* lexer, char quote, char **value)
 		while (tail--)
 			lexer_advance(lexer);
 		return ;
+}
+
+char		*trim_value(char *value)
+{
+	size_t		i;
+	size_t		j;
+	size_t		size;
+	char		*tmp;
+	char		*ret;
+
+	tmp = value;
+	value = ft_strtrim(value, " ");
+	free(tmp);
+	i = 0;
+	size = 0;
+	while (value[i])
+	{
+		if (value[i] != ' ')
+			size++;
+		if (value[i] != ' ' && value[i + 1] == ' ')
+			size++;
+		i++;
+	}
+	ret = ft_calloc(size + 1, sizeof(char));
+	i = 0;
+	j = 0;
+	while (value[i])
+	{
+		if (value[i] != ' ')
+		{
+			ret[j++] = value[i];
+		}
+		if (value[i] != ' ' && value[i + 1] == ' ')
+			ret[j++] = ' ';
+		i++;
+	}
+	ret[j] = '\0';
+	free(value);
+	return (ret);
 }
 
 t_token*    lexer_collect_string(t_lexer* lexer, char quote)
@@ -210,11 +246,14 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 		{
 			// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
 			// fprintf(stderr, "quote: [%c]\n", quote);
-			replace_environ(lexer, quote, &value);
-			// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
-			// fprintf(stderr, "quote: [%c]\n", quote);
-			if (lexer->c == '$')
-				continue;
+			while (lexer->c == '$' && quote != '\'')
+			{
+				replace_environ(lexer, quote, &value);
+				// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
+				// fprintf(stderr, "quote: [%c]\n", quote);
+			}
+				// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
+				// fprintf(stderr, "quote: [%c]\n", quote);
 			if (!in_bracket(lexer->contents, lexer->i))
 			{
 				// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
@@ -222,6 +261,10 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 				{
 					lexer_advance(lexer);
 					return (init_token(TK_SKIP, value));
+				}
+				else if (lexer->c != '"')
+				{
+					value = trim_value(value);
 				}
 				continue;
 			}
