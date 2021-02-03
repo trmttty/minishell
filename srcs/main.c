@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 10:49:18 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 12:38:00 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,27 @@ char	*get_absolute_path(char *relative)
 	char		**paths;
 	char		**tmp;
 	char		*dir;
+	char		*env;
 	char		*absolute;
 	struct stat	sb;
 
-	if ((paths = ft_split(get_env("PATH"), ':')) == NULL)
+	env = get_env("PATH");
+	if ((paths = ft_split(env, ':')) == NULL)
 		ft_perror("minishell");
+	free(env);
 	tmp = paths;
-	absolute = NULL;
+	if ((absolute = ft_strdup("")) == NULL)
+		ft_perror("minishell");
 	while (*paths)
 	{
 		if ((dir = ft_strjoin(*paths, "/")) == NULL)
 			ft_perror("minishell");
+		free(absolute);
 		if ((absolute = ft_strjoin(dir, relative)) == NULL)
 			ft_perror("minishell");
 		free(dir);
 		if (stat(absolute , &sb) == 0)
 			break;
-		free(absolute);
-		absolute = NULL;
 		paths++;
 	}
 	ft_tabfree(tmp);
@@ -93,6 +96,7 @@ int		launch(char **args) {
         ft_perror("minishell");
     } else
         wpid = waitpid(pid, &status, WUNTRACED);
+	// free(args[0]);
 	if (status == 2)
 		ft_putstr_fd("\n", 1);
 	if (status == 3)
@@ -253,9 +257,9 @@ void	loop(t_list **env_lst)
                 continue;
 			}
 			head = g_token;
+			node = command_line();
 			// gen(node);
 			// print_token(head);
-			node = command_line();
 			flag[0] = 0;
 			flag[1] = 0;
 			flag[2] = 0;

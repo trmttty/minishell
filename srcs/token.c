@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 03:36:39 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 11:21:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ char **expect_command()
 	i = 0;
 	while (g_token->kind == TK_CMD)
 	{
-		cmds[i++] = g_token->value;
+		cmds[i] = ft_strdup(g_token->value);
+		if (cmds[i] == NULL)
+			ft_perror("minishell");
 		g_token = g_token->next;
+		i++;
 	}
 	cmds[i] = NULL;
 	return (cmds);
@@ -152,8 +155,8 @@ void	free_token(t_token *token)
 
 	while (token)
 	{
-		if (token->kind == TK_RESERVED || token->kind == TK_EOF)
-			free(token->value);
+		// if (token->kind == TK_RESERVED || token->kind == TK_EOF)
+		free(token->value);
 		tmp = token;
 		token = token->next;
 		free(tmp);
