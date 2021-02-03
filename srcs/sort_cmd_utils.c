@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 22:06:33 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/01/31 22:12:09 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/03 14:25:30 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		cmd_len(char *str, int i)
 	len = 0;
 	while (ft_isspace(str[i + len]))
 		len++;
-	while (str[i + len] && !ft_strchr("<> ;|", str[i + len]))
+	while (str[i + len] && !ft_strchr("<> ;|\"\'", str[i + len]))
 		len++;
 	return (len);
 }
