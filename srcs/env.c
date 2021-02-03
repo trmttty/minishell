@@ -6,18 +6,19 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:59:59 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 21:33:07 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:28:21 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_env(char **args, t_list **env_lst)
+int		ft_env(char **args)
 {
 	t_list	*tmp;
 
+	(void)args;
+	sort_env_lst();
 	tmp = g_env_lst;
-	sort_env_lst(tmp);
 	while (tmp)
 	{
 		if (ft_strchr(tmp->content, '=') &&

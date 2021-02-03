@@ -6,13 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:10:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 22:22:57 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:18:18 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_cd(char **args, t_list **env_lst)
+int		ft_cd(char **args)
 {
 	char	*path;
 	char	buf[MAXPATHLEN];

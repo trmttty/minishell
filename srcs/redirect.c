@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/02 20:46:43 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:41:50 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int		ft_redirect_out(t_node *node, int *flag)
 	int		status;
 	int		fd;
 
-	pid = fork();
-	if (pid == 0)
+	status = 0;
+	if ((pid =fork()) == 0)
 	{
 		fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		if (flag[0] == 0)
@@ -43,8 +43,8 @@ int		ft_redirect_outout(t_node *node, int *flag)
 	int		status;
 	int		fd;
 
-	pid = fork();
-	if (pid == 0)
+	status = 0;
+	if ((pid = fork()) == 0)
 	{
 		fd = open(node->rnode->commands[0], \
 		O_WRONLY | O_CREAT | O_APPEND, 0666);

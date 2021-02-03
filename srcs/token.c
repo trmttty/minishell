@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 11:21:25 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:33:07 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void error_at(char *loc, char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 
+	(void)loc;
 	// int pos = loc - user_input;
 	// fprintf(stderr, "%s\n", user_input);
 	// fprintf(stderr, "%*s", pos, ""); // print pos spaces.
@@ -134,10 +135,6 @@ t_token		*generate_token(t_lexer *lexer)
 
 t_token		*parse_token(t_token *token)
 {
-	t_token		*next;
-	size_t		len1;
-	size_t		len2;
-
 	if (token == NULL)
 		return (NULL);
 	if (token->kind == TK_EOF)

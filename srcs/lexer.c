@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 20:45:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:31:39 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_token*    lexer_get_next_token(t_lexer* lexer)
 	return (NULL);
 }
 
-void		replace_environ(t_lexer* lexer, char quote, char **value)
+void		replace_environ(t_lexer* lexer, char **value)
 {
 	size_t	size;
 	size_t	tail;
@@ -241,7 +241,7 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 		{
 			while (lexer->c == '$' && quote != '\'')
 			{
-				replace_environ(lexer, quote, &value);
+				replace_environ(lexer, &value);
 			}
 				// fprintf(stderr, "lexer: [%c] [%c] [%c] [%d] [%s]\n", lexer->pc, lexer->c, lexer->nc, in_bracket(lexer->contents, lexer->i), value);
 				// fprintf(stderr, "quote: [%c]\n", quote);

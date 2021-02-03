@@ -6,13 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:24:10 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:26:51 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*find_env(t_list **env_lst, char *env)
+t_list	*find_env(char *env)
 {
 	t_list	*tmp;
 
@@ -26,7 +26,7 @@ t_list	*find_env(t_list **env_lst, char *env)
 	return (NULL);
 }
 
-void	sort_env_lst(t_list *env_lst)
+void	sort_env_lst()
 {
 	t_list	*list;
 	void	*content;
@@ -51,12 +51,12 @@ void	sort_env_lst(t_list *env_lst)
 	}
 }
 
-int		ft_declare(t_list **env_lst)
+int		ft_declare()
 {
 	t_list	*list;
 	char	**env;
 
-	sort_env_lst(g_env_lst);
+	sort_env_lst();
 	list = g_env_lst;
 	while (list)
 	{
@@ -94,7 +94,7 @@ int		validate_arg(char *arg)
 	return (1);
 }
 
-int		ft_export(char **args, t_list **env_lst)
+int		ft_export(char **args)
 {
 	t_list	*lst;
 	t_list	*new_lst;
@@ -110,7 +110,7 @@ int		ft_export(char **args, t_list **env_lst)
 				return (return_failure("export", *args,
 						"not a valid identifier", 0));
 			}
-			if ((lst = find_env(&g_env_lst, *args)) != NULL)
+			if ((lst = find_env(*args)) != NULL)
 			{
 				if ((plus = ft_strchr(*args, '+')) != NULL)
 					env = ft_strjoin(lst->content, &plus[2]);
@@ -138,6 +138,6 @@ int		ft_export(char **args, t_list **env_lst)
 		}
 	}
 	else
-		return (ft_declare(env_lst));
+		return (ft_declare());
 	return (0);
 }

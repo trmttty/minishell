@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 22:38:34 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/03 23:14:40 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	*get_absolute_path(char *relative)
 char	**create_env_vec(t_list *env_lst)
 {
 	char	**env_vec;
-	t_env	*tmp;
 	int		size;
 	int		i;
 
@@ -77,10 +76,10 @@ int		launch(char **args) {
 	pid_t	wpid;
     int		status;
 	char	*tmp;
-	char	**env_vec;
-	int		size;
 
     signal(SIGINT, child_sigint);
+	pid = 0;
+	status = 0;
 	if (**args != '/')
 	{
 		tmp = args[0];
@@ -183,7 +182,6 @@ int		check_syntax(char *line)
 {
 	t_token *token;
 	t_lexer	*lexer;
-	size_t	len;
 	int		ret;
 
 	if (in_bracket(line, ft_strlen(line) - 1))
@@ -216,14 +214,13 @@ void	print_token(t_token *token)
 void	loop(t_list **env_lst)
 {
 	char	*line;
-	char	*tmp;
 	int		ret;
 	int		flag[3];
-	t_token	*token;
 	t_token	*head;
 	t_node	*node;
 	t_lexer *lexer;
 
+	(void)env_lst;
 	while (1)
 	{
     	signal(SIGINT, parent_sigint);

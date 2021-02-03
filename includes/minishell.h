@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 21:32:49 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:25:20 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ extern	char **environ;
 /*
 ** builtin
 */
-int     ft_echo(char **args, t_list **env_lst);
-int     ft_cd(char **args, t_list **env_lst);
-int		ft_pwd(char **args, t_list **env_lst);
-int     ft_export(char **args, t_list **env_lst);
-int     ft_unset(char **args, t_list **env_lst);
-int     ft_env(char **args, t_list **env_lst);
-int     ft_exit(char **args, t_list **env_lst);
+int     ft_echo(char **args);
+int     ft_cd(char **args);
+int		ft_pwd(char **args);
+int     ft_export(char **args);
+int     ft_unset(char **args);
+int     ft_env(char **args);
+int     ft_exit(char **args);
 
 int		launch(char **args);
 void	loop(t_list **env_lst);
@@ -53,7 +53,7 @@ char	*replace_env(char *str);
 char	*remove_quote(char *str);
 int		set_env(char *name, char *value);
 int		envcmp(const char *env1, const char *env2);
-void	sort_env_lst(t_list *env_lst);
+void	sort_env_lst(void);
 
 /*
 ** error

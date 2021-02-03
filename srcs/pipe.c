@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:19:56 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/03 00:56:17 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:42:12 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		ft_pipe(t_node *node, int *flag)
 	set_env("_", "");
 	flag[0] = 0;
 	flag[1] = 0;
+	status = 0;
 	if ((wpid = fork()) == 0)
 		child_pipe(node, flag);
 	else if (wpid < 0)

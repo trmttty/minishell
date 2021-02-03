@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/02 20:47:17 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 23:29:12 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int			set_env(char *name, char *value)
 	free(tmp);
 	if ((arg = ft_split(env, ' ')) == NULL)
 		ft_perror("minishell");
-	ft_export(arg ,&g_env_lst);
+	ft_export(arg);
 	free(env);
 	ft_tabfree(arg);
 	return (0);
@@ -149,7 +149,6 @@ char		*remove_quote(char *str)
 	size_t	size;
 	size_t	head;
 	size_t	tail;
-	char	*tmp;
 	char	*sub;
 
 	ret = ft_strdup("");
