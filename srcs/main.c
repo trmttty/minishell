@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 02:20:58 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/03 10:49:18 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*get_absolute_path(char *relative)
 	if ((paths = ft_split(get_env("PATH"), ':')) == NULL)
 		ft_perror("minishell");
 	tmp = paths;
+	absolute = NULL;
 	while (*paths)
 	{
 		if ((dir = ft_strjoin(*paths, "/")) == NULL)
@@ -39,6 +40,7 @@ char	*get_absolute_path(char *relative)
 		if (stat(absolute , &sb) == 0)
 			break;
 		free(absolute);
+		absolute = NULL;
 		paths++;
 	}
 	ft_tabfree(tmp);
@@ -79,13 +81,12 @@ int		launch(char **args) {
 	if (**args != '/')
 	{
 		tmp = args[0];
-		args[0] = get_absolute_path(args[0]);
+		if ((args[0] = get_absolute_path(args[0])) != NULL)
+			set_env("_", args[0]);
 		free(tmp);
 	}
-	size = ft_tabsize(args);
-	set_env("_", args[size - 1]);
-	printf("launch %s\n", args[size - 1]);	
-    if ((pid = fork()) == 0) {
+    if ((pid = fork()) == 0)
+	{
         execve(args[0], args, create_env_vec(g_env_lst));
 		ft_perror("minishell");
     } else if (pid < 0) {
@@ -244,11 +245,13 @@ void	loop(t_list **env_lst)
 		}
 		line = sort_cmd(line);
 		lexer = init_lexer(line);
-		// while ((g_token = generate_token(lexer)) != NULL)
 		while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 		{
 			if ((g_token = generate_token(lexer)) == NULL)
-				continue;
+			{
+				set_env("_", "");
+                continue;
+			}
 			head = g_token;
 			// gen(node);
 			// print_token(head);
