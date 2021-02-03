@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 17:28:34 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/03 22:38:34 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ void	set_environment(char *arg)
 	char	buf[MAXPATHLEN];
 	char	*tmp;
 	char	*num;
-	char	*path;
+	// char	*path;
 
 	if (getcwd(buf, MAXPATHLEN))
 		set_env("PWD", buf);
@@ -289,7 +289,7 @@ void	set_environment(char *arg)
 	free(tmp);
 	free(num);
 	set_env("_", arg);
-	free(path);
+	// free(path);
 	set_env("?", "0");
 }
 
