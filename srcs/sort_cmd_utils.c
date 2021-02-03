@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 22:06:33 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/03 14:25:30 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/03 17:26:32 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,21 @@ int		ft_isspace(char c)
 			|| c == ' ');
 }
 
-int		cmd_len(char *str, int i)
+int		cmd_len(char *str, int *i)
 {
 	int		len;
+	int		cmd;
 
 	len = 0;
-	while (ft_isspace(str[i + len]))
+	cmd = 0;
+	while (ft_isspace(str[*i + len]))
 		len++;
-	while (str[i + len] && !ft_strchr("<> ;|\"\'", str[i + len]))
-		len++;
-	return (len);
+	while (str[*i + len + cmd] && !ft_strchr("<> ;|\"\'", str[*i + len + cmd]))
+		cmd++;
+	if (cmd)
+		return (len + cmd);
+	*i += len;
+	return (0);
 }
 
 int		skip_quotation(char *str, int i)
@@ -78,7 +83,8 @@ char	*move_cmd(char *str, int *i, int *argc)
 
 	if (!(l = (char **)ft_calloc(5, sizeof(char *))))
 		return (str);
-	len = cmd_len(str, *i);
+	if ((len = cmd_len(str, i)) == 0)
+		return (str);
 	l[CMD] = ft_substr(str, *i, len);
 	str[*i] = 0;
 	l[CUT] = ft_strjoin(str, &str[*i + len]);

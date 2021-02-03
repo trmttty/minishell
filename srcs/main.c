@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 14:28:06 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/03 17:28:34 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,9 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
+		// fprintf(stderr, "%s\n", line);
 		line = sort_cmd(line);
+		// fprintf(stderr, "%s\n", line);
 		lexer = init_lexer(line);
 		while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 		{
