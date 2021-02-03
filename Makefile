@@ -35,13 +35,13 @@ HEADERS = includes
 all : $(NAME)
 
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ_RT)
-	$(CC) -I $(HEADERS) -L libft -lft $(OBJ) -o $@
+	$(CC) $(FLAGS) -I $(HEADERS) -L libft -lft $(OBJ) -o $@
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o : $(SRC_RT_DIR)%.c
-	$(CC) -I $(HEADERS) -o $@ -c $<
+	$(CC) $(FLAGS) -I $(HEADERS) -o $@ -c $<
 
 $(LIBFT):
 	make bonus -C $(DIR_LIB)
