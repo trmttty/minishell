@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 22:06:33 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/03 17:26:32 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/04 19:15:28 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,55 @@ int		ft_isspace(char c)
 			|| c == ' ');
 }
 
+int		quotation_len(char *str, int i)
+{
+	int		tmp;
+
+	tmp = i;
+	if (ft_strchr("\'", str[i]))
+	{
+		i++;
+		while (str[i] && !ft_strchr("\'", str[i]))
+			i++;
+		if (str[i])
+			i++;
+		else
+			return (-1);
+	}
+	if (ft_strchr("\"", str[i]))
+	{
+		i++;
+		while (str[i] && !ft_strchr("\"", str[i]))
+			i++;
+		if (str[i])
+			i++;
+		else
+			return (-1);
+	}
+	return (i - tmp);
+}
+
 int		cmd_len(char *str, int *i)
 {
 	int		len;
 	int		cmd;
+	int		q;
+	char	c;
 
 	len = 0;
 	cmd = 0;
 	while (ft_isspace(str[*i + len]))
 		len++;
-	while (str[*i + len + cmd] && !ft_strchr("<> ;|\"\'", str[*i + len + cmd]))
+	while ((c = str[*i + len + cmd]) && !ft_strchr("<> ;|", c))
+	{
+		if (c == '\\')
+			cmd++;
+		else if ((q = quotation_len(str, *i + len + cmd)) > 0)
+			cmd += q;
+		else if (q == -1)
+			break;
 		cmd++;
+	}
 	if (cmd)
 		return (len + cmd);
 	*i += len;

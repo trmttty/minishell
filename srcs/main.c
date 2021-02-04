@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:14:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 19:03:32 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,9 +244,9 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		// fprintf(stderr, "%s\n", line);
+		fprintf(stderr, "%s\n", line);
 		line = sort_cmd(line);
-		// fprintf(stderr, "%s\n", line);
+		fprintf(stderr, "%s\n", line);
 		lexer = init_lexer(line);
 		while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 		{
