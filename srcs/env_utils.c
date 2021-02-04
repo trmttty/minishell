@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:29:12 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 11:42:55 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,105 +82,41 @@ int			set_env(char *name, char *value)
 	return (0);
 }
 
-char		*replace_env(char *str)
+t_list	*find_env(char *env)
 {
-	char	*ret;
-	size_t	size;
-	size_t	head;
-	size_t	tail;
-	char	*tmp;
-	char	*sub;
+	t_list	*tmp;
 
-	if ((ret = ft_strdup("")) == NULL)
-		ft_perror("minishell");
-	head = 0;
-	tail = 0;
-	size = 0;
-	while (str[tail])
+	tmp = g_env_lst;
+	while (tmp)
 	{
-		if (str[tail] == '\\' && str[tail + 1] == '$')
-		{
-			head += 1;
-			tail += 2;
-		}
-		if (str[tail] != '$')
-		{
-			while (str[tail] && str[tail] != '$')
-				tail++;
-			sub = ft_substr(str, head, tail - head);
-		}
-		else
-		{
-			tail++;
-			if (str[tail] >= '0' && str[tail] <= '9')
-			{
-				tail++;
-				head = tail;
-				continue;
-			}
-			else
-			{
-				while (ft_isalnum(str[tail]) || str[tail] == '_')
-					tail++;
-				if (str[tail] == '?')
-					tail++;
-				if (tail - head == 1)
-					sub = ft_substr(str, head, tail - head);
-				else
-				{
-					tmp = ft_substr(str, head, tail - head);
-					sub = get_env(&tmp[1]);
-					free(tmp);
-				}
-			}
-		}
-		size += ft_strlen(sub);
-		ret = ft_realloc(ret, (size + 1) * sizeof(char));
-		ft_strlcat(ret, sub, size + 1);
-		free(sub);
-		head = tail;
+		if (envcmp(tmp->content, env) == 0)
+			return (tmp);
+		tmp = tmp->next;
 	}
-	return (ret);
+	return (NULL);
 }
 
-char		*remove_quote(char *str)
+void	sort_env_lst()
 {
-	char	*ret;
-	size_t	size;
-	size_t	head;
-	size_t	tail;
-	char	*sub;
+	t_list	*list;
+	void	*content;
+	int		swapped;
 
-	ret = ft_strdup("");
-	head = 0;
-	tail = 0;
-	size = 0;
-	while (str[tail])
+	swapped = 1;
+	while (swapped)
 	{
-		if (str[tail] == '\\')
+		swapped = 0;
+		list = g_env_lst;
+		while (list->next)
 		{
-			head += 1;
-			tail += 2;
+			if (envcmp(list->content, list->next->content) > 0)
+			{
+				content = list->content;
+				list->content = list->next->content;
+				list->next->content = content;
+				swapped = 1;
+			}
+			list = list->next;
 		}
-		if (str[tail] != '"')
-		{
-			while (str[tail] && str[tail] != '"')
-				tail++;
-			sub = ft_substr(str, head, tail - head);
-		}
-		else
-		{
-			head++;
-			tail++;
-			while (str[tail] && str[tail] != '"')
-				tail++;
-			sub = ft_substr(str, head, tail - head);
-		}
-		size += ft_strlen(sub);
-		ret = ft_realloc(ret, (size + 1) * sizeof(char));
-		ft_strlcat(ret, sub, size + 1);
-		free(sub);
-		head = tail;
 	}
-	return (ret);
 }

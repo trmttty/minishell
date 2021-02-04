@@ -6,52 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:26:51 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 12:16:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*find_env(char *env)
-{
-	t_list	*tmp;
-
-	tmp = g_env_lst;
-	while (tmp)
-	{
-		if (envcmp(tmp->content, env) == 0)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-void	sort_env_lst()
-{
-	t_list	*list;
-	void	*content;
-	int		swapped;
-
-	swapped = 1;
-	while (swapped)
-	{
-		swapped = 0;
-		list = g_env_lst;
-		while (list->next)
-		{
-			if (envcmp(list->content, list->next->content) > 0)
-			{
-				content = list->content;
-				list->content = list->next->content;
-				list->next->content = content;
-				swapped = 1;
-			}
-			list = list->next;
-		}
-	}
-}
-
-int		ft_declare()
+static int	ft_declare(void)
 {
 	t_list	*list;
 	char	**env;
@@ -60,8 +21,8 @@ int		ft_declare()
 	list = g_env_lst;
 	while (list)
 	{
-		if (envcmp(list->content, "_=") != 0 &&
-			envcmp(list->content, "?=") != 0)
+		if (envcmp(list->content, "_=") != 0
+			&& envcmp(list->content, "?=") != 0)
 		{
 			env = ft_split(list->content, '=');
 			if (env[1] != NULL)
@@ -75,7 +36,7 @@ int		ft_declare()
 	return (1);
 }
 
-int		validate_arg(char *arg)
+static int	validate_arg(char *arg)
 {
 	size_t	i;
 
@@ -94,13 +55,39 @@ int		validate_arg(char *arg)
 	return (1);
 }
 
-int		ft_export(char **args)
+static void	update_env(char *arg)
 {
 	t_list	*lst;
+	char	*plus;
+	char	*env;
+
+	if ((lst = find_env(arg)) != NULL)
+	{
+		if ((plus = ft_strchr(arg, '+')) != NULL)
+			env = ft_strjoin(lst->content, &plus[2]);
+		else
+			env = ft_strdup(arg);
+		if (env == NULL)
+			ft_perror("minishell");
+		free(lst->content);
+		lst->content = env;
+	}
+}
+
+static void	add_env(char *arg)
+{
 	t_list	*new_lst;
 	char	*env;
-	char	*plus;
 
+	if ((env = ft_strdup(arg)) == NULL)
+		ft_perror("minishell");
+	if ((new_lst = ft_lstnew(env)) == NULL)
+		ft_perror("minishell");
+	ft_lstadd_back(&g_env_lst, new_lst);
+}
+
+int			ft_export(char **args)
+{
 	if (*args)
 	{
 		while (*args)
@@ -110,30 +97,15 @@ int		ft_export(char **args)
 				return (return_failure("export", *args,
 						"not a valid identifier", 0));
 			}
-			if ((lst = find_env(*args)) != NULL)
+			if (find_env(*args))
+				update_env(*args);
+			else if (!(ft_isalpha(**args) || **args == '_' || **args == '?'))
 			{
-				if ((plus = ft_strchr(*args, '+')) != NULL)
-					env = ft_strjoin(lst->content, &plus[2]);
-				else
-					env = ft_strdup(*args);
-				if (env == NULL)
-					ft_perror("minishell");
-				free(lst->content);
-				lst->content = env;
+				return (return_failure("export", *args,
+						"not a valid identifier", 1));
 			}
 			else
-			{
-				if (!(ft_isalpha(**args) || **args == '_' || **args == '?'))
-				{
-					return (return_failure("export", *args,
-							"not a valid identifier", 1));
-				}
-				if ((env = ft_strdup(*args)) == NULL)
-					ft_perror("minishell");
-				if ((new_lst = ft_lstnew(env)) == NULL)
-					ft_perror("minishell");
-				ft_lstadd_back(&g_env_lst, new_lst);
-			}
+				add_env(*args);
 			args++;
 		}
 	}
