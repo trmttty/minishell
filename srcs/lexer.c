@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 16:22:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 01:45:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,34 +42,6 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 			lexer_advance(lexer);
 			continue;
 		}
-		if (!in_bracket(lexer->contents, lexer->i) && ft_strchr(";|<>", lexer->c))
-		{
-			break;
-		}
-		if (in_bracket(lexer->contents, lexer->i) && lexer->c == quote)
-		{
-			lexer_advance(lexer);
-			continue;
-		}	
-		if (!in_bracket(lexer->contents, lexer->i) && lexer->c == quote && !(lexer->nc == ' ' || lexer->nc == '\0'))
-		{
-			lexer_advance(lexer);
-			continue;
-		}
-
-		if (lexer->i && !in_bracket(lexer->contents, lexer->i - 1) && in_bracket(lexer->contents, lexer->i) && lexer->c != quote && (lexer->c == '"' || lexer->c == '\''))
-		{
-			quote = lexer->c;
-			continue;
-		}
-		if (!in_bracket(lexer->contents, lexer->i) && lexer->c == quote)
-		{
-			break;
-		}
-		if (!in_bracket(lexer->contents, lexer->i) && lexer->c == ' ')
-		{
-			break;
-		}
 		if (lexer->c == '$' && quote != '\'')
 		{
 			while (lexer->c == '$' && quote != '\'')
@@ -95,6 +67,26 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 			{
 				continue;
 			}
+		}
+		if (in_bracket(lexer->contents, lexer->i) && lexer->c == quote)
+		{
+			lexer_advance(lexer);
+			continue;
+		}	
+		if (!in_bracket(lexer->contents, lexer->i) && lexer->c == quote && !(lexer->nc == ' ' || lexer->nc == '\0'))
+		{
+			lexer_advance(lexer);
+			continue;
+		}
+
+		if (lexer->i && !in_bracket(lexer->contents, lexer->i - 1) && in_bracket(lexer->contents, lexer->i) && lexer->c != quote && (lexer->c == '"' || lexer->c == '\''))
+		{
+			quote = lexer->c;
+			continue;
+		}
+		if (!in_bracket(lexer->contents, lexer->i) && (ft_strchr(";|<>", lexer->c) || lexer->c == quote || lexer->c == ' '))
+		{
+			break;
 		}
 		s = lexer_get_current_char_as_string(lexer);
 		size = ft_strlen(value) + ft_strlen(s) + 1;
