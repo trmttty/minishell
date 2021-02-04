@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 01:00:55 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 02:16:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void		replace_environ(t_lexer *lexer, char **value)
 	return (replace_environ_next(lexer, value, sub, tail));
 }
 
-char		*trim_value_next(char *value, size_t size)
+static char	*trim_value_next(char *value, size_t size)
 {
 	char		*ret;
 	size_t		i;

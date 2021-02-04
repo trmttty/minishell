@@ -22,6 +22,7 @@ SRC_RT = main.c \
 			lexer_utils_3.c \
 			token.c \
 			parser.c \
+			parser_utils.c \
 			signal.c \
 			error.c \
 			pipe.c \
