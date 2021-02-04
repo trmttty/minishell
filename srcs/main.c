@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:14:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 11:18:24 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,51 @@ void	print_token(t_token *token)
 	}
 }
 
-void	loop(t_list **env_lst)
+int		ft_isspace_str(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+void	sort_token(void)
+{
+	t_token			*tmp;
+	t_token_kind	tmp_kind;
+	char			*tmp_value;
+	int				swapped;
+
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		tmp = g_token;
+		while (tmp->kind != TK_EOF)
+		{
+			if ((!ft_strcmp(tmp->value, ">") || !ft_strcmp(tmp->value, ">>") || !ft_strcmp(tmp->value, "<"))
+				&& tmp->next->value && tmp->next->kind == TK_CMD
+				&& tmp->next->next->value  && tmp->next->next->kind == TK_CMD)
+			{
+				tmp_kind = tmp->next->next->kind;
+				tmp_value = tmp->next->next->value;
+				tmp->next->next->kind = tmp->next->kind;
+				tmp->next->next->value = tmp->next->value;
+				tmp->next->kind = tmp->kind;
+				tmp->next->value = tmp->value;
+				tmp->kind = tmp_kind;
+				tmp->value = tmp_value;
+				swapped = 1;
+			}
+			tmp = tmp->next;
+		}
+	}
+}
+
+void	loop(void)
 {
 	char	*line;
 	int		ret;
@@ -220,7 +264,6 @@ void	loop(t_list **env_lst)
 	t_node	*node;
 	t_lexer *lexer;
 
-	(void)env_lst;
 	while (1)
 	{
     	signal(SIGINT, parent_sigint);
@@ -233,7 +276,7 @@ void	loop(t_list **env_lst)
 		}
 		else if (ret == -1)
 			ft_perror("minishell");
-		if (ft_strlen(line) == 0)
+		if (ft_strlen(line) == 0 || ft_isspace_str(line))
 		{
 			free(line);
 			continue;
@@ -244,9 +287,9 @@ void	loop(t_list **env_lst)
 			free(line);
 			continue;
 		}
-		// fprintf(stderr, "%s\n", line);
-		line = sort_cmd(line);
-		// fprintf(stderr, "%s\n", line);
+		// fprintf(stderr, "before: [%s]\n", line);
+		// line = sort_cmd(line);
+		// fprintf(stderr, "after: [%s]\n", line);
 		lexer = init_lexer(line);
 		while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 		{
@@ -256,6 +299,7 @@ void	loop(t_list **env_lst)
                 continue;
 			}
 			head = g_token;
+			sort_token();
 			node = command_line();
 			// gen(node);
 			// print_token(head);
@@ -292,12 +336,9 @@ void	set_environment(char *arg)
 
 int		main(int argc, char **argv, char **envp)
 {
-	t_list	*env_lst;
-
 	(void)argc;
 	g_env_lst = init_env(envp);
-	env_lst = g_env_lst;
 	set_environment(argv[0]);
-	loop(&env_lst);
+	loop();
 	return (0);
 }

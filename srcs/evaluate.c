@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:40:47 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 09:15:22 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int		ft_exe(char **args)
 
 	if ((size = ft_tabsize(args)))
 		set_env("_", args[size - 1]);
-	// if (args[0] != NULL)
-	// {
+	if (args[0] != NULL)
+	{
 		if (ft_strcmp(args[0], "echo") == 0)
 			return (ft_echo(&args[1]));
 		else if (ft_strcmp(args[0], "cd") == 0)
@@ -35,7 +35,7 @@ int		ft_exe(char **args)
 			return (ft_env(&args[1]));
 		else if (ft_strcmp(args[0], "exit") == 0)
 			return (ft_exit(&args[1]));
-	// }
+	}
 	return (launch(args));
 }
 
