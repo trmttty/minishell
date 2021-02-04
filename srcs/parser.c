@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 12:38:50 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 13:59:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	free_node(t_node *node)
 		free(node);
 }
 
-// // Code generator
+// Code generator
 
 // void gen(t_node *node) {
 // 	// printf("%s %d\n", node->operation, node->kind);

@@ -6,23 +6,20 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:10:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:18:18 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 15:44:11 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_cd(char **args)
+static int	execute_chdir(char **args)
 {
 	char	*path;
-	char	buf[MAXPATHLEN];
-	char	*old_pwd;
-	char	*new_pwd;
 
 	if (*args)
 	{
 		if (chdir(*args) < 0)
-			return (return_failure("cd", *args, strerror(errno), 1));
+			return (1);
 	}
 	else
 	{
@@ -30,10 +27,21 @@ int		ft_cd(char **args)
 		if (chdir(path) < 0)
 		{
 			free(path);
-			return (return_failure("cd", *args, strerror(errno), 1));
+			return (1);
 		}
 		free(path);
 	}
+	return (0);
+}
+
+int			ft_cd(char **args)
+{
+	char	buf[MAXPATHLEN];
+	char	*old_pwd;
+	char	*new_pwd;
+
+	if (execute_chdir(args))
+		return (error_status("cd", *args, strerror(errno), 1));
 	old_pwd = get_env("PWD");
 	set_env("OLDPWD", old_pwd);
 	if (getcwd(buf, MAXPATHLEN))

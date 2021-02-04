@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 21:15:41 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/02 20:46:22 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 12:28:20 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ void	*ft_realloc(void *ptr, size_t size)
 	if (!cpy)
 		return (NULL);
 	ft_memcpy(cpy, ptr, size);
-    free(ptr);
+	free(ptr);
 	return (cpy);
 }

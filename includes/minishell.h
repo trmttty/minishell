@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:25:20 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 15:42:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int     ft_env(char **args);
 int     ft_exit(char **args);
 
 int		launch(char **args);
-void	loop(t_list **env_lst);
+void	loop(void);
 
 /*
 ** env
@@ -54,12 +54,13 @@ char	*remove_quote(char *str);
 int		set_env(char *name, char *value);
 int		envcmp(const char *env1, const char *env2);
 void	sort_env_lst(void);
+t_list	*find_env(char *env);
 
 /*
 ** error
 */
-void    exit_failure(char *commnad, char *arg, char *message, int code);
-int	    return_failure(char *commnad, char *arg, char *message, int code);
+void    exit_status(char *commnad, char *arg, char *message, int code);
+int	    error_status(char *commnad, char *arg, char *message, int code);
 int		set_exit_status(int code);
 void	ft_perror(char *message);
 
