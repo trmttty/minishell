@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 09:07:09 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 13:59:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,35 +132,35 @@ void	free_node(t_node *node)
 
 // Code generator
 
-void gen(t_node *node) {
-	// printf("%s %d\n", node->operation, node->kind);
-	if (node->kind == ND_CMD) {
-		while (*node->commands)
-		{
-			printf("  CMD %s\n", node->commands[0]);
-			(node->commands)++;
-		}
-		return;
-	}
+// void gen(t_node *node) {
+// 	// printf("%s %d\n", node->operation, node->kind);
+// 	if (node->kind == ND_CMD) {
+// 		while (*node->commands)
+// 		{
+// 			printf("  CMD %s\n", node->commands[0]);
+// 			(node->commands)++;
+// 		}
+// 		return;
+// 	}
 
-	gen(node->lnode);
-	gen(node->rnode);
+// 	gen(node->lnode);
+// 	gen(node->rnode);
 
-	switch (node->kind) {
-	case ND_SEMI:
-		printf("  SEMI\n");
-		break;
-	case ND_PIPE:
-		printf("  PIPE\n");
-		break;
-	case ND_GREAT:
-		printf("  GREAT\n");
-		break;
-	case ND_GREATGREAT:
-		printf("  GREATGREAT\n");
-		break;
-	case ND_LESS:
-		printf("  LESS\n");
-		break;
-	}
-}
+// 	switch (node->kind) {
+// 	case ND_SEMI:
+// 		printf("  SEMI\n");
+// 		break;
+// 	case ND_PIPE:
+// 		printf("  PIPE\n");
+// 		break;
+// 	case ND_GREAT:
+// 		printf("  GREAT\n");
+// 		break;
+// 	case ND_GREATGREAT:
+// 		printf("  GREATGREAT\n");
+// 		break;
+// 	case ND_LESS:
+// 		printf("  LESS\n");
+// 		break;
+// 	}
+// }

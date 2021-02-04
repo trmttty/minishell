@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 11:43:57 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 15:42:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ t_list	*find_env(char *env);
 /*
 ** error
 */
-void    exit_failure(char *commnad, char *arg, char *message, int code);
-int	    return_failure(char *commnad, char *arg, char *message, int code);
+void    exit_status(char *commnad, char *arg, char *message, int code);
+int	    error_status(char *commnad, char *arg, char *message, int code);
 int		set_exit_status(int code);
 void	ft_perror(char *message);
 

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:10:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 11:34:26 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/04 15:44:11 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int			ft_cd(char **args)
 	char	*new_pwd;
 
 	if (execute_chdir(args))
-		return (return_failure("cd", *args, strerror(errno), 1));
+		return (error_status("cd", *args, strerror(errno), 1));
 	old_pwd = get_env("PWD");
 	set_env("OLDPWD", old_pwd);
 	if (getcwd(buf, MAXPATHLEN))
