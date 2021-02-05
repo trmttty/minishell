@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   env_utils_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 10:58:00 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 12:31:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,6 @@ void		init_env(char *arg)
 	free(num);
 	set_env("_", arg);
 	set_env("?", "0");
-}
-
-int		envcmp(const char *env1, const char *env2)
-{
-	while (*env1 && *env1 != '=' && *env1 == *env2)
-	{
-		env1++;
-		env2++;
-	}
-	if (*env2 == '+')
-		env2++;
-	return (*env1 - *env2);
 }
 
 char		*get_env(char *name)
@@ -99,7 +87,7 @@ int			set_env(char *name, char *value)
 	return (0);
 }
 
-t_list	*find_env(char *env)
+t_list		*find_env(char *env)
 {
 	t_list	*tmp;
 
@@ -111,50 +99,4 @@ t_list	*find_env(char *env)
 		tmp = tmp->next;
 	}
 	return (NULL);
-}
-
-void	sort_env_lst()
-{
-	t_list	*list;
-	void	*content;
-	int		swapped;
-
-	swapped = 1;
-	while (swapped)
-	{
-		swapped = 0;
-		list = g_env_lst;
-		while (list->next)
-		{
-			if (envcmp(list->content, list->next->content) > 0)
-			{
-				content = list->content;
-				list->content = list->next->content;
-				list->next->content = content;
-				swapped = 1;
-			}
-			list = list->next;
-		}
-	}
-}
-
-char	**create_env_vec(t_list *env_lst)
-{
-	char	**env_vec;
-	int		size;
-	int		i;
-
-	size = ft_lstsize(env_lst);
-	if ((env_vec = ft_calloc(size + 1, sizeof(char*))) == NULL)
-        ft_perror("minishell");
-	i = 0;
-	while (i < size)
-	{
-		if ((env_vec[i] = ft_strdup(env_lst->content)) == NULL)
-			ft_perror("minishell");
-		i++;
-		env_lst = env_lst->next;
-	}
-	env_vec[i] = NULL;
-	return (env_vec);
 }

@@ -17,7 +17,8 @@ SRC_RT = main.c \
 			unset.c \
 			env.c \
 			exit.c \
-			env_utils.c \
+			env_utils_1.c \
+			env_utils_2.c \
 			lexer.c \
 			lexer_utils_1.c \
 			lexer_utils_2.c \
