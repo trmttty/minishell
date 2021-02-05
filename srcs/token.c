@@ -6,74 +6,21 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:33:07 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 09:07:20 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "token.h"
 #include "lexer.h"
-#include <stdlib.h>
 
-
-t_token* init_token(t_token_kind type, char* value)
-{
-	t_token* token;
-
-	if ((token = calloc(1, sizeof(t_token))) == NULL)
-		ft_perror("minishell");
-	token->kind = type;
-	token->value = value;
-	return (token);
-}
-
-
-
-// Input program
-
-// Current token
-
-// Reports an error location and exit.
-void error_at(char *loc, char *fmt, ...) {
-	va_list ap;
-	va_start(ap, fmt);
-
-	(void)loc;
-	// int pos = loc - user_input;
-	// fprintf(stderr, "%s\n", user_input);
-	// fprintf(stderr, "%*s", pos, ""); // print pos spaces.
-	fprintf(stderr, "^ ");
-	vfprintf(stderr, fmt, ap);
-	fprintf(stderr, "\n");
-	exit(1);
-}
-
-// Consumes the current token if it matches `op`.
-bool consume(char *op) {
-	if (g_token->kind != TK_RESERVED || ft_strcmp(g_token->value, op))
-		return false;
-	g_token = g_token->next;
-	return true;
-}
-
-// Ensure that the current token is `op`.
-void expect(char op) {
-	if (g_token->kind != TK_RESERVED || g_token->value[0] != op)
-		error_at(g_token->value, "expected '%c'", op);
-	g_token = g_token->next;
-}
-
-// Ensure that the current token is TK_CMD.
-char **expect_command()
+char		**expect_command(void)
 {
 	t_token	*tmp;
-	char    **cmds;
+	char	**cmds;
 	size_t	size;
 	size_t	i;
 
-	if (g_token->kind != TK_CMD)
-		;
-		// error_at(token->command, "expected a command");
 	tmp = g_token;
 	size = 0;
 	while (tmp->kind == TK_CMD)
@@ -96,14 +43,10 @@ char **expect_command()
 	return (cmds);
 }
 
-bool at_eof() {
-	return g_token->kind == TK_EOF;
-}
+t_token		*new_token(t_token_kind kind, t_token *cur, char *value)
+{
+	t_token	*token;
 
-// Create a new token and add it as the next token of `cur`.
-t_token		*new_token(t_token_kind kind, t_token *cur, char *value) {
-	t_token *token;
-	
 	if ((token = ft_calloc(1, sizeof(t_token))) == NULL)
 		ft_perror("minishell");
 	token->kind = kind;
@@ -130,45 +73,5 @@ t_token		*generate_token(t_lexer *lexer)
 	}
 	if (token_head.next)
 		new_token(TK_EOF, cur, NULL);
-	return(token_head.next);
-}
-
-t_token		*parse_token(t_token *token)
-{
-	if (token == NULL)
-		return (NULL);
-	if (token->kind == TK_EOF)
-		return (NULL);
-	while (token->kind != TK_EOF && ft_strcmp(token->value, ";") != 0)
-		token = token->next;
-	if (token->kind != TK_EOF)
-		token->kind = TK_EOF;
-	return(token);
-}
-
-void	free_token(t_token *token)
-{
-	t_token	*tmp;
-
-	while (token)
-	{
-		// if (token->kind == TK_RESERVED || token->kind == TK_EOF)
-		free(token->value);
-		tmp = token;
-		token = token->next;
-		free(tmp);
-	}
-}
-
-void	free_token1(t_token *token)
-{
-	t_token	*tmp;
-
-	while (token)
-	{
-		free(token->value);
-		tmp = token;
-		token = token->next;
-		free(tmp);
-	}
+	return (token_head.next);
 }

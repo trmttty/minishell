@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 15:43:56 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 08:39:38 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ int		check_syntax(char *line)
 	if ((token = generate_checker(lexer)) != NULL)
 	{
 		ret = syntax_check(token);
-		free_token1(token);
+		free_token(token);
 	}
 	free(lexer);
 	if (ret)
