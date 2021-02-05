@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 08:41:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 10:20:52 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ typedef struct      s_env
 }                   t_env;
 
 t_list	*g_env_lst;
-extern	char **environ;
+
+/*
+** main
+*/
+int		ft_iswspace_str(char *str);
+int		set_exit_status(int status);
+int		launch(char **args);
+
 /*
 ** builtin
 */
@@ -48,7 +55,8 @@ void	loop(void);
 /*
 ** env
 */
-t_list	*init_env(char **envp);
+t_list	*generate_env_lst(char **envp);
+void	init_env(char *arg);
 char	*get_env(char *key);
 char	*replace_env(char *str);
 char	*remove_quote(char *str);
@@ -56,6 +64,7 @@ int		set_env(char *name, char *value);
 int		envcmp(const char *env1, const char *env2);
 void	sort_env_lst(void);
 t_list	*find_env(char *env);
+char	**create_env_vec(t_list *env_lst);
 
 /*
 ** error

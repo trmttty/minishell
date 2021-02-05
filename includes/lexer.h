@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 16:24:16 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 10:05:17 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@ int			is_escaped(char *s, int pos);
 int			in_bracket(char *s, int pos);
 char		*trim_value(char *value);
 void		replace_environ(t_lexer* lexer, char **value);
+t_token		*lexer_get_next_checker(t_lexer* lexer);
 #endif
