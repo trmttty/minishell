@@ -6,13 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 10:10:28 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 10:58:00 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list		*generate_env_lst(char **envp)
+t_list		*init_env_lst(char **envp)
 {
 	t_list	*env_lst;
 
