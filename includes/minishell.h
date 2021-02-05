@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 10:20:52 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 10:58:59 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,11 @@ int     ft_env(char **args);
 int     ft_exit(char **args);
 
 int		launch(char **args);
-void	loop(void);
 
 /*
 ** env
 */
-t_list	*generate_env_lst(char **envp);
+t_list	*init_env_lst(char **envp);
 void	init_env(char *arg);
 char	*get_env(char *key);
 char	*replace_env(char *str);

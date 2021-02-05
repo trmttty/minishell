@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 00:00:17 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 10:36:01 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "lexer.h"
 #include "token.h"
 
-t_lexer		*init_lexer(char *contents)
+t_lexer		*new_lexer(char *contents)
 {
 	t_lexer	*lexer;
 

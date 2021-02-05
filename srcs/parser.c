@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:16:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 02:23:14 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 10:45:58 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_node	*command_line(void)
 {
 	t_node	*node;
 
+	sort_token();
 	node = job();
 	while (1)
 	{
