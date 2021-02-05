@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 11:07:11 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 11:13:18 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,6 @@
 #include "signal.h"
 #include "evaluate.h"
 #include "sort_cmd.h"
-
-static void	print_token(t_token *token)
-{
-	t_token *tmp;
-
-	tmp = token;
-	while (tmp)
-	{
-		fprintf(stderr, "token: [%d] [%s]\n", tmp->kind, tmp->value);
-		tmp = tmp->next;
-	}
-}
 
 static int	read_stdin(char **line)
 {
