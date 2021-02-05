@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 10:05:28 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 18:14:44 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_token		*lexer_get_next_checker(t_lexer* lexer)
 		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
 			return (lexer_collect_string(lexer, lexer->c));
 		if (ft_strchr(";<>|", lexer->c))
-			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char_as_string(lexer))));
+			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char(lexer))));
 		return (lexer_collect_string(lexer, 0));
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 01:45:25 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 18:22:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 		if (lexer->c == '\\')
 		{
 			lexer_advance(lexer);
-			s = lexer_get_current_char_as_string(lexer);
+			s = lexer_get_current_char(lexer);
 			size = ft_strlen(value) + ft_strlen(s) + 1;
 			if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
 				ft_perror("minishell");
@@ -88,7 +88,7 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 		{
 			break;
 		}
-		s = lexer_get_current_char_as_string(lexer);
+		s = lexer_get_current_char(lexer);
 		size = ft_strlen(value) + ft_strlen(s) + 1;
 		if ((value = ft_realloc(value, size * sizeof(char))) == NULL)
 			ft_perror("minishell");
