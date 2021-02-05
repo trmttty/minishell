@@ -7,7 +7,9 @@ SRC_RT_DIR 	= ./srcs/
 OBJ_DIR 	= ./objs/
 
 SRC_RT = main.c \
+			main_utils.c \
 			get_next_line.c \
+			launch.c \
 			echo.c \
 			cd.c \
 			pwd.c \
