@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 11:13:18 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 01:10:06 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	loop(void)
 		lexer = new_lexer(line);
 		execute_minishell(lexer);
 		free(line);
+		free(lexer->contents);
 		free(lexer);
 	}
 }

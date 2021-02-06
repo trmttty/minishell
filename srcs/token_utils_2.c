@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 12:41:35 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 01:20:09 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void		sort_token(void)
 		tmp = g_token;
 		while (tmp->kind != TK_EOF)
 		{
-			if ((!ft_strcmp(tmp->value, ">") || !ft_strcmp(tmp->value, ">>")
+			if (tmp->kind == TK_RESERVED
+				&& (!ft_strcmp(tmp->value, ">") || !ft_strcmp(tmp->value, ">>")
 				|| !ft_strcmp(tmp->value, "<"))
 				&& tmp->next->value && tmp->next->kind == TK_CMD
 				&& tmp->next->next->value && tmp->next->next->kind == TK_CMD)
@@ -116,6 +117,7 @@ int			check_syntax(char *line)
 	}
 	if (ft_isquote(lexer->quote))
 		ret = 0;
+	free(lexer->contents);
 	free(lexer);
 	if (ret)
 		return (1);

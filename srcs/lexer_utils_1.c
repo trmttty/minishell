@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 12:50:14 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 23:29:29 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_lexer		*new_lexer(char *contents)
 
 	if ((lexer = ft_calloc(1, sizeof(t_lexer))) == NULL)
 		ft_perror("minishell");
-	lexer->contents = contents;
+	if ((lexer->contents = ft_strdup(contents)) == NULL)
+		ft_perror("minishell");
 	lexer->i = 0;
 	lexer->c = contents[lexer->i];
 	lexer->nc = contents[lexer->i + 1];
@@ -37,8 +38,11 @@ void		lexer_advance(t_lexer *lexer)
 		lexer->i += 1;
 		lexer->c = lexer->contents[lexer->i];
 		lexer->nc = lexer->contents[lexer->i + 1];
+		if (lexer->env > 0)
+			lexer->env -= 1;
 	}
-	in_bracket(lexer);
+	if (lexer->env == 0)
+		in_bracket(lexer);
 }
 
 void		lexer_skip_whitespace(t_lexer *lexer)
