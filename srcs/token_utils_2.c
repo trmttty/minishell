@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 15:49:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/05 23:30:47 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int			check_syntax(char *line)
 	t_lexer	*lexer;
 	int		ret;
 
-	if (in_bracket(line, ft_strlen(line) - 1))
-		return (error_status(NULL, NULL, "syntax error", 0));
+	// if (in_bracket(line, ft_strlen(line) - 1))
+	// 	return (error_status(NULL, NULL, "syntax error", 0));
 	lexer = new_lexer(line);
 	ret = 0;
 	if ((token = generate_checker(lexer)) != NULL)

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 10:36:01 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 00:12:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ void		lexer_advance(t_lexer *lexer)
 		lexer->i += 1;
 		lexer->c = lexer->contents[lexer->i];
 		lexer->nc = lexer->contents[lexer->i + 1];
+		in_bracket(lexer);
 	}
+	// in_bracket(lexer);
 }
 
 void		lexer_skip_whitespace(t_lexer *lexer)
@@ -59,27 +61,47 @@ int			is_escaped(char *str, int pos)
 	return (n % 2);
 }
 
-int			in_bracket(char *str, int pos)
-{
-	int	dquote;
-	int	squote;
-	int	i;
+// int			in_bracket(char *str, int pos)
+// {
+// 	int	dquote;
+// 	int	squote;
+// 	int	i;
 
-	dquote = 0;
-	squote = 0;
-	i = 0;
-	while (i <= pos)
+// 	dquote = 0;
+// 	squote = 0;
+// 	i = 0;
+// 	while (i <= pos)
+// 	{
+// 		if (str[i] == '"' && (i == 0 || !is_escaped(str, i - 1))
+// 			&& squote % 2 == 0)
+// 			dquote++;
+// 		else if (str[i] == '\''
+// 				&& (i == 0 || squote % 2 != 0 || !is_escaped(str, i - 1))
+// 				&& dquote % 2 == 0)
+// 			squote++;
+// 		i++;
+// 	}
+// 	if (dquote % 2 != 0 || squote % 2 != 0)
+// 		return (1);
+// 	return (0);
+// }
+
+int			ft_isquote(char c)
+{
+	return (c == '"' || c == '\'');
+}
+
+int			in_bracket(t_lexer *lexer)
+{
+	if (lexer->quote == '\0' && ft_isquote(lexer->c)) 
 	{
-		if (str[i] == '"' && (i == 0 || !is_escaped(str, i - 1))
-			&& squote % 2 == 0)
-			dquote++;
-		else if (str[i] == '\''
-				&& (i == 0 || squote % 2 != 0 || !is_escaped(str, i - 1))
-				&& dquote % 2 == 0)
-			squote++;
-		i++;
-	}
-	if (dquote % 2 != 0 || squote % 2 != 0)
+		lexer->quote = lexer->c;
 		return (1);
-	return (0);
+	}
+	if (ft_isquote(lexer->quote) && lexer->quote == lexer->c)
+	{
+		lexer->quote = '\0';
+		return (0);
+	}
+	return (ft_isquote(lexer->quote));
 }
