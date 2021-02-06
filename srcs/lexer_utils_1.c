@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 00:12:25 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 12:37:43 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_lexer		*new_lexer(char *contents)
 	lexer->i = 0;
 	lexer->c = contents[lexer->i];
 	lexer->nc = contents[lexer->i + 1];
+	if (ft_isquote(lexer->c))
+		lexer->quote = lexer->c;
 	return (lexer);
 }
 
@@ -35,8 +37,8 @@ void		lexer_advance(t_lexer *lexer)
 		lexer->i += 1;
 		lexer->c = lexer->contents[lexer->i];
 		lexer->nc = lexer->contents[lexer->i + 1];
-		in_bracket(lexer);
 	}
+	in_bracket(lexer);
 	// in_bracket(lexer);
 }
 
