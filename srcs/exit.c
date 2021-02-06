@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 15:45:35 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 11:36:04 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,20 @@ int		is_num_str(char *str)
 
 int		ft_exit(char **args)
 {
-	long			rv;
+	long	rv;
+	char	*question;
 
-	rv = ft_atoi(get_env("?"));
+	question = get_env("?");
+	rv = ft_atoi(question);
+	free(question);
 	if (*args)
 	{
 		if (!is_num_str(*args))
 			exit(255);
 		if (args[1])
+		{
 			return (error_status("exit", NULL, "too many arguments", 1));
+		}
 		rv = ft_atoi(*args);
 		rv %= 256;
 		if (rv < 0)
