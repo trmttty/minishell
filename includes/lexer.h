@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 00:14:23 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 11:16:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void lexer_skip_whitespace(t_lexer* lexer);
 
 t_token* lexer_get_next_token(t_lexer* lexer);
 
-t_token* lexer_collect_string(t_lexer* lexer, char quote);
+t_token* lexer_collect_string(t_lexer* lexer);
 
 t_token* lexer_collect_id(t_lexer* lexer);
 

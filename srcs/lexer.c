@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 10:18:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 11:16:35 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			ft_isescape(t_lexer *lexer)
 	return (0);
 }
 
-t_token*    lexer_collect_string(t_lexer* lexer, char quote)
+t_token*    lexer_collect_string(t_lexer* lexer)
 {
 	char    *value;
 	char    *s;
@@ -45,11 +45,24 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 
 	if ((value = ft_calloc(1, sizeof(char))) == NULL)
 		ft_perror("minishell");
-	lexer->quote = quote;
 	value[0] = '\0';
 	while (lexer->c != '\0')
 	{
-		if (ft_isescape(lexer))
+		if (lexer->quote && lexer->quote == lexer->c)
+		{
+			// fprintf(stderr, "lexer: [%c] [%c] [%c] [%c] [%s]\n", lexer->pc, lexer->c, lexer->nc, lexer->quote, value);
+			lexer_advance(lexer);
+		}	
+		else if (!lexer->quote && ft_isquote(lexer->c) && !(lexer->nc == ' ' || lexer->nc == '\0'))
+		{
+			// fprintf(stderr, "lexer: [%c] [%c] [%c] [%c] [%s]\n", lexer->pc, lexer->c, lexer->nc, lexer->quote, value);
+			lexer_advance(lexer);
+		}
+		else if (!lexer->quote && (ft_strchr(";|<>", lexer->c) || ft_isquote(lexer->c) || ft_strchr(" \t", lexer->c)))
+		{
+			break;
+		}
+		else if (ft_isescape(lexer))
 		{
 			if (lexer->quote == 0 && lexer->nc == '\n')
 			{
@@ -77,9 +90,9 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 			}
 			lexer_advance(lexer);
 		}
-		else if (lexer->c == '$' && quote != '\'')
+		else if (lexer->c == '$' && lexer->quote != '\'')
 		{
-			while (lexer->c == '$' && quote != '\'')
+			while (lexer->c == '$' && lexer->quote != '\'')
 			{
 				replace_environ(lexer, &value);
 			}
@@ -102,20 +115,6 @@ t_token*    lexer_collect_string(t_lexer* lexer, char quote)
 			{
 				continue;
 			}
-		}
-		else if (lexer->quote && lexer->quote == lexer->c)
-		{
-			// fprintf(stderr, "lexer: [%c] [%c] [%c] [%c] [%s]\n", lexer->pc, lexer->c, lexer->nc, lexer->quote, value);
-			lexer_advance(lexer);
-		}	
-		else if (!lexer->quote && ft_isquote(lexer->c) && !(lexer->nc == ' ' || lexer->nc == '\0'))
-		{
-			// fprintf(stderr, "lexer: [%c] [%c] [%c] [%c] [%s]\n", lexer->pc, lexer->c, lexer->nc, lexer->quote, value);
-			lexer_advance(lexer);
-		}
-		else if (!lexer->quote && (ft_strchr(";|<>", lexer->c) || ft_isquote(lexer->c) || ft_strchr(" \t", lexer->c)))
-		{
-			break;
 		}
 		else
 		{
