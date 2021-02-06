@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 14:26:24 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 14:46:19 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static char	*get_absolute_path(char *relative)
 	char		*env;
 	char		*absolute;
 
+	if (ft_strlen(relative) == 0)
+		return (NULL);
 	env = get_env("PATH");
 	if ((paths = ft_split(env, ':')) == NULL)
 		ft_perror("minishell");
@@ -86,6 +88,7 @@ int			launch(char **args)
 		free(args[0]);
 		args[0] = absolute;
 	}
+	printf("[%s]\n", *args);
 	if ((pid = fork()) == 0)
 	{
 		execve(args[0], args, create_env_vec(g_env_lst));

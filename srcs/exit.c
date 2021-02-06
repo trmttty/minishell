@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 20:06:20 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/06 14:22:21 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static long	set_number(char *str, int sign)
 	return (nb);
 }
 
-int			my_atoi(char *str)
+static int	my_atoi(char *str)
 {
 	int		sign;
 
@@ -57,7 +57,7 @@ int			my_atoi(char *str)
 	return ((int)(sign * set_number(str, sign)));
 }
 
-int		is_num_str(char *str)
+static int	is_num_str(char *str)
 {
 	if (*str == '-')
 		str++;
@@ -70,24 +70,24 @@ int		is_num_str(char *str)
 	return (1);
 }
 
-int		ft_exit(char **args)
+int			ft_exit(char **args)
 {
-	long			rv;
+	long	rv;
+	char	*question;
 
-	rv = ft_atoi(get_env("?"));
+	question = get_env("?");
+	rv = ft_atoi(question);
+	free(question);
 	if (*args)
 	{
 		if (!is_num_str(*args))
-		{
 			exit_status("exit", *args, "numeric argument required", 255);
-			// exit(255);
-		}
 		if (args[1])
 			return (error_status("exit", NULL, "too many arguments", 1));
 		rv = my_atoi(*args);
 		rv %= 256;
 		if (rv < 0)
-			rv += 256;
+		rv += 256;
 	}
 	exit(rv);
 }

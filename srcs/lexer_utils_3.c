@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 10:05:28 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/06 12:52:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,20 @@ char		*trim_value(char *value)
 	return (trim_value_next(value, size));
 }
 
-t_token		*lexer_get_next_checker(t_lexer* lexer)
+t_token		*lexer_get_next_checker(t_lexer *lexer)
 {
 	while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
 	{
-		if (lexer->c == ' ' || lexer->c == '\n')
+		if (lexer->c == ' ' || lexer->c == '\t')
 			lexer_skip_whitespace(lexer);
 		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
-			return (lexer_collect_string(lexer, lexer->c));
+			return (lexer_collect_string(lexer));
 		if (ft_strchr(";<>|", lexer->c))
-			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED, lexer_get_current_char_as_string(lexer))));
-		return (lexer_collect_string(lexer, 0));
+		{
+			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED,
+					lexer_get_current_char(lexer))));
+		}
+		return (lexer_collect_string(lexer));
 	}
 	return (NULL);
 }
