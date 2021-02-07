@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 15:00:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 21:33:54 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,15 @@ static char	*get_absolute_path(char *relative)
 static int	return_status(int status, char **args)
 {
 	if (status == 2)
+	{
 		ft_putstr_fd("\n", 1);
+		return (INT_STATUS);
+	}
 	if (status == 3)
+	{
 		ft_putstr_fd("^\\Quit: 3\n", 1);
+		return (QUIT_STATUS);
+	}
 	if (status == 256 && args[1])
 		return (1);
 	if (status == 256)
