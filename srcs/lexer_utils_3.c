@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 12:21:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 13:54:57 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,31 @@ int			lexer_escape_string(t_lexer *lexer, char **value)
 	return (0);
 }
 
-int			lexer_expand_env(t_lexer *lexer, char **value)
+static void	update_contens(t_lexer *lexer, char **value)
 {
 	char	*tmp;
 
+	tmp = lexer->contents;
+	if (ft_isquote(lexer->c))
+		lexer->i++;
+	lexer->env = ft_strlen(*value);
+	lexer->contents = ft_strjoin(*value, &lexer->contents[lexer->i]);
+	free(tmp);
+	free(*value);
+	*value = ft_strdup("");
+	lexer->i = 0;
+	lexer->pc = 0;
+	lexer->c = lexer->contents[0];
+	if (ft_strlen(lexer->contents))
+		lexer->nc = lexer->contents[1];
+	else
+		lexer->nc = 0;
+	while (!lexer->quote && (lexer->c == ' ' || lexer->c == '\t'))
+		lexer_skip_whitespace(lexer);
+}
+
+int			lexer_expand_env(t_lexer *lexer, char **value)
+{
 	while (lexer->c == '$' && lexer->quote != '\'')
 		replace_environ(lexer, value);
 	if (!lexer->quote && !ft_isquote(lexer->c) && ft_strcmp(*value, "$"))
@@ -73,23 +94,7 @@ int			lexer_expand_env(t_lexer *lexer, char **value)
 		if (ft_strlen(*value) == 0 && (ft_isquote(lexer->c)
 			|| ft_strchr(" \t", lexer->c) || lexer->c == '\0'))
 			return (1);
-		tmp = lexer->contents;
-		if (ft_isquote(lexer->c))
-			lexer->i++;
-		lexer->env = ft_strlen(*value);
-		lexer->contents = ft_strjoin(*value, &lexer->contents[lexer->i]);
-		free(tmp);
-		free(*value);
-		*value = ft_strdup("");
-		lexer->i = 0;
-		lexer->pc = 0;
-		lexer->c = lexer->contents[0];
-		if (ft_strlen(lexer->contents))
-			lexer->nc = lexer->contents[1];
-		else
-			lexer->nc = 0;
-		while (!lexer->quote && (lexer->c == ' ' || lexer->c == '\t'))
-			lexer_skip_whitespace(lexer);
+		update_contens(lexer, value);
 	}
 	return (0);
 }
