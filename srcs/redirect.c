@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/07 20:21:36 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/07 21:42:28 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		ft_redirect_in(t_node *node, int *flag)
 	int		status;
 	int		fd;
 
-	if (ft_strcmp(node->lnode->commands[0], "exit") == 0)
+	if (node->lnode->commands[0] && ft_strcmp(node->lnode->commands[0], "exit") == 0)
 	{
 		fd = open (node->rnode->commands[0], O_RDONLY);
 		if (flag[1] == 0)
