@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/04 12:29:22 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:21:36 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,35 @@ int		ft_redirect_outout(t_node *node, int *flag)
 
 int		ft_redirect_in(t_node *node, int *flag)
 {
+	pid_t	pid;
+	int		status;
 	int		fd;
 
-	fd = open(node->rnode->commands[0], O_RDONLY);
-	if (flag[1] == 0)
+	if (ft_strcmp(node->lnode->commands[0], "exit") == 0)
 	{
-		dup2(fd, STDIN_FILENO);
-		flag[1] = 1;
+		fd = open (node->rnode->commands[0], O_RDONLY);
+		if (flag[1] == 0)
+		{
+			dup2(fd, STDIN_FILENO);
+			flag[1] = 1;
+		}
+		evaluate(node->lnode, flag);
 	}
-	return (evaluate(node->lnode, flag));
+	status = 0;
+	pid = fork();
+	if (pid == 0)
+	{
+		fd = open (node->rnode->commands[0], O_RDONLY);
+		if (flag[1] == 0)
+		{
+			dup2(fd, STDIN_FILENO);
+			flag[1] = 1;
+		}
+		exit(evaluate(node->lnode, flag));
+	}
+	else if (pid < 0)
+		perror("lsh");
+	else
+		wait(&status);
+	return (status >> 8);
 }
