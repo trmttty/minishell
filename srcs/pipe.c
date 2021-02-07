@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:19:56 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/03 23:42:12 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 21:00:55 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	child_pipe(t_node *node, int *flag)
 	int		fd[2];
 	pid_t	pid;
 
-	pipe(fd);
+	if (pipe(fd) == -1)
+		ft_perror("minishell");
 	if ((pid = fork()) == 0)
 	{
 		dup2(fd[1], 1);
@@ -27,7 +28,7 @@ void	child_pipe(t_node *node, int *flag)
 		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
-		perror("lsh");
+		ft_perror("minishell");
 	else
 	{
 		dup2(fd[0], 0);
@@ -49,7 +50,7 @@ int		ft_pipe(t_node *node, int *flag)
 	if ((wpid = fork()) == 0)
 		child_pipe(node, flag);
 	else if (wpid < 0)
-		perror("lsh");
+		ft_perror("minishell");
 	else
 		wait(&status);
 	return (status >> 8);
