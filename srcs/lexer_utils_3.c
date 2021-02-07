@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 12:52:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 12:21:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,109 +14,82 @@
 #include "lexer.h"
 #include "token.h"
 
-static void	replace_environ_next(t_lexer *lexer, char **value,
-									char *sub, size_t tail)
+int			ft_isescape(t_lexer *lexer)
 {
-	size_t	len;
-
-	if ((len = ft_strlen(sub)) > 0)
+	if (lexer->c == '\\' && lexer->quote != '\'')
 	{
-		if ((*value = ft_realloc(*value,
-			(ft_strlen(*value) + len + 1) * sizeof(char))) == NULL)
-			ft_perror("minishell");
-		ft_strlcat(*value, sub, ft_strlen(*value) + len + 1);
+		if (lexer->quote == 0)
+			return (1);
+		if (lexer->quote == '"' && ft_strchr("$`\"\\\n", lexer->nc))
+			return (1);
 	}
-	free(sub);
-	while (tail--)
-		lexer_advance(lexer);
+	return (0);
 }
 
-void		replace_environ(t_lexer *lexer, char **value)
+int			lexer_skip_quote(t_lexer *lexer)
+{
+	if (lexer->quote && lexer->quote == lexer->c && !lexer->env)
+		return (1);
+	else if (!lexer->quote && ft_isquote(lexer->c)
+			&& !(lexer->nc == ' ' || lexer->nc == '\0') && !lexer->env)
+		return (1);
+	return (0);
+}
+
+int			lexer_escape_string(t_lexer *lexer, char **value)
+{
+	char	*str;
+	size_t	size;
+
+	if (lexer->quote == 0 && lexer->nc == '\n')
+	{
+		lexer_advance(lexer);
+		lexer_advance(lexer);
+	}
+	else if (lexer->quote == 0)
+		lexer_advance(lexer);
+	else if (lexer->quote == '"' && ft_strchr("$`\"\\\n", lexer->nc))
+		lexer_advance(lexer);
+	str = lexer_get_current_char(lexer);
+	size = ft_strlen(*value) + ft_strlen(str) + 1;
+	if ((*value = ft_realloc(*value, size * sizeof(char))) == NULL)
+		ft_perror("minishell");
+	ft_strlcat(*value, str, size);
+	free(str);
+	if (!lexer->quote && ft_strchr(";|<>", lexer->nc))
+		return (1);
+	lexer_advance(lexer);
+	return (0);
+}
+
+int			lexer_expand_env(t_lexer *lexer, char **value)
 {
 	char	*tmp;
-	char	*sub;
-	size_t	tail;
 
-	tail = 1;
-	while (ft_isalnum(lexer->contents[lexer->i + tail])
-			|| lexer->contents[lexer->i + tail] == '_')
-		tail++;
-	if (lexer->contents[lexer->i + tail] == '?')
-		tail++;
-	if (tail == 1)
+	while (lexer->c == '$' && lexer->quote != '\'')
+		replace_environ(lexer, value);
+	if (!lexer->quote && !ft_isquote(lexer->c) && ft_strcmp(*value, "$"))
 	{
-		if ((sub = ft_substr(&lexer->contents[lexer->i], 0, tail)) == NULL)
-			ft_perror("minishell");
-	}
-	else
-	{
-		if ((tmp = ft_substr(&lexer->contents[lexer->i], 0, tail)) == NULL)
-			ft_perror("minishell");
-		sub = get_env(&tmp[1]);
+		if (ft_strlen(*value) == 0 && (ft_isquote(lexer->c)
+			|| ft_strchr(" \t", lexer->c) || lexer->c == '\0'))
+			return (1);
+		tmp = lexer->contents;
+		if (ft_isquote(lexer->c))
+			lexer->i++;
+		lexer->env = ft_strlen(*value);
+		lexer->contents = ft_strjoin(*value, &lexer->contents[lexer->i]);
 		free(tmp);
-	}
-	return (replace_environ_next(lexer, value, sub, tail));
-}
-
-static char	*trim_value_next(char *value, size_t size)
-{
-	char		*ret;
-	size_t		i;
-	size_t		j;
-
-	if ((ret = ft_calloc(size + 1, sizeof(char))) == NULL)
-		ft_perror("minishell");
-	i = 0;
-	j = 0;
-	while (value[i])
-	{
-		if (value[i] != ' ')
-			ret[j++] = value[i];
-		if (value[i] != ' ' && value[i + 1] == ' ')
-			ret[j++] = ' ';
-		i++;
-	}
-	ret[j] = '\0';
-	free(value);
-	return (ret);
-}
-
-char		*trim_value(char *value)
-{
-	char		*tmp;
-	size_t		size;
-	size_t		i;
-
-	tmp = value;
-	value = ft_strtrim(value, " ");
-	free(tmp);
-	i = 0;
-	size = 0;
-	while (value[i])
-	{
-		if (value[i] != ' ')
-			size++;
-		if (value[i] != ' ' && value[i + 1] == ' ')
-			size++;
-		i++;
-	}
-	return (trim_value_next(value, size));
-}
-
-t_token		*lexer_get_next_checker(t_lexer *lexer)
-{
-	while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->contents))
-	{
-		if (lexer->c == ' ' || lexer->c == '\t')
+		free(*value);
+		*value = ft_strdup("");
+		lexer->i = 0;
+		lexer->pc = 0;
+		lexer->c = lexer->contents[0];
+		if (ft_strlen(lexer->contents))
+			lexer->nc = lexer->contents[1];
+		else
+			lexer->nc = 0;
+		while (!lexer->quote && (lexer->c == ' ' || lexer->c == '\t'))
 			lexer_skip_whitespace(lexer);
-		if (lexer->pc == ' ' && (lexer->c == '"' || lexer->c == '\''))
-			return (lexer_collect_string(lexer));
-		if (ft_strchr(";<>|", lexer->c))
-		{
-			return (lexer_advance_with_token(lexer, init_token(TK_RESERVED,
-					lexer_get_current_char(lexer))));
-		}
-		return (lexer_collect_string(lexer));
 	}
-	return (NULL);
+	return (0);
 }

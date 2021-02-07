@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 23:25:33 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 12:18:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,8 @@ int			ft_isquote(char c);
 char		*trim_value(char *value);
 void		replace_environ(t_lexer* lexer, char **value);
 t_token		*lexer_get_next_checker(t_lexer* lexer);
+int			lexer_skip_quote(t_lexer *lexer);
+int			lexer_escape_string(t_lexer *lexer, char **value);
+int			ft_isescape(t_lexer *lexer);
+int			lexer_expand_env(t_lexer *lexer, char **value);
 #endif

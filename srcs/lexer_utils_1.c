@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 23:29:29 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 12:06:35 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,29 @@ void		lexer_skip_whitespace(t_lexer *lexer)
 	}
 }
 
-int			ft_isquote(char c)
+t_token		*lexer_advance_with_token(t_lexer *lexer, t_token *token)
 {
-	return (c == '"' || c == '\'');
+	char	*new_value;
+
+	lexer_advance(lexer);
+	if (token->kind == TK_RESERVED && !ft_strcmp(token->value, ">")
+		&& lexer->c == '>')
+	{
+		if ((new_value = ft_strjoin(token->value, ">")) == NULL)
+			ft_perror("minishell");
+		free(token->value);
+		token->value = new_value;
+		lexer_advance(lexer);
+	}
+	return (token);
 }
 
-int			in_bracket(t_lexer *lexer)
+char		*lexer_get_current_char(t_lexer *lexer)
 {
-	if (lexer->quote == '\0' && ft_isquote(lexer->c))
-	{
-		lexer->quote = lexer->c;
-		return (1);
-	}
-	if (ft_isquote(lexer->quote) && lexer->quote == lexer->c)
-	{
-		lexer->quote = '\0';
-		return (0);
-	}
-	return (ft_isquote(lexer->quote));
+	char	*str;
+
+	str = ft_calloc(2, sizeof(char));
+	str[0] = lexer->c;
+	str[1] = '\0';
+	return (str);
 }
