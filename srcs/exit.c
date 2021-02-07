@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 14:22:21 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 14:52:34 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	is_wspace(char c)
 
 static long	set_number(char *str, int sign)
 {
-	long		nb;
+	long	nb;
 	char	*ptr;
 
 	nb = 0;
@@ -87,7 +87,7 @@ int			ft_exit(char **args)
 		rv = my_atoi(*args);
 		rv %= 256;
 		if (rv < 0)
-		rv += 256;
+			rv += 256;
 	}
 	exit(rv);
 }

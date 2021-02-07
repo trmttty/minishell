@@ -6,12 +6,12 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:01:14 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/20 09:41:38 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 14:36:17 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_H 
-# define SIGNAL_H 
+#ifndef SIGNAL_H
+# define SIGNAL_H
 
 # include <signal.h>
 

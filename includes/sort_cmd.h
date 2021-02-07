@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_cmd.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 22:07:17 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/03 17:25:49 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/07 14:36:31 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int		skip_redirection(char *str, int i);
 char	*move_cmd(char *str, int *i, int *argc);
 char	*sort_cmd(char *str);
 
-#define CMD 0
-#define CUT 1
-#define LHS 2
-#define RHS 3
+# define CMD 0
+# define CUT 1
+# define LHS 2
+# define RHS 3
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 09:40:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/31 23:26:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/07 14:14:48 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define BUFFER_SIZE 2048
+# define BUFFER_SIZE 1024
 # define FD_MAX 100
 
 int		get_next_line(int fd, char **line);
