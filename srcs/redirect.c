@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/07 21:42:28 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/08 20:21:04 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_redirect_out(t_node *node, int *flag)
 		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
-		perror("lsh");
+		ft_perror("minishell");
 	else
 		wait(&status);
 	return (status >> 8);
@@ -56,7 +56,7 @@ int		ft_redirect_outout(t_node *node, int *flag)
 		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
-		perror("lsh");
+		ft_perror("minishell");
 	else
 		wait(&status);
 	return (status >> 8);
@@ -91,7 +91,7 @@ int		ft_redirect_in(t_node *node, int *flag)
 		exit(evaluate(node->lnode, flag));
 	}
 	else if (pid < 0)
-		perror("lsh");
+		ft_perror("minishell");
 	else
 		wait(&status);
 	return (status >> 8);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 09:15:22 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 20:21:39 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		ft_colon(t_node *node, int *flag)
 		if ((pid = fork()) == 0)
 			exit(evaluate(node->lnode, flag));
 		else if (wpid < 0)
-			perror("lsh");
+			ft_perror("minishell");
 		else
 		{
 			wait(NULL);
@@ -59,7 +59,7 @@ int		ft_colon(t_node *node, int *flag)
 		}
 	}
 	else if (wpid < 0)
-		perror("lsh");
+		ft_perror("minishell");
 	else
 		wait(&status);
 	return (status);
