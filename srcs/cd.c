@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:10:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 21:30:47 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 22:01:44 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int			ft_cd(char **args)
 			ft_perror("minishell");
 		set_env("PWD", new_pwd);
 		free(new_pwd);
+		free(old_pwd);
+		return (error_status("cd", "getcwd", strerror(errno), 0));
 	}
 	free(old_pwd);
 	return (0);
