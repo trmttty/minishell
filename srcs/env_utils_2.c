@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/05 12:53:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 14:09:32 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int			envcmp(const char *env1, const char *env2)
 	}
 	if (*env2 == '+')
 		env2++;
+	if (*env1 == '\0' && *env2 == '=')
+		return (0);
 	return (*env1 - *env2);
 }
 

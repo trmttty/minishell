@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/06 10:47:50 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 14:25:18 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void		init_env(char *arg)
 	char	buf[MAXPATHLEN];
 	char	*tmp;
 	char	*num;
+	char	**old_pwd;
 
 	if (getcwd(buf, MAXPATHLEN))
 		set_env("PWD", buf);
@@ -38,6 +39,12 @@ void		init_env(char *arg)
 	set_env("SHLVL", num);
 	free(tmp);
 	free(num);
+	if ((old_pwd = ft_calloc(2, sizeof(char*))) == NULL)
+		ft_perror("minishell");
+	if ((old_pwd[0] = ft_strdup("OLDPWD")) == NULL)
+		ft_perror("minishell");
+	ft_export(old_pwd);
+	ft_tabfree(old_pwd);
 	set_env("_", arg);
 	set_env("?", "0");
 }

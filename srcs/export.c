@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 15:45:19 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 14:26:13 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	validate_arg(char *arg)
 		if (i == 0 && arg[0] >= '0' && arg[0] <= '9')
 			return (0);
 		if (!(ft_isalnum(arg[i]) || arg[i] == '_'
-				|| arg[i] == '?' || arg[i] == '+'))
+			|| arg[i] == '+'))
 			return (0);
 		if (arg[i] == '+' && arg[i + 1] != '=')
 			return (0);
@@ -95,7 +95,7 @@ int			ft_export(char **args)
 			if (!validate_arg(*args))
 			{
 				return (error_status("export", *args,
-						"not a valid identifier", 0));
+						"not a valid identifier", 1));
 			}
 			if (find_env(*args))
 				update_env(*args);
