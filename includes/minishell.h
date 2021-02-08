@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 21:33:03 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/08 15:16:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int					ft_echo(char **args);
 int					ft_cd(char **args);
 int					ft_pwd(char **args);
 int					ft_export(char **args);
+int					ft_export_question(char **args);
 int					ft_unset(char **args);
 int					ft_env(char **args);
 int					ft_exit(char **args);
@@ -59,10 +60,13 @@ char				*get_env(char *key);
 char				*replace_env(char *str);
 char				*remove_quote(char *str);
 int					set_env(char *name, char *value);
+int					set_question(char *name, char *value);
 int					envcmp(const char *env1, const char *env2);
 void				sort_env_lst(void);
 t_list				*find_env(char *env);
 char				**create_env_vec(t_list *env_lst);
+void				update_env(char *arg);
+void				add_env(char *arg);
 
 /*
 ** error
