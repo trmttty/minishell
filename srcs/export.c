@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 15:16:01 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 21:38:51 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static int	validate_arg(char *arg)
 	size_t	i;
 
 	i = 0;
+	if (*arg == '=')
+		return (0);
 	while (arg[i] && arg[i] != '=')
 	{
 		if (i == 0 && arg[0] >= '0' && arg[0] <= '9')
@@ -88,6 +90,8 @@ void		add_env(char *arg)
 
 int			ft_export(char **args)
 {
+	t_list	*lst;
+
 	if (*args)
 	{
 		while (*args)
@@ -97,12 +101,11 @@ int			ft_export(char **args)
 				return (error_status("export", *args,
 						"not a valid identifier", 1));
 			}
-			if (find_env(*args))
-				update_env(*args);
-			else if (!(ft_isalpha(**args) || **args == '_'))
+			if ((lst = find_env(*args)) != NULL)
 			{
-				return (error_status("export", *args,
-						"not a valid identifier", 1));
+				if (envcmp(lst->content, *args) == '=')
+					break ;
+				update_env(*args);
 			}
 			else
 				add_env(*args);

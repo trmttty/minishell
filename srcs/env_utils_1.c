@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 15:14:22 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 21:37:00 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ t_list		*find_env(char *env)
 	tmp = g_env_lst;
 	while (tmp)
 	{
-		if (envcmp(tmp->content, env) == 0)
+		if (envcmp(tmp->content, env) == 0
+			|| envcmp(tmp->content, env) == '=')
 			return (tmp);
 		tmp = tmp->next;
 	}
