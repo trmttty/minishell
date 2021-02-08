@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:42:39 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:18:04 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 20:18:34 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		option_check(char *str)
+{
+	if (*str == '-' && *(++str))
+	{
+		while (*str)
+		{
+			if (*str == 'n')
+				str++;
+			else
+				return (0);
+		}
+		return (1);
+	}
+	return (0);
+}
 
 int		ft_echo(char **args)
 {
@@ -21,7 +37,7 @@ int		ft_echo(char **args)
 	n_option = 0;
 	while (*args)
 	{
-		if (ft_strcmp(*args, "-n") == 0)
+		if (option_check(*args))
 			n_option = 1;
 		else
 		{
