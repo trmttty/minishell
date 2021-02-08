@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 14:40:20 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 15:16:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int					envcmp(const char *env1, const char *env2);
 void				sort_env_lst(void);
 t_list				*find_env(char *env);
 char				**create_env_vec(t_list *env_lst);
+void				update_env(char *arg);
+void				add_env(char *arg);
 
 /*
 ** error

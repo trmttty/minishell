@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 01:10:06 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 15:21:33 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	read_stdin(char **line)
 	}
 	if (!check_syntax(*line))
 	{
-		set_env("?", "258");
+		set_question("?", "258");
 		free(*line);
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 14:39:43 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 15:16:01 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	validate_arg(char *arg)
 	return (1);
 }
 
-static void	update_env(char *arg)
+void		update_env(char *arg)
 {
 	t_list	*lst;
 	char	*plus;
@@ -74,7 +74,7 @@ static void	update_env(char *arg)
 	}
 }
 
-static void	add_env(char *arg)
+void		add_env(char *arg)
 {
 	t_list	*new_lst;
 	char	*env;
@@ -111,14 +111,5 @@ int			ft_export(char **args)
 	}
 	else
 		return (ft_declare());
-	return (0);
-}
-
-int			ft_export_question(char **args)
-{
-	if (find_env("?="))
-		update_env(*args);
-	else
-		add_env(*args);
 	return (0);
 }

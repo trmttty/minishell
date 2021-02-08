@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 14:09:32 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 15:14:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,34 @@ char		**create_env_vec(t_list *env_lst)
 	}
 	env_vec[i] = NULL;
 	return (env_vec);
+}
+
+int			set_question(char *name, char *value)
+{
+	char	*tmp;
+	char	*env;
+	char	**arg;
+
+	if ((tmp = ft_strjoin(name, "=")) == NULL)
+		ft_perror("minishell");
+	if ((env = ft_strjoin(tmp, value)) == NULL)
+		ft_perror("minishell");
+	free(tmp);
+	if ((arg = ft_calloc(2, sizeof(char*))) == NULL)
+		ft_perror("minishell");
+	arg[0] = env;
+	arg[1] = NULL;
+	ft_export_question(arg);
+	free(env);
+	free(arg);
+	return (0);
+}
+
+int			ft_export_question(char **args)
+{
+	if (find_env("?="))
+		update_env(*args);
+	else
+		add_env(*args);
+	return (0);
 }
