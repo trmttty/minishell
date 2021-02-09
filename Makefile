@@ -1,5 +1,5 @@
 CC			= gcc -g
-FLAGS		= 
+FLAGS		=
 NAME 		= minishell
 DIR_LIB		= libft
 LIBFT		= $(DIR_LIB)/libft.a
@@ -34,8 +34,6 @@ SRC_RT = main.c \
 			pipe.c \
 			redirect.c \
 			evaluate.c \
-			sort_cmd.c \
-			sort_cmd_utils.c \
 			realloc.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))

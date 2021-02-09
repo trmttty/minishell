@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/08 20:45:01 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/09 19:47:45 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int		ft_redirect_out(t_node *node, int *flag)
 	status = 0;
 	if ((pid = fork()) == 0)
 	{
-		if ((fd = open(node->rnode->commands[0], O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
+		if ((fd = open(node->rnode->commands[0], \
+		O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
 			ft_perror("minishell");
 		if (flag[0] == 0)
 		{
@@ -68,7 +69,7 @@ void	dup_stdin(t_node *node, int *flag)
 {
 	int		fd;
 
-	if ((fd = open (node->rnode->commands[0], O_RDONLY)) == -1)
+	if ((fd = open(node->rnode->commands[0], O_RDONLY)) == -1)
 		ft_perror("minishell");
 	if (flag[1] == 0)
 	{

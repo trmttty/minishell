@@ -3,153 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:19:56 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/09 11:34:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/09 19:57:57 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "evaluate.h"
 
-// void	child_pipe(t_node *node, int *flag)
-// {
-// 	int		fd[2];
-// 	pid_t	pid;
+void	pipe_out(t_node *node, int *flag, int *fildes)
+{
+	dup2(fildes[1], 1);
+	close(fildes[0]);
+	close(fildes[1]);
+	exit(evaluate(node->lnode, flag));
+}
 
-// 	if (pipe(fd) == -1)
-// 		ft_perror("minishell");
-// 	if ((pid = fork()) == 0)
-// 	{
-// 		dup2(fd[1], 1);
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 		exit(evaluate(node->lnode, flag));
-// 	}
-// 	else if (pid < 0)
-// 		ft_perror("minishell");
-// 	else
-// 	{
-// 		dup2(fd[0], 0);
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 		exit(evaluate(node->rnode, flag));
-// 	}
-// }
+void	pipe_in(t_node *node, int *flag, int *fildes)
+{
+	dup2(fildes[0], 0);
+	close(fildes[0]);
+	close(fildes[1]);
+	exit(evaluate(node->rnode, flag));
+}
 
-// int		ft_pipe(t_node *node, int *flag)
-// {
-// 	int		status;
-// 	pid_t	wpid;
-
-// 	set_env("_", "");
-// 	flag[0] = 0;
-// 	flag[1] = 0;
-// 	status = 0;
-// 	if ((wpid = fork()) == 0)
-// 		child_pipe(node, flag);
-// 	else if (wpid < 0)
-// 		ft_perror("minishell");
-// 	else
-// 		wait(&status);
-// 	return (status >> 8);
-// }
-
-// #include "minishell.h"
-// #include "evaluate.h"
-
-// void	child_pipe(t_node *node, int *flag)
-// {
-// 	int		fd[2];
-// 	pid_t	pid;
-// 	// pid_t	pid1;
-
-// 	if (pipe(fd) == -1)
-// 		ft_perror("minishell");
-// 	if ((pid = fork()) == 0)
-// 	{
-// 		dup2(fd[0], 0);
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 		exit(evaluate(node->rnode, flag));
-// 	}
-// 	else if (pid < 0)
-// 		ft_perror("minishell");
-// 	else
-// 	{
-// 			dup2(fd[1], 1);
-// 			close(fd[0]);
-// 			close(fd[1]);
-// 			evaluate(node->lnode, flag);
-// 	}
-// }
+void	pipe_wait(pid_t wpid, pid_t pid, int *fildes, int *status)
+{
+	close(fildes[0]);
+	close(fildes[1]);
+	waitpid(wpid, status, WUNTRACED);
+	waitpid(pid, NULL, WUNTRACED);
+}
 
 int		ft_pipe(t_node *node, int *flag)
 {
 	int		status;
 	pid_t	wpid;
 	pid_t	pid;
+	int		fildes[2];
 
-	// set_env("_", "");
-	// flag[0] = 0;
-	// flag[1] = 0;
-	// status = 0;
-	// // if ((wpid = fork()) == 0)
-	// 	child_pipe(node, flag);
-	// // else if (wpid < 0)
-	// // 	ft_perror("minishell");
-	// // else
-	// // 	wait(&status);
-	// return (status >> 8);
-	/* ls | wc の実行 */
-	int fildes[2];
+	flag[0] = 0;
+	flag[1] = 0;
+	status = 0;
 	pipe(fildes);
-	if ((pid = fork()) == 0) {        /* 出力側子プロセス */
-	    dup2(fildes[1], 1);
-	    close(fildes[0]);
-	    close(fildes[1]);
-	    exit(evaluate(node->lnode, flag));
-	}
+	if ((pid = fork()) == 0)
+		pipe_out(node, flag, fildes);
+	else if (pid < 0)
+		ft_perror("minishell");
 	else
 	{
-	    if ((wpid = fork()) == 0) {    /* 入力側プロセス */
-	        dup2(fildes[0], 0);
-	        close(fildes[0]);
-	        close(fildes[1]);
-	        exit(evaluate(node->rnode, flag));
-	    }
-	    else {             /* 親プロセス */
-	        close(fildes[0]);
-	        close(fildes[1]);
-			waitpid(wpid, &status, WUNTRACED);
-			waitpid(pid, NULL, WUNTRACED);
-	    }
+		if ((wpid = fork()) == 0)
+			pipe_in(node, flag, fildes);
+		else if (pid < 0)
+			ft_perror("minishell");
+		else
+			pipe_wait(wpid, pid, fildes, &status);
 	}
-	// printf("%d status\n", status);
 	return (status >> 8);
 }
-
-
-// /* ls | wc の実行 */
-// int fildes[2];
-// pipe(fildes);
-// if (fork() == 0) {        /* 出力側子プロセス */
-//     dup2(fildes[1], 1);
-//     close(fildes[0]);
-//     close(fildes[1]);
-//     execl("/bin/ls", ...);
-// }
-// else
-//     if (fork() == 0) {    /* 入力側プロセス */
-//         dup2(fildes[0], 0);
-//         close(fildes[0]);
-//         close(fildes[1]);
-//         execl("/bin/wc", ...);
-//     }
-//     else {                /* 親プロセス */
-//         close(fildes[0]);
-//         close(fildes[1]);
-//         wait();
-//         wait();
-//     }
