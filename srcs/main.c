@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/09 19:58:56 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/09 21:58:09 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	read_stdin(char **line)
 {
 	int	ret;
 
-	ft_putstr_fd("> ", 2);
+	ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", 2);
 	if ((ret = get_next_line(0, line)) == 0)
 	{
 		ft_putstr_fd("exit\n", 2);
