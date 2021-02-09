@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 10:05:08 by ttarumot          #+#    #+#             */
-/*   Updated: 2020/07/02 13:53:32 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/01/27 23:43:11 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,23 @@ static int	is_wspace(const char c)
 			|| c == ' ');
 }
 
-static long	set_number(const char *str)
+static long	set_number(const char *str, int sign)
 {
 	long	nb;
 
 	nb = 0;
 	while (ft_isdigit(*str))
+	{
+		if (nb == 922337203685477580 && *str >= '8' && sign == 1)
+			return (-1);
+		if (nb > 922337203685477580 && sign == 1)
+			return (-1);
+		if (nb == 922337203685477580 && *str >= '9' && sign == -1)
+			return (1);
+		if (nb > 922337203685477580 && sign == -1)
+			return (1);
 		nb = nb * 10 + (*str++ - '0');
+	}
 	return (nb);
 }
 
@@ -42,5 +52,5 @@ int			ft_atoi(const char *str)
 		sign = -1;
 		str++;
 	}
-	return ((int)(sign * set_number(str)));
+	return ((int)(sign * set_number(str, sign)));
 }

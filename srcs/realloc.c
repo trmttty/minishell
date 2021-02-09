@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/06 09:40:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 14:14:48 by ttarumot         ###   ########.fr       */
+/*   Created: 2021/02/01 21:15:41 by kazumanoda        #+#    #+#             */
+/*   Updated: 2021/02/04 12:28:20 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "minishell.h"
 
-# include "../libft/libft.h"
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <unistd.h>
-# include <stdlib.h>
+void	*ft_realloc(void *ptr, size_t size)
+{
+	void	*cpy;
 
-# define BUFFER_SIZE 1024
-# define FD_MAX 100
-
-int		get_next_line(int fd, char **line);
-
-#endif
+	cpy = ft_calloc(size, 1);
+	if (!cpy)
+		return (NULL);
+	ft_memcpy(cpy, ptr, size);
+	free(ptr);
+	return (cpy);
+}

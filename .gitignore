@@ -2,4 +2,8 @@
 *.a
 *.out
 zexample/
+<<<<<<< HEAD
 minishell
+=======
+minishell*
+>>>>>>> trmt-dev

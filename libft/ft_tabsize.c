@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_tabsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/06 09:40:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 14:14:48 by ttarumot         ###   ########.fr       */
+/*   Created: 2020/07/28 15:39:43 by ttarumot          #+#    #+#             */
+/*   Updated: 2021/01/10 13:02:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "../libft/libft.h"
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <unistd.h>
-# include <stdlib.h>
+size_t		ft_tabsize(char **tab)
+{
+	size_t	size;
 
-# define BUFFER_SIZE 1024
-# define FD_MAX 100
-
-int		get_next_line(int fd, char **line);
-
-#endif
+	size = 0;
+	while (*tab)
+	{
+		size++;
+		tab++;
+	}
+	return (size);
+}

@@ -3,37 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:42:39 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/07 20:01:33 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/08 20:18:34 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_echo(char **args, t_list **env_lst)
+int		option_check(char *str)
+{
+	if (*str == '-' && *(++str))
+	{
+		while (*str)
+		{
+			if (*str == 'n')
+				str++;
+			else
+				return (0);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+int		ft_echo(char **args)
 {
 	int i;
 	int n_option;
 
 	i = 0;
 	n_option = 0;
-	while (args[i])
+	while (*args)
 	{
-		if (ft_strcmp(args[i], "-n") == 0)
-		{
+		if (option_check(*args))
 			n_option = 1;
-		}
 		else
 		{
 			if (i != 0)
 				ft_putstr_fd(" ", 1);
-			ft_putstr_fd(args[i], 1);
+			ft_putstr_fd(*args, 1);
+			i++;
 		}
-		i++;
+		args++;
 	}
 	if (n_option == 0)
 		ft_putstr_fd("\n", 1);
-	return (1);
+	return (0);
 }

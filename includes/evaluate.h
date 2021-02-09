@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   evaluate.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/06 09:40:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 14:14:48 by ttarumot         ###   ########.fr       */
+/*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
+/*   Updated: 2021/02/07 14:14:36 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef EVALUATE_H
+# define EVALUATE_H
+# include "minishell.h"
+# include "parser.h"
 
-# include "../libft/libft.h"
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <unistd.h>
-# include <stdlib.h>
-
-# define BUFFER_SIZE 1024
-# define FD_MAX 100
-
-int		get_next_line(int fd, char **line);
+int		ft_pipe(t_node *node, int *flag);
+int		ft_redirect_out(t_node *node, int *flag);
+int		ft_redirect_outout(t_node *node, int *flag);
+int		ft_redirect_in(t_node *node, int *flag);
+int		evaluate(t_node *node, int *flag);
 
 #endif
