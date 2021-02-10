@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 14:44:20 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/10 15:14:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct		s_lexer
 	char			quote;
 	unsigned int	i;
 	size_t			env;
+	int				escape;
 	char			*contents;
 }					t_lexer;
 

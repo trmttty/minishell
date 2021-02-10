@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 13:54:57 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/10 16:04:57 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int			lexer_escape_string(t_lexer *lexer, char **value)
 	char	*str;
 	size_t	size;
 
+	lexer->escape = 1;
 	if (lexer->quote == 0 && lexer->nc == '\n')
 	{
 		lexer_advance(lexer);
@@ -50,6 +51,7 @@ int			lexer_escape_string(t_lexer *lexer, char **value)
 		lexer_advance(lexer);
 	else if (lexer->quote == '"' && ft_strchr("$`\"\\\n", lexer->nc))
 		lexer_advance(lexer);
+	lexer->escape = 0;
 	str = lexer_get_current_char(lexer);
 	size = ft_strlen(*value) + ft_strlen(str) + 1;
 	if ((*value = ft_realloc(*value, size * sizeof(char))) == NULL)

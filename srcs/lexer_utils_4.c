@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 12:15:56 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/10 15:33:26 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_token		*lexer_loop(t_lexer *lexer, char **value)
 {
 	while (lexer->c != '\0')
 	{
+		printf("[%s] [%s] [%s] [%c] [%c]\n", &lexer->contents[lexer->i], lexer->contents, *value, lexer->quote, lexer->escape);
 		if (lexer_skip_quote(lexer))
 			lexer_advance(lexer);
 		else if (lexer_return_string(lexer))
