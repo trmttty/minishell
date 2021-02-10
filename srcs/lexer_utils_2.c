@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 12:12:30 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 01:01:59 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,50 +30,6 @@ t_token		*lexer_get_next_checker(t_lexer *lexer)
 		return (lexer_collect_string(lexer));
 	}
 	return (NULL);
-}
-
-static void	replace_environ_next(t_lexer *lexer, char **value,
-									char *sub, size_t tail)
-{
-	size_t	len;
-
-	if ((len = ft_strlen(sub)) > 0)
-	{
-		if ((*value = ft_realloc(*value,
-			(ft_strlen(*value) + len + 1) * sizeof(char))) == NULL)
-			ft_perror("minishell");
-		ft_strlcat(*value, sub, ft_strlen(*value) + len + 1);
-	}
-	free(sub);
-	while (tail--)
-		lexer_advance(lexer);
-}
-
-void		replace_environ(t_lexer *lexer, char **value)
-{
-	char	*tmp;
-	char	*sub;
-	size_t	tail;
-
-	tail = 1;
-	while (ft_isalnum(lexer->contents[lexer->i + tail])
-			|| lexer->contents[lexer->i + tail] == '_')
-		tail++;
-	if (lexer->contents[lexer->i + tail] == '?')
-		tail++;
-	if (tail == 1)
-	{
-		if ((sub = ft_substr(&lexer->contents[lexer->i], 0, tail)) == NULL)
-			ft_perror("minishell");
-	}
-	else
-	{
-		if ((tmp = ft_substr(&lexer->contents[lexer->i], 0, tail)) == NULL)
-			ft_perror("minishell");
-		sub = get_env(&tmp[1]);
-		free(tmp);
-	}
-	return (replace_environ_next(lexer, value, sub, tail));
 }
 
 int			ft_isquote(char c)

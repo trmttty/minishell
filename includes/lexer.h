@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/10 15:14:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 02:12:17 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int					is_escaped(char *s, int pos);
 int					in_bracket(t_lexer *lexer);
 int					ft_isquote(char c);
 char				*trim_value(char *value);
-void				replace_environ(t_lexer *lexer, char **value);
 int					lexer_skip_quote(t_lexer *lexer);
 int					lexer_escape_string(t_lexer *lexer, char **value);
 int					ft_isescape(t_lexer *lexer);
 int					lexer_expand_env(t_lexer *lexer, char **value);
+void				update_contens(t_lexer *lexer, char *value);
 
 #endif

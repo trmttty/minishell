@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/10 17:55:24 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 00:46:57 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int			check_syntax(char *line)
 	}
 	if (ft_isquote(lexer->quote))
 		ret = 0;
+	free(lexer->contents);
 	free(lexer);
 	if (ret)
 		return (1);
