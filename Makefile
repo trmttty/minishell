@@ -35,7 +35,8 @@ SRC_RT = main.c \
 			pipe.c \
 			redirect.c \
 			evaluate.c \
-			realloc.c
+			realloc.c \
+			set_cmd_path.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)

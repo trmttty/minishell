@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 20:57:40 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/11 22:14:45 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ void				ft_perror(char *message);
 ** realloc
 */
 void				*ft_realloc(void *ptr, size_t size);
+
+/*
+** set_cmd_path
+*/
+int					set_cmd_path(char **args);
 
 # define INT_STATUS 130
 # define QUIT_STATUS 131

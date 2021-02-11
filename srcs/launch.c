@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 21:25:32 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/11 22:22:08 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,6 @@
 #include "parser.h"
 #include "signal.h"
 #include "evaluate.h"
-
-static char	*find_path(char *relative, char **paths)
-{
-	char		*absolute;
-	char		*dir;
-	struct stat	sb;
-
-	if ((absolute = ft_strdup("")) == NULL)
-		ft_perror("minishell");
-	while (*paths)
-	{
-		if ((dir = ft_strjoin(*paths, "/")) == NULL)
-			ft_perror("minishell");
-		free(absolute);
-		if ((absolute = ft_strjoin(dir, relative)) == NULL)
-			ft_perror("minishell");
-		free(dir);
-		if (stat(absolute, &sb) == 0)
-			return (absolute);
-		paths++;
-	}
-	free(absolute);
-	return (NULL);
-}
-
-static char	*get_absolute_path(char *relative)
-{
-	char		**paths;
-	char		*env;
-	char		*absolute;
-
-	if (ft_strlen(relative) == 0)
-		return (NULL);
-	env = get_env("PATH");
-	if ((paths = ft_split(env, ':')) == NULL)
-		ft_perror("minishell");
-	free(env);
-	absolute = find_path(relative, paths);
-	ft_tabfree(paths);
-	return (absolute);
-}
 
 static int	return_status(int status, char **args)
 {
@@ -77,52 +36,17 @@ static int	return_status(int status, char **args)
 	return (status >> 8);
 }
 
-int			check_dir(char *dir)
-{
-	char	*ptr;
-	char	*last;
-	char	*tmp;
-	DIR		*d;
-
-	ptr = ft_strchr(dir, '/');
-	if ((last = ft_strrchr(dir, '/')) == NULL)
-		return (0);
-	while (ptr != last)
-	{
-		ptr++;
-		ptr = ft_strchr(ptr, '/');
-		tmp = ft_substr(dir, 0, ptr - dir);
-		if ((d = opendir(tmp)) == NULL)
-		{
-			free(tmp);
-			return (0);
-		}
-		closedir(d);
-		free(tmp);
-	}
-	return (1);
-}
-
 int			launch(char **args)
 {
 	pid_t	pid;
 	int		status;
-	char	*absolute;
+	int		rv;
 
 	signal(SIGINT, child_sigint);
 	pid = 0;
 	status = 0;
-	if (*args && ft_strchr(*args, '/') == NULL)
-	{
-		if ((absolute = get_absolute_path(args[0])) == NULL)
-			return (error_status(args[0], NULL, "command not found", 127));
-		free(args[0]);
-		args[0] = absolute;
-	}
-	if (opendir(args[0]))
-		return (error_status(args[0], NULL, "is a directory", 126));
-	if (check_dir(args[0]) == 0)
-		return (error_status(args[0], NULL, "Not a directory", 126));
+	if ((rv = set_cmd_path(args)) != 0)
+		return (rv);
 	if ((pid = fork()) == 0)
 	{
 		execve(args[0], args, create_env_vec(g_env_lst));
