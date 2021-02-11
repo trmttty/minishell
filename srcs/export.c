@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 21:38:51 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:38:33 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static int	ft_declare(void)
 {
 	t_list	*list;
-	char	**env;
+	char	*name;
+	char	*equal;
 
 	sort_env_lst();
 	list = g_env_lst;
@@ -24,12 +25,16 @@ static int	ft_declare(void)
 		if (envcmp(list->content, "_=") != 0
 			&& envcmp(list->content, "?=") != 0)
 		{
-			env = ft_split(list->content, '=');
-			if (env[1] != NULL)
-				printf("declare -x %s=\"%s\"\n", env[0], env[1]);
+			if ((equal = ft_strchr(list->content, '=')))
+			{
+				if ((name = ft_substr(list->content, 0,
+					equal - (char*)list->content)) == NULL)
+					ft_perror("minishell");
+				printf("declare -x %s=\"%s\"\n", name, ++equal);
+				free(name);
+			}
 			else
-				printf("declare -x %s\n", env[0]);
-			ft_tabfree(env);
+				printf("declare -x %s\n", list->content);
 		}
 		list = list->next;
 	}
@@ -92,27 +97,21 @@ int			ft_export(char **args)
 {
 	t_list	*lst;
 
-	if (*args)
-	{
-		while (*args)
-		{
-			if (!validate_arg(*args))
-			{
-				return (error_status("export", *args,
-						"not a valid identifier", 1));
-			}
-			if ((lst = find_env(*args)) != NULL)
-			{
-				if (envcmp(lst->content, *args) == '=')
-					break ;
-				update_env(*args);
-			}
-			else
-				add_env(*args);
-			args++;
-		}
-	}
-	else
+	if (*args == NULL)
 		return (ft_declare());
+	while (*args)
+	{
+		if (!validate_arg(*args))
+			return (error_status("export", *args, "not a valid identifier", 1));
+		if ((lst = find_env(*args)) != NULL)
+		{
+			if (envcmp(lst->content, *args) == '=')
+				break ;
+			update_env(*args);
+		}
+		else
+			add_env(*args);
+		args++;
+	}
 	return (0);
 }
