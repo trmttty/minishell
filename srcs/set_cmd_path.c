@@ -6,11 +6,11 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 21:51:36 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/11 22:22:14 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/11 22:25:19 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static char	*find_path(char *relative, char **paths)
 {
