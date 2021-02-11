@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 20:34:20 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 21:25:32 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,32 @@ static int	return_status(int status, char **args)
 	return (status >> 8);
 }
 
+int			check_dir(char *dir)
+{
+	char	*ptr;
+	char	*last;
+	char	*tmp;
+	DIR		*d;
+
+	ptr = ft_strchr(dir, '/');
+	if ((last = ft_strrchr(dir, '/')) == NULL)
+		return (0);
+	while (ptr != last)
+	{
+		ptr++;
+		ptr = ft_strchr(ptr, '/');
+		tmp = ft_substr(dir, 0, ptr - dir);
+		if ((d = opendir(tmp)) == NULL)
+		{
+			free(tmp);
+			return (0);
+		}
+		closedir(d);
+		free(tmp);
+	}
+	return (1);
+}
+
 int			launch(char **args)
 {
 	pid_t	pid;
@@ -93,6 +119,10 @@ int			launch(char **args)
 		free(args[0]);
 		args[0] = absolute;
 	}
+	if (opendir(args[0]))
+		return (error_status(args[0], NULL, "is a directory", 126));
+	if (check_dir(args[0]) == 0)
+		return (error_status(args[0], NULL, "Not a directory", 126));
 	if ((pid = fork()) == 0)
 	{
 		execve(args[0], args, create_env_vec(g_env_lst));
