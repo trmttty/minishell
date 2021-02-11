@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 20:21:39 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/12 02:02:03 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,23 @@
 
 int		ft_exe(char **args)
 {
-	int			size;
-
-	if ((size = ft_tabsize(args)))
-		set_env("_", args[size - 1]);
-	if (args[0] != NULL)
-	{
-		if (ft_strcmp(args[0], "echo") == 0)
-			return (ft_echo(&args[1]));
-		else if (ft_strcmp(args[0], "cd") == 0)
-			return (ft_cd(&args[1]));
-		else if (ft_strcmp(args[0], "export") == 0)
-			return (ft_export(&args[1]));
-		else if (ft_strcmp(args[0], "unset") == 0)
-			return (ft_unset(&args[1]));
-		else if (ft_strcmp(args[0], "pwd") == 0)
-			return (ft_pwd(&args[1]));
-		else if (ft_strcmp(args[0], "env") == 0)
-			return (ft_env(&args[1]));
-		else if (ft_strcmp(args[0], "exit") == 0)
-			return (ft_exit(&args[1]));
-	}
+	if (*args == NULL)
+		return (0);
+	set_env("_", args[ft_tabsize(args) - 1]);
+	if (ft_strcmp(args[0], "echo") == 0)
+		return (ft_echo(&args[1]));
+	else if (ft_strcmp(args[0], "cd") == 0)
+		return (ft_cd(&args[1]));
+	else if (ft_strcmp(args[0], "export") == 0)
+		return (ft_export(&args[1]));
+	else if (ft_strcmp(args[0], "unset") == 0)
+		return (ft_unset(&args[1]));
+	else if (ft_strcmp(args[0], "pwd") == 0)
+		return (ft_pwd(&args[1]));
+	else if (ft_strcmp(args[0], "env") == 0)
+		return (ft_env(&args[1]));
+	else if (ft_strcmp(args[0], "exit") == 0)
+		return (ft_exit(&args[1]));
 	return (launch(args));
 }
 
