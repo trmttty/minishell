@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:10:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 22:01:44 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:13:05 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,16 @@ int			ft_cd(char **args)
 	if ((message = execute_chdir(args)) != NULL)
 		return (error_status("cd", *args, message, 1));
 	old_pwd = get_env("PWD");
-	set_env("OLDPWD", old_pwd);
-	if (getcwd(buf, MAXPATHLEN))
+	if (find_env("OLDPWD"))
+		set_env("OLDPWD", old_pwd);
+	if (getcwd(buf, MAXPATHLEN) && find_env("PWD"))
 		set_env("PWD", buf);
 	else
 	{
 		if ((new_pwd = ft_strjoin(old_pwd, "/.")) == NULL)
 			ft_perror("minishell");
-		set_env("PWD", new_pwd);
+		if (find_env("PWD"))
+			set_env("PWD", new_pwd);
 		free(new_pwd);
 		free(old_pwd);
 		return (error_status("cd", "getcwd", strerror(errno), 0));
