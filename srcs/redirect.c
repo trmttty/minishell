@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/09 19:47:45 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/12 00:24:47 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	dup_stdin(t_node *node, int *flag)
 		dup2(fd, STDIN_FILENO);
 		flag[1] = 1;
 	}
-	evaluate(node->lnode, flag);
+	exit(evaluate(node->lnode, flag));
 }
 
 int		ft_redirect_in(t_node *node, int *flag)
@@ -84,9 +84,9 @@ int		ft_redirect_in(t_node *node, int *flag)
 	pid_t	pid;
 	int		status;
 
-	if (node->lnode->commands[0] && \
-	ft_strcmp(node->lnode->commands[0], "exit") == 0)
-		dup_stdin(node, flag);
+	// if (node->lnode->commands[0] && \
+	// ft_strcmp(node->lnode->commands[0], "exit") == 0)
+	// dup_stdin(node, flag);
 	status = 0;
 	pid = fork();
 	if (pid == 0)
