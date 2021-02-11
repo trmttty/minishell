@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 19:48:41 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 20:34:20 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int			launch(char **args)
 	signal(SIGINT, child_sigint);
 	pid = 0;
 	status = 0;
-	if (ft_strchr(*args, '/') == NULL)
+	if (*args && ft_strchr(*args, '/') == NULL)
 	{
 		if ((absolute = get_absolute_path(args[0])) == NULL)
 			return (error_status(args[0], NULL, "command not found", 127));
