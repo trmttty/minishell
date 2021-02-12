@@ -3,3 +3,4 @@
 *.out
 zexample/
 minishell*
+leaks.sh
