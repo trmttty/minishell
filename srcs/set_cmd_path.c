@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 21:51:36 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/11 22:25:19 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/12 15:57:50 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ int			check_dir(char *dir)
 	char	*tmp;
 	DIR		*d;
 
-	if (opendir(dir))
+	if ((d = opendir(dir)))
+	{
+		closedir(d);
 		return (error_status(dir, NULL, "is a directory", 126));
+	}
 	ptr = ft_strchr(dir, '/');
 	if ((last = ft_strrchr(dir, '/')) == NULL)
 		return (1);
