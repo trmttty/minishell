@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:59:59 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/03 23:28:21 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 14:27:02 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int		ft_env(char **args)
 {
 	t_list	*tmp;
 
-	(void)args;
+	if (ft_tabsize(args))
+		return (0);
 	sort_env_lst();
 	tmp = g_env_lst;
 	while (tmp)
