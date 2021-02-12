@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 15:15:27 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 00:25:54 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		init_env(char *arg)
 	ft_export(old_pwd);
 	ft_tabfree(old_pwd);
 	set_env("_", arg);
-	set_question("?", "0");
+	set_question("?", 0);
 }
 
 char		*get_env(char *name)

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 15:14:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 00:23:05 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,20 @@ char		**create_env_vec(t_list *env_lst)
 	return (env_vec);
 }
 
-int			set_question(char *name, char *value)
+int			set_question(char *name, int code)
 {
+	char	*s_code;
 	char	*tmp;
 	char	*env;
 	char	**arg;
 
 	if ((tmp = ft_strjoin(name, "=")) == NULL)
 		ft_perror("minishell");
-	if ((env = ft_strjoin(tmp, value)) == NULL)
+	if ((s_code = ft_itoa(code)) == NULL)
 		ft_perror("minishell");
+	if ((env = ft_strjoin(tmp, s_code)) == NULL)
+		ft_perror("minishell");
+	free(s_code);
 	free(tmp);
 	if ((arg = ft_calloc(2, sizeof(char*))) == NULL)
 		ft_perror("minishell");
