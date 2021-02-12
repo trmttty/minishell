@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 11:28:25 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 00:24:28 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	read_stdin(char **line)
 {
 	int	ret;
 
-	ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", 2);
+	ft_putstr_fd("minishell > ", 2);
 	if ((ret = get_next_line(0, line)) == 0)
 	{
 		ft_putstr_fd("exit\n", 2);
@@ -36,7 +36,7 @@ static int	read_stdin(char **line)
 	}
 	if (!check_syntax(*line))
 	{
-		set_question("?", "258");
+		set_question("?", 258);
 		free(*line);
 		return (0);
 	}
@@ -71,7 +71,6 @@ static void	loop(void)
 {
 	char	*line;
 	t_lexer *lexer;
-	int		fd;
 
 	while (1)
 	{

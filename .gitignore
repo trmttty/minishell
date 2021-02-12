@@ -2,12 +2,5 @@
 *.a
 *.out
 zexample/
-<<<<<<< HEAD
 minishell
-=======
-minishell*
-<<<<<<< HEAD
->>>>>>> trmt-dev
-=======
 leaks.sh
->>>>>>> trmt-merge

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 23:59:48 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/10 09:11:23 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 00:26:15 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	parent_sigint(int sig)
 {
 	(void)sig;
-	ft_putstr_fd("\033[0;36m\033[1m\b\b  \b\b\nminishell ▸ \033[0m", 2);
-	set_question("?", "1");
+	ft_putstr_fd("\b\b  \b\b\nminishell > ", 2);
+	set_question("?", 1);
 }
 
 void	child_sigint(int sig)

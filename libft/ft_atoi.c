@@ -6,12 +6,12 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 10:05:08 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/01/27 23:43:11 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:01:46 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 static int	is_wspace(const char c)
 {
 	return (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' \
