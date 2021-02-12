@@ -6,19 +6,20 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/12 14:10:43 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 18:31:54 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "evaluate.h"
 
-static int	create_file(t_node *node, int *flag)
+static int	create_file(t_node *node)
 {
 	int		fd;
 	char	*file_name;
 
 	file_name = node->rnode->commands[0];
+	fd = 0;
 	if (file_name == NULL || (file_name && ft_strlen(file_name) == 0))
 		return (error_status(NULL, NULL, "ambiguous redirect", -1));
 	if (ft_strcmp(">", node->operation) == 0)
@@ -41,7 +42,7 @@ int			create_redirect(t_node *node, int *flag)
 			return (-1);
 	}
 	if (node->operation && ft_strchr("<>", *node->operation))
-		return (create_file(node, flag));
+		return (create_file(node));
 	return (1);
 }
 

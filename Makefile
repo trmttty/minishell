@@ -1,5 +1,5 @@
-CC			= gcc -g
-FLAGS		=
+CC			= gcc
+FLAGS		= -Wall -Wextra -Werror
 NAME 		= minishell
 DIR_LIB		= libft
 LIBFT		= $(DIR_LIB)/libft.a

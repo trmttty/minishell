@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 11:28:25 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 18:26:06 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static void	loop(void)
 {
 	char	*line;
 	t_lexer *lexer;
-	int		fd;
 
 	while (1)
 	{

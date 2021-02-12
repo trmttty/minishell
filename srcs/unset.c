@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 21:05:54 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 23:48:19 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 13:52:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			ft_unset(char **args)
 	while (*args)
 	{
 		if (!validate_arg(*args))
-			return (error_status("unset", *args, "not a valid identifier", 1));
+			return (error_status("export", *args, "not a valid identifier", 1));
 		tmp = g_env_lst;
 		if ((env = ft_split(tmp->content, '=')) == NULL)
 			ft_perror("minishell");
