@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 15:31:35 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 15:50:18 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static int	my_atoi(char *str)
 static int	is_num_str(char *str)
 {
 	if (*str == '-')
+		str++;
+	else if (*str == '+')
 		str++;
 	while (*str)
 	{
