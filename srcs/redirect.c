@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/12 13:25:06 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 14:10:43 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,10 @@ int			ft_redirect_in(t_node *node, int *flag)
 							strerror(errno), 1));
 	}
 	tmp = dup(STDIN_FILENO);
-	if (flag[1] == 0)
+	if (flag[0] == 0)
 	{
 		dup2(fd, STDIN_FILENO);
-		flag[1] = 1;
+		flag[0] = 1;
 	}
 	close(fd);
 	ret = evaluate(node->lnode, flag);
