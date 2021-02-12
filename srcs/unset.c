@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 21:05:54 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/04 15:49:15 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 13:52:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,22 @@ static void	remove_env(char *name)
 	}
 }
 
+static int	validate_arg(char *arg)
+{
+	size_t	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (i == 0 && arg[0] >= '0' && arg[0] <= '9')
+			return (0);
+		if (!(ft_isalnum(arg[i]) || arg[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int			ft_unset(char **args)
 {
 	t_list	*tmp;
@@ -43,6 +59,8 @@ int			ft_unset(char **args)
 
 	while (*args)
 	{
+		if (!validate_arg(*args))
+			return (error_status("export", *args, "not a valid identifier", 1));
 		tmp = g_env_lst;
 		if ((env = ft_split(tmp->content, '=')) == NULL)
 			ft_perror("minishell");

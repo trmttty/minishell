@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 15:16:25 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 10:59:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/types.h>
+# include <dirent.h>
 
 typedef struct		s_env
 {
@@ -82,6 +83,11 @@ void				ft_perror(char *message);
 ** realloc
 */
 void				*ft_realloc(void *ptr, size_t size);
+
+/*
+** set_cmd_path
+*/
+int					set_cmd_path(char **args);
 
 # define INT_STATUS 130
 # define QUIT_STATUS 131

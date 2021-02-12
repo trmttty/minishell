@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/08 21:37:00 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:15:27 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char		*get_env(char *name)
 	{
 		if (envcmp(tmp->content, env) == 0)
 		{
+			if (ft_strchr(tmp->content, '=') == NULL)
+				break ;
 			if ((value = ft_strdup(ft_strchr(tmp->content, '=') + 1)) == NULL)
 				ft_perror("minishell");
 			free(env);

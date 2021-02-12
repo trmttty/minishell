@@ -6,4 +6,8 @@ zexample/
 minishell
 =======
 minishell*
+<<<<<<< HEAD
 >>>>>>> trmt-dev
+=======
+leaks.sh
+>>>>>>> trmt-merge

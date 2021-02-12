@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/07 12:06:35 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/10 16:05:24 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		lexer_advance(t_lexer *lexer)
 		if (lexer->env > 0)
 			lexer->env -= 1;
 	}
-	if (lexer->env == 0)
+	if (lexer->env == 0 && lexer->escape == 0)
 		in_bracket(lexer);
 }
 

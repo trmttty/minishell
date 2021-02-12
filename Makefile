@@ -24,6 +24,7 @@ SRC_RT = main.c \
 			lexer_utils_2.c \
 			lexer_utils_3.c \
 			lexer_utils_4.c \
+			lexer_utils_5.c \
 			token.c \
 			token_utils_1.c \
 			token_utils_2.c \
@@ -34,7 +35,8 @@ SRC_RT = main.c \
 			pipe.c \
 			redirect.c \
 			evaluate.c \
-			realloc.c
+			realloc.c \
+			set_cmd_path.c
 
 OBJ_RT = $(addprefix $(OBJ_DIR),$(SRC_RT:%.c=%.o))
 OBJ = $(OBJ_RT)

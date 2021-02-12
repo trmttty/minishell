@@ -3,97 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/09 19:47:45 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/12 14:10:43 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "evaluate.h"
 
-int		ft_redirect_out(t_node *node, int *flag)
+static int	create_file(t_node *node, int *flag)
 {
-	pid_t	pid;
-	int		status;
 	int		fd;
+	char	*file_name;
 
-	status = 0;
-	if ((pid = fork()) == 0)
+	file_name = node->rnode->commands[0];
+	if (file_name == NULL || (file_name && ft_strlen(file_name) == 0))
+		return (error_status(NULL, NULL, "ambiguous redirect", -1));
+	if (ft_strcmp(">", node->operation) == 0)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	else if (ft_strcmp(">>", node->operation) == 0)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0666);
+	else if (ft_strcmp("<", node->operation) == 0)
+		fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+		return (error_status(NULL, file_name, strerror(errno), -1));
+	close(fd);
+	return (1);
+}
+
+int			create_redirect(t_node *node, int *flag)
+{
+	if (node->lnode->operation && ft_strchr("<>", *node->lnode->operation))
 	{
-		if ((fd = open(node->rnode->commands[0], \
+		if (create_redirect(node->lnode, flag) == -1)
+			return (-1);
+	}
+	if (node->operation && ft_strchr("<>", *node->operation))
+		return (create_file(node, flag));
+	return (1);
+}
+
+int			ft_redirect_out(t_node *node, int *flag)
+{
+	int		fd;
+	int		tmp;
+	int		ret;
+
+	if ((fd = open(node->rnode->commands[0], \
 		O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
-			ft_perror("minishell");
-		if (flag[0] == 0)
-		{
-			dup2(fd, STDOUT_FILENO);
-			flag[0] = 1;
-		}
-		exit(evaluate(node->lnode, flag));
-	}
-	else if (pid < 0)
-		ft_perror("minishell");
-	else
-		wait(&status);
-	return (status >> 8);
-}
-
-int		ft_redirect_outout(t_node *node, int *flag)
-{
-	pid_t	pid;
-	int		status;
-	int		fd;
-
-	status = 0;
-	if ((pid = fork()) == 0)
 	{
-		if ((fd = open(node->rnode->commands[0], \
-		O_WRONLY | O_CREAT | O_APPEND, 0666)) == -1)
-			ft_perror("minishell");
-		if (flag[0] == 0)
-		{
-			dup2(fd, STDOUT_FILENO);
-			flag[0] = 1;
-		}
-		exit(evaluate(node->lnode, flag));
+		return (error_status(NULL, node->rnode->commands[0],
+							strerror(errno), 1));
 	}
-	else if (pid < 0)
-		ft_perror("minishell");
-	else
-		wait(&status);
-	return (status >> 8);
-}
-
-void	dup_stdin(t_node *node, int *flag)
-{
-	int		fd;
-
-	if ((fd = open(node->rnode->commands[0], O_RDONLY)) == -1)
-		ft_perror("minishell");
+	tmp = dup(STDOUT_FILENO);
 	if (flag[1] == 0)
 	{
-		dup2(fd, STDIN_FILENO);
+		dup2(fd, STDOUT_FILENO);
 		flag[1] = 1;
 	}
-	evaluate(node->lnode, flag);
+	close(fd);
+	ret = evaluate(node->lnode, flag);
+	dup2(tmp, STDOUT_FILENO);
+	close(tmp);
+	return (ret);
 }
 
-int		ft_redirect_in(t_node *node, int *flag)
+int			ft_redirect_outout(t_node *node, int *flag)
 {
-	pid_t	pid;
-	int		status;
+	int		fd;
+	int		tmp;
+	int		ret;
 
-	if (node->lnode->commands[0] && \
-	ft_strcmp(node->lnode->commands[0], "exit") == 0)
-		dup_stdin(node, flag);
-	status = 0;
-	pid = fork();
-	if (pid == 0)
-		dup_stdin(node, flag);
-	else if (pid < 0)
-		ft_perror("minishell");
-	else
-		wait(&status);
-	return (status >> 8);
+	if ((fd = open(node->rnode->commands[0], \
+		O_WRONLY | O_CREAT | O_APPEND, 0666)) == -1)
+	{
+		return (error_status(NULL, node->rnode->commands[0],
+							strerror(errno), 1));
+	}
+	tmp = dup(STDOUT_FILENO);
+	if (flag[1] == 0)
+	{
+		dup2(fd, STDOUT_FILENO);
+		flag[1] = 1;
+	}
+	close(fd);
+	ret = evaluate(node->lnode, flag);
+	dup2(tmp, STDOUT_FILENO);
+	close(tmp);
+	return (ret);
+}
+
+int			ft_redirect_in(t_node *node, int *flag)
+{
+	int		fd;
+	int		tmp;
+	int		ret;
+
+	if ((fd = open(node->rnode->commands[0], O_RDONLY)) == -1)
+	{
+		return (error_status(NULL, node->rnode->commands[0],
+							strerror(errno), 1));
+	}
+	tmp = dup(STDIN_FILENO);
+	if (flag[0] == 0)
+	{
+		dup2(fd, STDIN_FILENO);
+		flag[0] = 1;
+	}
+	close(fd);
+	ret = evaluate(node->lnode, flag);
+	dup2(tmp, STDIN_FILENO);
+	close(tmp);
+	return (ret);
 }
