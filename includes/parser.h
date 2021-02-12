@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:19 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 10:59:53 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 12:26:02 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ t_node				*command();
 t_node				*simple_command();
 void				gen(t_node *node);
 void				free_node(t_node *node);
-int					create_fd(t_node *node, int *flag);
 
 #endif

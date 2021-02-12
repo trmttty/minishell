@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 11:14:37 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 12:22:30 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,46 +35,19 @@ int		ft_exe(char **args)
 	return (launch(args));
 }
 
-// int		ft_colon(t_node *node, int *flag)
-// {
-// 	pid_t	pid;
-// 	pid_t	wpid;
-// 	int		status;
-
-// 	status = 0;
-// 	if ((wpid = fork()) == 0)
-// 	{
-// 		if ((pid = fork()) == 0)
-// 			exit(evaluate(node->lnode, flag));
-// 		else if (wpid < 0)
-// 			ft_perror("minishell");
-// 		else
-// 		{
-// 			wait(NULL);
-// 			exit(evaluate(node->rnode, flag));
-// 		}
-// 	}
-// 	else if (wpid < 0)
-// 		ft_perror("minishell");
-// 	else
-// 		wait(&status);
-// 	return (status);
-// }
-
 int		evaluate(t_node *node, int *flag)
 {
-	// fprintf(stderr, "%s\n", node->operation);
 	if (node->commands != NULL)
 		return (ft_exe(node->commands));
 	if (ft_strcmp(node->operation, "|") == 0)
 		return (ft_pipe(node, flag));
-	if (create_fd(node, flag) == -1)
-		return (1);
+	if (create_redirect(node, flag) == -1)
+		return (EXIT_FAILURE);
 	if (ft_strcmp(node->operation, ">") == 0)
 		return (ft_redirect_out(node, flag));
 	if (ft_strcmp(node->operation, ">>") == 0)
 		return (ft_redirect_outout(node, flag));
 	if (ft_strcmp(node->operation, "<") == 0)
 		return (ft_redirect_in(node, flag));
-	return (0);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 10:37:33 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/12 11:28:25 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,8 @@ static void	loop(void)
 	t_lexer *lexer;
 	int		fd;
 
-	// fd = dup(STDIN_FILENO);
 	while (1)
 	{
-		// dup2(fd, STDIN_FILENO);
 		signal(SIGINT, parent_sigint);
 		signal(SIGQUIT, parent_sigquit);
 		if (!read_stdin(&line))
