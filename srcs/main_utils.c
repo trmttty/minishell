@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 21:23:43 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/12 15:26:06 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int		set_exit_status(int status)
 	else if (status == 127)
 		return (set_question("?", "127"));
 	else if (status == INT_STATUS)
-		return (set_question("?", ft_itoa(INT_STATUS)));
+		return (set_question("?", "130"));
 	else if (status == QUIT_STATUS)
-		return (set_question("?", ft_itoa(QUIT_STATUS)));
+		return (set_question("?", "131"));
 	else
 		return (set_question("?", "1"));
 }
