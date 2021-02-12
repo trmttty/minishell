@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 01:40:17 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 01:56:36 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,7 @@ static char	*replace_environ(t_lexer *lexer, char **value)
 			|| lexer->contents[lexer->i + tail] == '_')
 		tail++;
 	if (lexer->contents[lexer->i + tail] == '?')
-	{
-		lexer_advance(lexer);
-		lexer_advance(lexer);
-		return(ft_itoa(g_exit_code));
-	}
+		return (lexer_get_exit_code(lexer));
 	if (tail == 1)
 	{
 		if (!lexer->quote && (ft_isquote(lexer->contents[lexer->i + tail])))

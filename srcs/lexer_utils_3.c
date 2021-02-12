@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 00:59:50 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 02:00:58 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ int			lexer_escape_string(t_lexer *lexer, char **value)
 		return (1);
 	lexer_advance(lexer);
 	return (0);
+}
+
+char		*lexer_get_exit_code(t_lexer *lexer)
+{
+	char	*code;
+
+	if ((code = ft_itoa(g_exit_code)) == NULL)
+		ft_perror("minishell");
+	lexer_advance(lexer);
+	lexer_advance(lexer);
+	return (code);
 }
