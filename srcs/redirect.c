@@ -6,36 +6,45 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/12 18:31:54 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 22:12:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "evaluate.h"
+#include "lexer.h"
 
 static int	create_file(t_node *node)
 {
 	int		fd;
-	char	*file_name;
+	char	**commands;
 
-	file_name = node->rnode->commands[0];
+	commands = lexer_expand_command(node->rnode->commands);
+	node->expand = 1;
 	fd = 0;
-	if (file_name == NULL || (file_name && ft_strlen(file_name) == 0))
-		return (error_status(NULL, NULL, "ambiguous redirect", -1));
+	if (ft_tabsize(commands) != 1 || (*commands && ft_strlen(*commands) == 0))
+	{
+		ft_tabfree(commands);
+		return (error_status(NULL, *node->rnode->commands, "ambiguous redirect", -1));
+	}
 	if (ft_strcmp(">", node->operation) == 0)
-		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		fd = open(*commands, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	else if (ft_strcmp(">>", node->operation) == 0)
-		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0666);
+		fd = open(*commands, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	else if (ft_strcmp("<", node->operation) == 0)
-		fd = open(file_name, O_RDONLY);
+		fd = open(*commands, O_RDONLY);
+	ft_tabfree(node->rnode->commands);
+	node->rnode->commands = commands;
 	if (fd == -1)
-		return (error_status(NULL, file_name, strerror(errno), -1));
+		return (error_status(NULL, *commands, strerror(errno), -1));
 	close(fd);
 	return (1);
 }
 
 int			create_redirect(t_node *node, int *flag)
 {
+	if (node->expand)
+		return (1);
 	if (node->lnode->operation && ft_strchr("<>", *node->lnode->operation))
 	{
 		if (create_redirect(node->lnode, flag) == -1)

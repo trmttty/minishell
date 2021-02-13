@@ -6,15 +6,22 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 12:22:30 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 22:44:06 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "evaluate.h"
+#include "lexer.h"
 
-int		ft_exe(char **args)
+int		ft_exe(t_node *node)
 {
+	char	**args;
+
+	args = lexer_expand_command(node->commands);
+	node->expand = 1;
+	ft_tabfree(node->commands);
+	node->commands = args;
 	if (*args == NULL)
 		return (0);
 	set_env("_", args[ft_tabsize(args) - 1]);
@@ -38,7 +45,7 @@ int		ft_exe(char **args)
 int		evaluate(t_node *node, int *flag)
 {
 	if (node->commands != NULL)
-		return (ft_exe(node->commands));
+		return (ft_exe(node));
 	if (ft_strcmp(node->operation, "|") == 0)
 		return (ft_pipe(node, flag));
 	if (create_redirect(node, flag) == -1)

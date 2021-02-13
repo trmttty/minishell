@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 01:55:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 12:42:14 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ typedef struct		s_lexer
 t_lexer				*new_lexer(char *contents);
 void				lexer_advance(t_lexer *lexer);
 void				lexer_skip_whitespace(t_lexer *lexer);
+void				lexer_collect_current_char(t_lexer *lexer, char **value);
 t_token				*lexer_get_next_token(t_lexer *lexer);
 t_token				*lexer_collect_string(t_lexer *lexer);
 t_token				*lexer_collect_id(t_lexer *lexer);
 t_token				*lexer_advance_with_token(t_lexer *lexer, t_token *token);
 t_token				*generate_token(t_lexer *lexer);
 t_token				*lexer_get_next_checker(t_lexer *lexer);
+int					lexer_return_string(t_lexer *lexer);
 char				*lexer_get_current_char(t_lexer *lexer);
 int					is_escaped(char *s, int pos);
 int					in_bracket(t_lexer *lexer);
@@ -51,5 +53,9 @@ int					ft_isescape(t_lexer *lexer);
 int					lexer_expand_env(t_lexer *lexer, char **value);
 void				update_contens(t_lexer *lexer, char *value);
 char				*lexer_get_exit_code(t_lexer *lexer);
+
+
+t_token		*lexer_loop_raw(t_lexer *lexer, char **value);
+char		**lexer_expand_command(char **commands);
 
 #endif
