@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 02:00:58 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 11:08:53 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int			lexer_skip_quote(t_lexer *lexer)
 	if (lexer->quote && lexer->quote == lexer->c && !lexer->env)
 		return (1);
 	else if (!lexer->quote && ft_isquote(lexer->c)
-			&& !(lexer->nc == ' ' || lexer->nc == '\0') && !lexer->env)
+			&& !(ft_strchr(" \t", lexer->nc) || lexer->nc == '\0')
+			&& !lexer->env)
 		return (1);
 	return (0);
 }
