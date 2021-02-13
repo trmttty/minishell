@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 12:42:14 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 23:07:48 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ typedef struct		s_lexer
 	unsigned int	i;
 	size_t			env;
 	int				escape;
+	int				raw;
 	char			*contents;
 }					t_lexer;
 
-t_lexer				*new_lexer(char *contents);
+t_lexer				*new_lexer(char *contents, int raw);
 void				lexer_advance(t_lexer *lexer);
 void				lexer_skip_whitespace(t_lexer *lexer);
 void				lexer_collect_current_char(t_lexer *lexer, char **value);

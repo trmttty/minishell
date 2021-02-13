@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 22:55:34 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 23:38:00 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char		**lexer_expand_command(char **commands)
 	command_lst = NULL;	
 	while (*commands)
 	{
-		lexer = new_lexer(*commands);
+		lexer = new_lexer(*commands, 0);
 		while ((token = lexer_get_next_token(lexer)) != NULL)
 		{
 			if (token->kind != TK_SKIP)

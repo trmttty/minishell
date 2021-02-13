@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 22:44:06 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 22:58:40 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		evaluate(t_node *node, int *flag)
 		return (ft_exe(node));
 	if (ft_strcmp(node->operation, "|") == 0)
 		return (ft_pipe(node, flag));
-	if (create_redirect(node, flag) == -1)
+	if (create_redirect(node, flag) == 1)
 		return (EXIT_FAILURE);
 	if (ft_strcmp(node->operation, ">") == 0)
 		return (ft_redirect_out(node, flag));

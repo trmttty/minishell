@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:07:07 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 11:55:27 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 23:37:17 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	loop(void)
 		signal(SIGQUIT, parent_sigquit);
 		if (!read_stdin(&line))
 			continue;
-		lexer = new_lexer(line);
+		lexer = new_lexer(line, 1);
 		execute_minishell(lexer);
 		free(line);
 		free(lexer->contents);
