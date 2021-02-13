@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 14:38:33 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 23:54:50 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static int	ft_declare(void)
 	list = g_env_lst;
 	while (list)
 	{
-		if (envcmp(list->content, "_=") != 0
-			&& envcmp(list->content, "?=") != 0)
+		if (envcmp(list->content, "_=") != 0)
 		{
 			if ((equal = ft_strchr(list->content, '=')))
 			{
