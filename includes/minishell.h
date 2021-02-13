@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 01:37:18 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 20:56:27 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int					error_status(char *commnad, char *arg, \
 								char *message, int code);
 void				set_exit_code(int code);
 void				ft_perror(char *message);
+void				ft_perror_arg(char *message, char *arg);
 
 /*
 ** realloc

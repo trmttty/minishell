@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 22:22:08 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/13 20:59:23 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			launch(char **args)
 	if ((pid = fork()) == 0)
 	{
 		execve(args[0], args, create_env_vec(g_env_lst));
-		ft_perror("minishell");
+		ft_perror_arg("minishell", *args);
 	}
 	else if (pid < 0)
 		ft_perror("minishell");
