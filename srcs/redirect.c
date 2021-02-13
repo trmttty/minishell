@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/13 22:59:41 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 00:12:04 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static int	create_file(t_node *node)
 	int		fd;
 	char	**commands;
 
-	commands = lexer_expand_command(node->rnode->commands);
+	commands = lexer_expand_file_name(node->rnode->commands);
 	node->expand = 1;
 	fd = 0;
-	if (ft_tabsize(commands) != 1 || (*commands && ft_strlen(*commands) == 0))
+	if (commands == NULL || ft_tabsize(commands) != 1 || (*commands && ft_strlen(*commands) == 0))
 	{
 		ft_tabfree(commands);
 		return (error_status(NULL, *node->rnode->commands, "ambiguous redirect", 1));

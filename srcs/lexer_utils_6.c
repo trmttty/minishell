@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 23:38:00 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 02:45:44 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,36 @@ char		**lexer_expand_command(char **commands)
 		{
 			if (token->kind != TK_SKIP)
 				ft_lstadd_back(&command_lst, ft_lstnew(ft_strdup(token->value)));
+			free(token->value);
+			free(token);
+		}
+		free(lexer->contents);
+		free(lexer);
+		commands++;
+	}
+	return (create_command_vec(command_lst));
+}
+
+char		**lexer_expand_file_name(char **commands)
+{
+	t_lexer	*lexer;
+	t_token	*token;
+	t_list	*command_lst;
+
+	command_lst = NULL;	
+	while (*commands)
+	{
+		lexer = new_lexer(*commands, 0);
+		while ((token = lexer_get_next_token(lexer)) != NULL)
+		{
+			if (token->kind == TK_SKIP)
+			{
+				free(token);
+				free(lexer->contents);
+				free(lexer);
+				return (NULL);
+			}
+			ft_lstadd_back(&command_lst, ft_lstnew(ft_strdup(token->value)));
 			free(token->value);
 			free(token);
 		}
