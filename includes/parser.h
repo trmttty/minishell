@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:19 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 12:26:02 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 22:07:22 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_node
 	char			*operation;
 	struct s_node	*lnode;
 	struct s_node	*rnode;
+	int				expand;
 }					t_node;
 
 t_node				*new_node(t_node_kind kind);

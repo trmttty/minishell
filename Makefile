@@ -19,13 +19,13 @@ SRC_RT = main.c \
 			exit.c \
 			env_utils_1.c \
 			env_utils_2.c \
-			env_utils_3.c \
 			lexer.c \
 			lexer_utils_1.c \
 			lexer_utils_2.c \
 			lexer_utils_3.c \
 			lexer_utils_4.c \
 			lexer_utils_5.c \
+			lexer_utils_6.c \
 			token.c \
 			token_utils_1.c \
 			token_utils_2.c \

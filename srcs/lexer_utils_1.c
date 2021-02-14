@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/10 16:05:24 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 23:28:31 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "lexer.h"
 #include "token.h"
 
-t_lexer		*new_lexer(char *contents)
+t_lexer		*new_lexer(char *contents, int raw)
 {
 	t_lexer	*lexer;
 
@@ -27,6 +27,7 @@ t_lexer		*new_lexer(char *contents)
 	lexer->nc = contents[lexer->i + 1];
 	if (ft_isquote(lexer->c))
 		lexer->quote = lexer->c;
+	lexer->raw = raw;
 	return (lexer);
 }
 
