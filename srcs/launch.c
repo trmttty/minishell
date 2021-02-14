@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 20:59:23 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/14 20:55:10 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	return_status(int status, char **args)
 	if (status == 256 && args[1])
 		return (1);
 	if (status == 256)
-		return (127);
+		return (126);
 	return (status >> 8);
 }
 

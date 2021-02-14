@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 02:23:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 20:36:08 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static long	set_number(char *str, int sign)
 		if (nb == 922337203685477580 && *str >= '8' && sign == 1)
 			exit_status("exit", ptr, "numeric argument required", 255);
 		if (nb > 922337203685477580 && sign == 1)
-			exit_status("exit", ptr, "numeric argument required", 1);
+			exit_status("exit", ptr, "numeric argument required", 255);
 		if (nb == 922337203685477580 && *str >= '9' && sign == -1)
 			exit_status("exit", ptr, "numeric argument required", 255);
 		if (nb > 922337203685477580 && sign == -1)
