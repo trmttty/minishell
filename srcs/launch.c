@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 20:52:00 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/14 20:55:10 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,5 @@ int			launch(char **args)
 		ft_perror("minishell");
 	else
 		waitpid(pid, &status, WUNTRACED);
-	fprintf(stderr, "status = %d\n", status);
 	return (return_status(status, args));
 }
