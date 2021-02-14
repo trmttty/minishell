@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 03:32:08 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 13:10:59 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char		**lexer_expand_file_name(char **commands)
 		{
 			if (token->kind == TK_SKIP)
 			{
+				free(token->value);
 				free(token);
 				free(lexer->contents);
 				free(lexer);
