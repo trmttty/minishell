@@ -6,11 +6,26 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 10:26:03 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 13:48:10 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_list		*find_env(char *env)
+{
+	t_list	*tmp;
+
+	tmp = g_env_lst;
+	while (tmp)
+	{
+		if (envcmp(tmp->content, env) == 0
+			|| envcmp(tmp->content, env) == '=')
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
 
 int			envcmp(const char *env1, const char *env2)
 {

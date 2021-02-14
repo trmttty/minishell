@@ -6,39 +6,11 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 23:54:50 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 20:47:44 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_declare(void)
-{
-	t_list	*list;
-	char	*name;
-	char	*equal;
-
-	sort_env_lst();
-	list = g_env_lst;
-	while (list)
-	{
-		if (envcmp(list->content, "_=") != 0)
-		{
-			if ((equal = ft_strchr(list->content, '=')))
-			{
-				if ((name = ft_substr(list->content, 0,
-					equal - (char*)list->content)) == NULL)
-					ft_perror("minishell");
-				printf("declare -x %s=\"%s\"\n", name, ++equal);
-				free(name);
-			}
-			else
-				printf("declare -x %s\n", list->content);
-		}
-		list = list->next;
-	}
-	return (1);
-}
 
 static int	validate_arg(char *arg)
 {
@@ -95,22 +67,32 @@ void		add_env(char *arg)
 int			ft_export(char **args)
 {
 	t_list	*lst;
+	int		status;
 
 	if (*args == NULL)
 		return (ft_declare());
+	status = 0;
 	while (*args)
 	{
 		if (!validate_arg(*args))
-			return (error_status("export", *args, "not a valid identifier", 1));
+		{
+			status = 1;
+			error_message("export", *args, "not a valid identifier");
+			args++;
+			continue ;
+		}
 		if ((lst = find_env(*args)) != NULL)
 		{
 			if (envcmp(lst->content, *args) == '=')
-				break ;
+			{
+				args++;
+				continue;
+			}
 			update_env(*args);
 		}
 		else
 			add_env(*args);
 		args++;
 	}
-	return (0);
+	return (status);
 }

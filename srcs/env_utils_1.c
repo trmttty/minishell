@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 13:46:03 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 01:36:32 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 13:55:08 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,41 @@ t_list		*init_env_lst(char **envp)
 	return (env_lst);
 }
 
+static void	set_shlvl(void)
+{
+	char	*tmp;
+	char	*num;
+
+	tmp = get_env("SHLVL");
+	if (ft_atoi(tmp) < 0)
+		num = ft_itoa(0);
+	else if (ft_atoi(tmp) == 999)
+		num = ft_strdup("");
+	else if (ft_atoi(tmp) >= 1000)
+		num = ft_itoa(1);
+	else
+		num = ft_itoa(ft_atoi(tmp) + 1);
+	if (num == NULL)
+		ft_perror("minishell");
+	set_env("SHLVL", num);
+	free(tmp);
+	free(num);
+}
+
 void		init_env(char *arg)
 {
 	char	buf[MAXPATHLEN];
-	char	*tmp;
-	char	*num;
 	char	**old_pwd;
 
 	if (getcwd(buf, MAXPATHLEN))
 		set_env("PWD", buf);
-	tmp = get_env("SHLVL");
-	num = ft_itoa(ft_atoi(tmp) + 1);
-	set_env("SHLVL", num);
-	free(tmp);
-	free(num);
 	if ((old_pwd = ft_calloc(2, sizeof(char*))) == NULL)
 		ft_perror("minishell");
 	if ((old_pwd[0] = ft_strdup("OLDPWD")) == NULL)
 		ft_perror("minishell");
 	ft_export(old_pwd);
 	ft_tabfree(old_pwd);
+	set_shlvl();
 	set_env("_", arg);
 	set_exit_code(0);
 }
@@ -96,19 +111,4 @@ int			set_env(char *name, char *value)
 	free(env);
 	free(arg);
 	return (0);
-}
-
-t_list		*find_env(char *env)
-{
-	t_list	*tmp;
-
-	tmp = g_env_lst;
-	while (tmp)
-	{
-		if (envcmp(tmp->content, env) == 0
-			|| envcmp(tmp->content, env) == '=')
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
 }

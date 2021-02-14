@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 13:12:07 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 15:02:06 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			ft_exe(t_node *node)
 	return (launch(args));
 }
 
-int		evaluate(t_node *node, int *flag)
+int			evaluate(t_node *node, int *flag)
 {
 	if (node->commands != NULL)
 		return (ft_exe(node));

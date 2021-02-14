@@ -14,6 +14,7 @@ SRC_RT = main.c \
 			cd.c \
 			pwd.c \
 			export.c \
+			declare.c \
 			unset.c \
 			env.c \
 			exit.c \
