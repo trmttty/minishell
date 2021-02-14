@@ -6,11 +6,13 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 09:46:08 by ttarumot          #+#    #+#             */
-/*   Updated: 2020/07/14 01:48:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 23:10:12 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+//
+#include <stdio.h>
 
 static void	reset_remain(char **remain)
 {
@@ -51,6 +53,8 @@ static int	read_fd(int fd, char **line, char **remain, char **newline)
 	while (!*newline && ((ret = read(fd, buf, BUFFER_SIZE)) > 0))
 	{
 		buf[ret] = '\0';
+		if (ft_strchr(buf, '\n') == NULL)
+			ft_putstr_fd("  \b\b", 2);
 		tmp = remain[fd];
 		if (!(remain[fd] = ft_strjoin(remain[fd], buf)))
 			ret = -1;
@@ -58,6 +62,11 @@ static int	read_fd(int fd, char **line, char **remain, char **newline)
 		*newline = ft_strchr(remain[fd], '\n');
 	}
 	free(buf);
+	if (ft_strlen(*remain))
+	{
+		ft_putstr_fd("  \b\b", 2);
+		return (get_next_line(0, line));
+	}
 	if (ret != -1 && *newline)
 		return (read_remain(line, &remain[fd], newline));
 	if (ret != -1 && !(*line = ft_strdup(remain[fd])))
