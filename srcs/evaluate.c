@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 21:55:18 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 22:58:40 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 10:32:00 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "evaluate.h"
 #include "lexer.h"
 
-int		ft_exe(t_node *node)
+static char	*expand_command(t_node *node)
 {
 	char	**args;
 
@@ -22,6 +22,14 @@ int		ft_exe(t_node *node)
 	node->expand = 1;
 	ft_tabfree(node->commands);
 	node->commands = args;
+	return (args);
+}
+
+int			ft_exe(t_node *node)
+{
+	char	**args;
+
+	args = expand_command(node);
 	if (*args == NULL)
 		return (0);
 	set_env("_", args[ft_tabsize(args) - 1]);

@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:27:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 03:23:46 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/14 11:14:21 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,6 @@ int			syntax_check(t_token *token)
 	return (1);
 }
 
-void		print_token(t_token *token)
-{
-	while (token)
-	{
-		fprintf(stderr, "%s\n", token->value);
-		token = token->next;
-	}
-}
-
 int			check_syntax(char *line)
 {
 	t_token *token;
@@ -121,7 +112,6 @@ int			check_syntax(char *line)
 	ret = 0;
 	if ((token = generate_checker(lexer)) != NULL)
 	{
-		print_token(token);
 		ret = syntax_check(token);
 		free_token(token);
 	}
