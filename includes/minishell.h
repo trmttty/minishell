@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:08:44 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 20:56:27 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/14 20:49:21 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int					ft_echo(char **args);
 int					ft_cd(char **args);
 int					ft_pwd(char **args);
 int					ft_export(char **args);
+int					ft_declare(void);
 int					ft_export_question(char **args);
 int					ft_unset(char **args);
 int					ft_env(char **args);
@@ -74,6 +75,7 @@ void				add_env(char *arg);
 */
 void				exit_status(char *commnad, char *arg, \
 								char *message, int code);
+void				error_message(char *commnad, char *arg, char *message);
 int					error_status(char *commnad, char *arg, \
 								char *message, int code);
 void				set_exit_code(int code);

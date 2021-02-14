@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:14:01 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 20:55:41 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/14 18:06:23 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,26 @@ int		error_status(char *commnad, char *arg, char *message, int code)
 	}
 	ft_putstr_fd("\n", 2);
 	return (code);
+}
+
+void	error_message(char *commnad, char *arg, char *message)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (commnad)
+	{
+		ft_putstr_fd(commnad, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (arg)
+	{
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (message)
+	{
+		ft_putstr_fd(message, 2);
+	}
+	ft_putstr_fd("\n", 2);
 }
 
 void	ft_perror(char *message)
