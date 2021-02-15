@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/15 10:03:57 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 11:40:14 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@ static int	validate_arg(char *arg)
 		if (arg[i] == '+' && arg[i + 1] != '=')
 			return (0);
 		i++;
+	}
+	return (1);
+}
+
+static int	validate(char ***args, int *status)
+{
+	if (!validate_arg(**args))
+	{
+		*status = 1;
+		error_message("export", **args, "not a valid identifier");
+		(*args)++;
+		return (0);
 	}
 	return (1);
 }
@@ -71,7 +83,7 @@ void		add_env(char *arg)
 		*(equal - 1) = '\0';
 		if ((env = ft_strjoin(arg, equal)) == NULL)
 			ft_perror("minishell");
-	} 
+	}
 	else if ((env = ft_strdup(arg)) == NULL)
 		ft_perror("minishell");
 	if ((new_lst = ft_lstnew(env)) == NULL)
@@ -89,13 +101,8 @@ int			ft_export(char **args)
 	status = 0;
 	while (*args)
 	{
-		if (!validate_arg(*args))
-		{
-			status = 1;
-			error_message("export", *args, "not a valid identifier");
-			args++;
+		if (!validate(&args, &status))
 			continue ;
-		}
 		if ((lst = find_env(*args)) != NULL)
 		{
 			if (envcmp(lst->content, *args) == '=')
