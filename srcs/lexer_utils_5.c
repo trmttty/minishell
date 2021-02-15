@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 10:27:26 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 18:59:48 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int			lexer_expand_env(t_lexer *lexer, char **value)
 				|| lexer->c == '\0'))
 			return (1);
 		if (ret)
-			update_contens(lexer, ret);
+			update_contens(lexer, ret, value);
 	}
 	return (0);
 }
