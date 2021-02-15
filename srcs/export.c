@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 20:47:44 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 10:03:57 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	validate_arg(char *arg)
 	size_t	i;
 
 	i = 0;
-	if (*arg == '=')
+	if (*arg == '=' || *arg == '+')
 		return (0);
 	while (arg[i] && arg[i] != '=')
 	{
@@ -36,13 +36,21 @@ static int	validate_arg(char *arg)
 void		update_env(char *arg)
 {
 	t_list	*lst;
-	char	*plus;
+	char	*equal;
 	char	*env;
 
 	if ((lst = find_env(arg)) != NULL)
 	{
-		if ((plus = ft_strchr(arg, '+')) != NULL)
-			env = ft_strjoin(lst->content, &plus[2]);
+		if ((equal = ft_strchr(arg, '=')) && *(equal - 1) == '+')
+		{
+			if ((ft_strchr(lst->content, '=')))
+				env = ft_strjoin(lst->content, equal + 1);
+			else
+			{
+				*(equal - 1) = '\0';
+				env = ft_strjoin(arg, equal);
+			}
+		}
 		else
 			env = ft_strdup(arg);
 		if (env == NULL)
@@ -56,8 +64,15 @@ void		add_env(char *arg)
 {
 	t_list	*new_lst;
 	char	*env;
+	char	*equal;
 
-	if ((env = ft_strdup(arg)) == NULL)
+	if ((equal = ft_strchr(arg, '=')) && *(equal - 1) == '+')
+	{
+		*(equal - 1) = '\0';
+		if ((env = ft_strjoin(arg, equal)) == NULL)
+			ft_perror("minishell");
+	} 
+	else if ((env = ft_strdup(arg)) == NULL)
 		ft_perror("minishell");
 	if ((new_lst = ft_lstnew(env)) == NULL)
 		ft_perror("minishell");
