@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 00:09:13 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 23:59:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 13:06:19 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ void				update_contens(t_lexer *lexer, char *value);
 char				*lexer_get_exit_code(t_lexer *lexer);
 
 
-t_token		*lexer_loop_raw(t_lexer *lexer, char **value);
-char		**lexer_expand_command(char **commands);
-char		**lexer_expand_file_name(char **commands);
+t_token				*lexer_loop_raw(t_lexer *lexer, char **value);
+char				**lexer_expand_command(char **commands);
+char				**lexer_expand_file_name(char **commands);
+void				free_lexer(t_lexer *lexer);
 
 #endif

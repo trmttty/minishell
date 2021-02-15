@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 01:01:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 13:06:36 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,10 @@ int			in_bracket(t_lexer *lexer)
 		return (0);
 	}
 	return (ft_isquote(lexer->quote));
+}
+
+void		free_lexer(t_lexer *lexer)
+{
+	free(lexer->contents);
+	free(lexer);
 }
