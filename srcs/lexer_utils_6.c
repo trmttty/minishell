@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 13:10:59 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 12:08:31 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,17 @@ char		**lexer_expand_command(char **commands)
 	t_token	*token;
 	t_list	*command_lst;
 
-	command_lst = NULL;	
+	command_lst = NULL;
 	while (*commands)
 	{
 		lexer = new_lexer(*commands, 0);
 		while ((token = lexer_get_next_token(lexer)) != NULL)
 		{
 			if (token->kind != TK_SKIP)
-				ft_lstadd_back(&command_lst, ft_lstnew(ft_strdup(token->value)));
+			{
+				ft_lstadd_back(&command_lst,
+								ft_lstnew(ft_strdup(token->value)));
+			}
 			free(token->value);
 			free(token);
 		}
@@ -68,7 +71,7 @@ char		**lexer_expand_file_name(char **commands)
 	t_token	*token;
 	t_list	*command_lst;
 
-	command_lst = NULL;	
+	command_lst = NULL;
 	while (*commands)
 	{
 		lexer = new_lexer(*commands, 0);
@@ -115,8 +118,6 @@ int			lexer_escape_string_raw(t_lexer *lexer, char **value)
 		ft_perror("minishell");
 	ft_strlcat(*value, str, size);
 	free(str);
-	// if (!lexer->quote && ft_strchr(";|<>", lexer->nc))
-	// 	return (1);
 	lexer_advance(lexer);
 	return (0);
 }
