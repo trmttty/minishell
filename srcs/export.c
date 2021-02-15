@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 14:55:33 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/15 11:40:14 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 11:43:54 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int			ft_export(char **args)
 	while (*args)
 	{
 		if (!validate(&args, &status))
-			continue ;
+			continue;
 		if ((lst = find_env(*args)) != NULL)
 		{
 			if (envcmp(lst->content, *args) == '=')

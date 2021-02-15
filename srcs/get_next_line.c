@@ -6,15 +6,14 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 09:46:08 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 23:10:12 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 11:59:37 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//
-#include <stdio.h>
+#include "minishell.h"
 
-static void	reset_remain(char **remain)
+static void		reset_remain(char **remain)
 {
 	if (*remain)
 	{
@@ -23,7 +22,7 @@ static void	reset_remain(char **remain)
 	}
 }
 
-static int	read_remain(char **line, char **remain, char **newline)
+static int		read_remain(char **line, char **remain, char **newline)
 {
 	char *tmp;
 
@@ -39,17 +38,14 @@ static int	read_remain(char **line, char **remain, char **newline)
 	return (*remain == NULL ? -1 : 1);
 }
 
-static int	read_fd(int fd, char **line, char **remain, char **newline)
+static ssize_t	read_fd_while(int fd, char **remain, char **newline)
 {
 	char	*buf;
 	char	*tmp;
 	ssize_t	ret;
 
-	if (!(buf = (char*)malloc(BUFFER_SIZE + 1)))
-	{
-		reset_remain(&remain[fd]);
-		return (-1);
-	}
+	if ((buf = (char*)malloc(BUFFER_SIZE + 1)) == NULL)
+		ft_perror("minishell");
 	while (!*newline && ((ret = read(fd, buf, BUFFER_SIZE)) > 0))
 	{
 		buf[ret] = '\0';
@@ -62,6 +58,14 @@ static int	read_fd(int fd, char **line, char **remain, char **newline)
 		*newline = ft_strchr(remain[fd], '\n');
 	}
 	free(buf);
+	return (ret);
+}
+
+static int		read_fd(int fd, char **line, char **remain, char **newline)
+{
+	ssize_t	ret;
+
+	ret = read_fd_while(fd, remain, newline);
 	if (ft_strlen(*remain))
 	{
 		ft_putstr_fd("  \b\b", 2);
@@ -75,7 +79,7 @@ static int	read_fd(int fd, char **line, char **remain, char **newline)
 	return (ret == -1 ? -1 : 0);
 }
 
-int			get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static char	*remain[FD_MAX];
 	char		*newline;
