@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 21:20:00 by kazumanoda        #+#    #+#             */
-/*   Updated: 2021/02/14 11:13:05 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 13:45:48 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int			create_redirect(t_node *node, int *flag)
 		return (0);
 	if (node->lnode->operation && ft_strchr("<>", *node->lnode->operation))
 	{
-		if (create_redirect(node->lnode, flag) == -1)
+		if (create_redirect(node->lnode, flag) == 1)
 			return (1);
 	}
 	if (node->operation && ft_strchr("<>", *node->operation))
