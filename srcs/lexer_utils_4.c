@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:26:55 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/14 02:45:55 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 18:59:28 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_token		*lexer_loop(t_lexer *lexer, char **value)
 				lexer_advance(lexer);
 				return (init_token(TK_SKIP, *value));
 			}
+			if (!lexer->quote && lexer->c == ' ')
+				break ;
 		}
 		else
 			lexer_collect_current_char(lexer, value);
@@ -87,17 +89,17 @@ t_token		*lexer_collect_string(t_lexer *lexer)
 	return (init_token(TK_CMD, value));
 }
 
-void		update_contens(t_lexer *lexer, char *value)
+void		update_contens(t_lexer *lexer, char *ret, char **value)
 {
 	char	*tmp;
 
 	tmp = lexer->contents;
 	if (lexer->quote && ft_isquote(lexer->c))
 		lexer->quote = 0;
-	lexer->env = ft_strlen(value);
-	lexer->contents = ft_strjoin(value, &lexer->contents[lexer->i]);
+	lexer->env = ft_strlen(ret);
+	lexer->contents = ft_strjoin(ret, &lexer->contents[lexer->i]);
 	free(tmp);
-	free(value);
+	free(ret);
 	lexer->i = 0;
 	lexer->pc = 0;
 	lexer->c = lexer->contents[0];
@@ -105,6 +107,7 @@ void		update_contens(t_lexer *lexer, char *value)
 		lexer->nc = lexer->contents[1];
 	else
 		lexer->nc = 0;
-	while (!lexer->quote && (lexer->c == ' ' || lexer->c == '\t'))
+	while (!lexer->quote && !ft_strlen(*value)
+			&& (lexer->c == ' ' || lexer->c == '\t'))
 		lexer_skip_whitespace(lexer);
 }
