@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:59:59 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 14:27:02 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 01:43:49 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int		ft_env(char **args)
 	tmp = g_env_lst;
 	while (tmp)
 	{
-		if (ft_strchr(tmp->content, '=') &&
-			envcmp(tmp->content, "?=") != 0)
+		if (ft_strchr(tmp->content, '=') != NULL)
 			ft_putendl_fd(tmp->content, 1);
 		tmp = tmp->next;
 	}

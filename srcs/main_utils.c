@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 18:38:26 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/13 00:25:29 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/13 01:33:42 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		ft_iswspace_str(char *str)
 	return (1);
 }
 
-int		set_exit_status(int status)
+void	set_exit_code(int status)
 {
-	return (set_question("?", status));
+	g_exit_code = status;
 }

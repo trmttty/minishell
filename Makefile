@@ -14,6 +14,7 @@ SRC_RT = main.c \
 			cd.c \
 			pwd.c \
 			export.c \
+			declare.c \
 			unset.c \
 			env.c \
 			exit.c \
@@ -25,6 +26,8 @@ SRC_RT = main.c \
 			lexer_utils_3.c \
 			lexer_utils_4.c \
 			lexer_utils_5.c \
+			lexer_utils_6.c \
+			lexer_utils_7.c \
 			token.c \
 			token_utils_1.c \
 			token_utils_2.c \

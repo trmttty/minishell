@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:18:43 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/11 22:22:08 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2021/02/14 20:55:10 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	return_status(int status, char **args)
 	if (status == 256 && args[1])
 		return (1);
 	if (status == 256)
-		return (127);
+		return (126);
 	return (status >> 8);
 }
 
@@ -50,7 +50,7 @@ int			launch(char **args)
 	if ((pid = fork()) == 0)
 	{
 		execve(args[0], args, create_env_vec(g_env_lst));
-		ft_perror("minishell");
+		ft_perror_arg("minishell", *args);
 	}
 	else if (pid < 0)
 		ft_perror("minishell");

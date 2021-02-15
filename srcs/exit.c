@@ -6,7 +6,7 @@
 /*   By: ttarumot <ttarumot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 02:33:09 by ttarumot          #+#    #+#             */
-/*   Updated: 2021/02/12 15:50:18 by ttarumot         ###   ########.fr       */
+/*   Updated: 2021/02/15 14:54:00 by ttarumot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static long	set_number(char *str, int sign)
 		if (nb == 922337203685477580 && *str >= '8' && sign == 1)
 			exit_status("exit", ptr, "numeric argument required", 255);
 		if (nb > 922337203685477580 && sign == 1)
-			exit_status("exit", ptr, "numeric argument required", 1);
+			exit_status("exit", ptr, "numeric argument required", 255);
 		if (nb == 922337203685477580 && *str >= '9' && sign == -1)
 			exit_status("exit", ptr, "numeric argument required", 255);
 		if (nb > 922337203685477580 && sign == -1)
@@ -75,11 +75,8 @@ static int	is_num_str(char *str)
 int			ft_exit(char **args)
 {
 	long	rv;
-	char	*question;
 
-	question = get_env("?");
-	rv = ft_atoi(question);
-	free(question);
+	rv = g_exit_code;
 	ft_putstr_fd("exit\n", 2);
 	if (*args)
 	{
